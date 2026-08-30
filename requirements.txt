@@ -1,9 +1,0 @@
-numpy>=1.24.0
-opencv-python>=4.8.0
-ultralytics>=8.0.0
-mediapipe>=0.10.0
-torch>=2.0.0
-torchvision>=0.15.0
-yt-dlp>=2023.7.6
-scipy>=1.10.0
-matplotlib>=3.7.0

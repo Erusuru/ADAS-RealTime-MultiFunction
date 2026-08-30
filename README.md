@@ -1,108 +1,103 @@
 # 🚗 Real-Time, Multi-Function ADAS Application
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--8-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Research: MDPI](https://img.shields.io/badge/Publication-MDPI%20ADAS%20Report-success.svg)](docs/MDPI_ADAS_Research_Paper.md)
 
 **Author:** Ramazan Ertuğrul Aydoğan  
-**Affiliation:** *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*  
-**Research Paper:** [`docs/MDPI_ADAS_Research_Paper.md`](docs/MDPI_ADAS_Research_Paper.md) | [`docs/adasreport_mdpi_short.pdf`](docs/adasreport_mdpi_short.pdf) | [`docs/adasreport_mdpi_short.doc`](docs/adasreport_mdpi_short.doc)
+**Affiliation:** *South-West University "Neofit Rilski", Faculty of Mathematics and Natural Sciences, Blagoevgrad, Bulgaria*  
+**Research Papers Included:**
+- 📄 [`docs/MDPI_ADAS_Research_Paper.md`](docs/MDPI_ADAS_Research_Paper.md) (Markdown Full Text)
+- 📄 [`docs/MDPI_ADAS_Research_Paper.docx`](docs/MDPI_ADAS_Research_Paper.docx) (Microsoft Word Document)
+- 📄 [`docs/adasreport_mdpi_short.pdf`](docs/adasreport_mdpi_short.pdf) (Published PDF Paper)
+- 📄 [`docs/adasreport_mdpi_short.doc`](docs/adasreport_mdpi_short.doc) (Original Manuscript)
 
 ---
 
-## 📌 Overview
+## 📌 Research Overview
 
-This repository contains the official open-source implementation of the **Real-Time, Multi-Function Advanced Driver-Assistance System (ADAS)** engineered for low-cost embedded edge platforms. Operating concurrently on a single **Raspberry Pi 5** augmented with a **Hailo-8 AI Accelerator (26 TOPS)**, the system integrates six core active safety and convenience features:
+This repository documents the research, methodology, visual evaluation, and benchmarking of the **Real-Time, Multi-Function Advanced Driver-Assistance System (ADAS)** engineered for low-cost embedded edge platforms. Designed to operate on a single **Raspberry Pi 5** augmented by a **Hailo-8 AI Accelerator (26 TOPS)**, the system integrates six core active safety and convenience features:
 
-1. **Lane Departure Warning (LDW):** Classical CV pipeline with CLAHE, HLS color filtering, Probabilistic Hough Transform, and EMA smoothing ($\alpha = 0.8$).
-2. **Real-Time Object Detection:** Deep learning inference with YOLOv8n offloaded to Hailo-8 NPU at 30+ FPS (1280×720).
-3. **Deterministic Vector-Based Forward Collision Warning (FCW):** Physics layer tracking historical trajectory deques, velocity vectors ($v_x, v_y$), future path projections, ego-lane polygon intersection, and lateral T-Bone/cut-in threat detection.
+1. **Lane Departure Warning (LDW):** Classical CV pipeline with CLAHE, HLS color filtering, Probabilistic Hough Transform, and Exponential Moving Average ($\alpha = 0.8$) smoothing.
+2. **Real-Time YOLO Object Detection:** Deep learning inference with YOLOv8n offloaded to Hailo-8 NPU at 30+ FPS (1280×720).
+3. **Deterministic Vector-Based Forward Collision Warning (FCW):** Physics layer tracking historical trajectory deques (10 frames), velocity vectors ($v_x, v_y$), future path projections, ego-lane polygon intersection, and lateral T-Bone/cut-in threat detection.
 4. **Monocular Distance Estimation:** Pinhole camera model with calibrated reference widths for vehicles and pedestrians.
 5. **Driver Monitoring System (DMS):** MediaPipe Face Mesh landmark tracking computing Eye Aspect Ratio ($\text{EAR} < 0.22$ for $> 1.5\text{s}$) for drowsiness detection.
 6. **Automatic Reverse Assist & Ultrasonic Parking:** GPIO-triggered low-latency rear-camera feed (`ffplay`) with distance-proportional buzzer modulation via JSN-SR04T ultrasonic sensors.
-7. **Intelligent Automatic Headlight Control:** MCP3008 ADC reading LDR light levels with dual-threshold hysteresis (<30% ON, >50% OFF) controlling isolated 12V relays.
-
-In addition, the repository provides a **Simulation-in-the-Loop (SITL)** autopilot framework validated with **BeamNG.drive** (supporting Level 2 Automated Emergency Braking) and an **AI Training Data Acquisition Pipeline** with human-in-the-loop reward scoring.
+7. **Intelligent Automatic Headlight Control:** MCP3008 ADC reading LDR light levels with dual-threshold hysteresis (<30% ON, >50% OFF) controlling isolated 12V automotive relays.
 
 ---
 
-## 📸 Comprehensive Crash Scenario Image Gallery
+## 📸 Comprehensive Crash & Near-Miss Scenario Gallery
 
-The system was evaluated across **113 diverse real-world crash and near-miss scenarios**. Below is an extensive visual gallery showcasing the system's detection and warning performance across all accident typologies:
+The system was evaluated across **113 diverse real-world crash and near-miss scenarios**. Below is the verified visual gallery detailing the system's detection and warning performance across all accident typologies:
 
-### 1. 🛑 Longitudinal Rear-End Collision & Sudden Braking Scenarios (94% Accuracy)
+### 1. 🛑 Longitudinal Forward Collisions & Lead Vehicle Deceleration (94% Accuracy)
 
-| Scenario 1: Rear-End Emergency Brake | Scenario 2: Highway Sudden Deceleration | Scenario 3: Close Following Distance |
+| Lead SUV Close Proximity (`2.9m`) | High-Speed Sun Glare (`107 km/h`) | Residential Two-Lane Approach |
 |:---:|:---:|:---:|
-| ![Rear-End Emergency Brake](assets/images/longitudinal_01_rear_end_emergency_brake.jpg) | ![Highway Sudden Deceleration](assets/images/longitudinal_02_highway_sudden_deceleration.jpg) | ![Close Following Distance](assets/images/longitudinal_03_close_following_distance.jpg) |
-| **`car 5.7m`** in RED box with trajectory vector arrow triggering **`RED - EMERGENCY BRAKE`**. | Highway lead vehicle sudden stop; background traffic tracked safely in green. | Close proximity high-speed following distance alert. |
+| ![Lead SUV Proximity](assets/images/longitudinal_01_lead_suv_proximity_2.9m.jpg) | ![Direct Sun Glare](assets/images/longitudinal_02_direct_sun_glare_107kmh.jpg) | ![Residential Road Approach](assets/images/longitudinal_03_residential_road_approach.jpg) |
+| **`car 2.9m`** in RED box on lead Mitsubishi Outlander SUV triggering **`RED - EMERGENCY BRAKE`**. | High-speed highway following at **107 km/h** driving directly into low-angle blinding sun glare (**`car 10.7m`**). | Two-lane suburban roadway approach to lead vehicle (**`car 12.0m`**) with ego corridor overlay. |
 
-| Scenario 4: Stationary Obstacle Approach | Scenario 5: Multi-Vehicle Queue Brake | Scenario 6: Urban Following Alert |
+| Highway Overhead Signage | Overcast Morning Deceleration | Oncoming Centerline Drift |
 |:---:|:---:|:---:|
-| ![Stationary Obstacle](assets/images/longitudinal_04_stationary_obstacle_approach.jpg) | ![Multi-Vehicle Queue](assets/images/longitudinal_05_multi_vehicle_queue_brake.jpg) | ![Urban Following](assets/images/longitudinal_06_urban_following_alert.jpg) |
-| Rapid approach to stationary car in ego corridor. | Traffic congestion sudden queue compression alert. | Stop-and-go urban tailgating warning. |
+| ![Overhead Signage](assets/images/longitudinal_04_highway_overhead_signage.jpg) | ![Overcast Slowdown](assets/images/longitudinal_05_overcast_morning_slowdown.jpg) | ![Centerline Drift](assets/images/longitudinal_06_oncoming_centerline_drift.jpg) |
+| Divided highway with overhead exit signs; host lane vehicle flagged at **`21.8m`** while adjacent car (**`9.1m`**) remains safe. | Overcast morning highway lead vehicle rapid slowdown (**`car 7.0m`** at 27 mph). | Oncoming vehicle crossing center double yellow lines into host drivable corridor (**`car 8.4m`**). |
 
-| Scenario 7: Highway Lead Slowdown | Scenario 8: Rapid Approach TTC Warning | Proximity Distance & Target HUD |
-|:---:|:---:|:---:|
-| ![Highway Lead Slowdown](assets/images/longitudinal_07_highway_lead_vehicle_slowdown.jpg) | ![Rapid Approach TTC](assets/images/longitudinal_08_rapid_approach_ttc_warning.jpg) | ![Proximity Distance HUD](assets/images/fcw_rear_end_proximity_alert.jpg) |
-| Lead vehicle brake lights active with shrinking TTC. | High closing-rate TTC warning below 2.5s threshold. | Monocular distance estimation with HUD telemetry. |
+| Rural Driveway Chrysler Approach | Multi-Lane Desert Highway |
+|:---:|:---:|
+| ![Rural Roadway Approach](assets/images/longitudinal_07_rural_roadway_approach.jpg) | ![Desert Highway](assets/images/longitudinal_08_multi_lane_desert_highway.jpg) |
+| Rural road approach to oncoming/turning Chrysler sedan (**`car 5.7m`**) with trajectory vector line. | Wide desert highway approach to lead vehicle with active green ego corridor. |
 
 ---
 
-### 2. ⚡ Lateral Cross-Traffic (T-Bone & Intersection) Scenarios (48% Accuracy)
+### 2. ⚡ Lateral Cross-Traffic & Intersection T-Bone Hazards (48% Accuracy)
 
-| Scenario 1: Intersection Cross-Traffic | Scenario 2: Perpendicular Crossing Impact | Scenario 3: Crossroad Speeding Intruder |
+| Signalized Intersection Cross-Traffic | Intersection Impact / Damaged Hood | Urban Avenue Red Beetle Crossing |
 |:---:|:---:|:---:|
-| ![T-Bone Intersection](assets/images/tbone_01_intersection_cross_traffic_threat.jpg) | ![Perpendicular Collision](assets/images/tbone_02_headon_perpendicular_collision.jpg) | ![Speeding Intruder](assets/images/tbone_03_crossroad_speeding_intruder.jpg) |
-| **`car 6.2m`** crossing intersection perpendicularly with traffic light detection. | High-speed perpendicular impact path intersecting ego corridor. | Fast-moving crossroad vehicle flagged before entering ego lane. |
+| ![Signalized Intersection](assets/images/tbone_01_signalized_intersection_crossing.jpg) | ![Damaged Truck Impact](assets/images/tbone_02_intersection_damaged_truck_impact.jpg) | ![Red Beetle Crossing](assets/images/tbone_03_urban_avenue_red_beetle_crossing.jpg) |
+| Black sedan traversing signalized intersection perpendicularly (**`car 6.2m`**) under active traffic lights. | Blue Ford pickup truck with crumpled hood at intersection crossing (**`car 1.9m`**). | Red VW Beetle crossing urban commercial avenue perpendicularly from left (**`car 3.9m`**). |
 
-| Scenario 4: Intersection Crossing Path | Scenario 5: Velocity Vector Intersection | Scenario 6: Uncontrolled Intersection |
+| Crossroad Red Sedan Incursion | Range Rover Perpendicular Crossing | Commercial Driveway Pull-Out |
 |:---:|:---:|:---:|
-| ![Crossing Path](assets/images/tbone_04_intersection_crossing_path.jpg) | ![Velocity Vector](assets/images/tbone_05_cross_traffic_velocity_vector.jpg) | ![Uncontrolled Intersection](assets/images/tbone_06_uncontrolled_intersection_conflict.jpg) |
-| Cross-traffic path prediction via $(v_x, v_y)$ trajectory. | Lateral velocity vector confirming trajectory overlap. | Uncontrolled intersection right-of-way conflict. |
+| ![Crossroad Incursion](assets/images/tbone_04_crossroad_red_sedan_incursion.jpg) | ![Grey SUV Crossing](assets/images/tbone_05_perpendicular_grey_suv_crossing.jpg) | ![Commercial Driveway Pullout](assets/images/tbone_06_commercial_driveway_pullout.jpg) |
+| Red sedan traversing perpendicular crossing path under green traffic light (**`car 10.4m`**). | Grey Range Rover SUV crossing host vehicle's drivable path perpendicularly from left (**`car 3.8m`**). | Dark hatchback pulling out perpendicularly from parking lot/commercial entrance on right (**`car 4.5m`**). |
 
 ---
 
-### 3. 🔀 Lane Cut-Ins & Merging Vehicle Scenarios (27% Accuracy)
+### 3. 🔀 Lateral Merging, Cut-Ins & Vehicle Incursions (27% Accuracy)
 
-| Scenario 1: Perpendicular Cut-In Threat | Scenario 2: Aggressive Lane Incursion | Scenario 3: Lateral Trajectory Cut-In |
-|:---:|:---:|:---:|
-| ![Perpendicular Cut-In](assets/images/cutin_01_perpendicular_merge_ego_corridor.jpg) | ![Aggressive Incursion](assets/images/cutin_02_aggressive_lane_incursion.jpg) | ![Lateral Trajectory](assets/images/cutin_03_lateral_trajectory_intersection.jpg) |
-| **`car 1.8m [T-BONE?]`** cutting into host lane; flagged 500ms before lane line crossing. | Aggressive blind-spot merge forcing sudden host deceleration. | Trajectory intersection test flagging merging threat. |
-
-| Scenario 4: Adjacent Lane Drift Warning | Scenario 5: Blind Angle Merge | Scenario 6: Highway Lane Conflict |
-|:---:|:---:|:---:|
-| ![Adjacent Drift](assets/images/cutin_04_adjacent_lane_drift_warning.jpg) | ![Blind Angle Merge](assets/images/cutin_05_blind_angle_merging_vehicle.jpg) | ![Highway Conflict](assets/images/cutin_06_highway_lane_change_conflict.jpg) |
-| Adjacent vehicle drifting across marking into ego path. | Tight merge in low following distance condition. | High-speed multi-lane merge conflict. |
+| Aggressive Perpendicular Merge | Highway Ramp Merging Incursion | Blind-Spot Close Incursion | Rural Highway Crossroad Pull-Out |
+|:---:|:---:|:---:|:---:|
+| ![White Car Cut-In](assets/images/cutin_01_perpendicular_merge_white_car.jpg) | ![Highway Ramp Sedan](assets/images/cutin_02_highway_ramp_merging_sedan.jpg) | ![Blind Spot Incursion](assets/images/cutin_03_blind_spot_close_incursion.jpg) | ![Rural Red SUV Pullout](assets/images/cutin_04_rural_roadside_red_suv_entry.jpg) |
+| **`car 1.8m [T-BONE?]`** cutting into host lane; flagged 500ms before crossing lane markings. | Dark sedan merging into curved highway ramp from right shoulder (**`car 4.7m`**). | Close-proximity vehicle cutting closely in front of bumper (**`car 1.6m [T-BONE?]`**). | Red SUV pulling out perpendicularly from right roadside at 49 mph (**`car 2.6m`**). |
 
 ---
 
-### 4. 🌙 Nighttime & Adverse Low-Light Scenarios (8% Accuracy)
+### 4. 🌙 Adverse Lighting, Sun Glare & Camera View Events
 
-| Scenario 1: Dark Road Taillight Tracking | Scenario 2: Low-Light Highway Collision | Scenario 3: Nighttime Following Distance |
+| Nighttime Urban Streetlight Driving | Severe Camera View Occlusion | Rear-End Impact Bumper Damage |
 |:---:|:---:|:---:|
-| ![Dark Road Taillight](assets/images/night_01_dark_road_taillight_tracking.jpg) | ![Low-Light Highway](assets/images/night_02_low_light_highway_collision.jpg) | ![Nighttime Following](assets/images/night_03_nighttime_following_distance.jpg) |
-| Low-illumination vehicle detection via taillight geometry. | Pitch-dark highway near-miss scenario. | Nighttime close-range lead vehicle detection. |
-
-| Scenario 4: Low-Visibility Corridor | Scenario 5: Headlight Illumination | Scenario 6: Urban Night Traffic |
-|:---:|:---:|:---:|
-| ![Low-Visibility Corridor](assets/images/night_04_low_visibility_corridor.jpg) | ![Headlight Illumination](assets/images/night_05_headlight_illumination_detection.jpg) | ![Urban Night Traffic](assets/images/night_06_urban_night_multi_vehicle.jpg) |
-| Minimal road contrast with active drivable corridor estimate. | Auto headlight hysteresis evaluation and target illumination. | Urban nighttime multi-vehicle tracking. |
-
-| Scenario 7: Low-Contrast Obstacle | Scenario 8: Night Intersection Alert | Scenario 9: Midnight Highway Following |
-|:---:|:---:|:---:|
-| ![Low-Contrast Obstacle](assets/images/night_07_low_contrast_obstacle_warning.jpg) | ![Night Intersection](assets/images/night_08_nighttime_intersection_alert.jpg) | ![Midnight Highway](assets/images/night_10_midnight_highway_following.jpg) |
-| Distant vehicle in unlit highway corridor. | Night cross-traffic detection at illuminated junction. | High-speed following under low ambient lighting. |
+| ![Night Urban Driving](assets/images/adverse_01_night_urban_intersection_streetlight.jpg) | ![Camera Occlusion](assets/images/adverse_02_camera_occlusion_hood_lift_event.jpg) | ![Bumper Impact Damage](assets/images/adverse_03_rear_end_bumper_impact_underpass.jpg) |
+| True nighttime urban driving at 52 km/h under streetlights; turning white SUV (**`car 4.4m`**; HUD: **`NIGHT \| conf 0.25`**). | Severe camera view obstruction caused by popped vehicle hood / debris during collision event. | Immediate proximity to damaged Chevy Silverado tailgate under highway overpass (**`car 1.6m`**). |
 
 ---
 
-### 5. 🎮 BeamNG.drive Simulation-in-the-Loop (SITL) Validation
+### 5. 🏙️ Dense Multi-Target Urban Environments & HUD Telemetry
 
-| SITL Level 2 AEB Emergency Stop | SITL Drivable Corridor & Autopilot | SITL Curvature Steering Control |
-|:---:|:---:|:---:|
-| ![SITL AEB Intervention](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.jpg) | ![SITL Autopilot](assets/images/sitl_02_beamng_drivable_area_autopilot.jpg) | ![SITL Lane Keeping](assets/images/sitl_beamng_drivable_area_lane_keep.jpg) |
-| Mode 2 Autopilot executing Automated Emergency Braking (AEB). | Closed-loop lane centering and speed-scaled radar overlay. | High-speed road curvature steering tracking. |
+| Dense Palm-Tree Avenue Crosswalk | Residential Driveway Parked Vehicles |
+|:---:|:---:|
+| ![Dense Avenue Crosswalk](assets/images/multi_target_01_dense_avenue_pedestrian_crosswalk.jpg) | ![Residential Parked Cars](assets/images/multi_target_02_residential_parked_cars.jpg) |
+| High-density urban avenue approaching pedestrian crosswalk with **7 surrounding vehicles tracked simultaneously** (**`car 11.6m`** lead alert). | Residential neighborhood drive with parked vehicles (**`car 14.5m`** lead alert with **`car 7.4m`** parked SUV in orange). |
+
+---
+
+### 6. 🎮 Simulation-in-the-Loop (BeamNG.drive Level 2 AEB Validation)
+
+| Level 2 AEB Emergency Stop | Drivable Corridor & Closed-Loop Centering |
+|:---:|:---:|
+| ![BeamNG AEB Stop](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.jpg) | ![BeamNG Autopilot Corridor](assets/images/sitl_02_beamng_drivable_corridor_autopilot.jpg) |
+| Autopilot Mode 2 (Braking Only) executing Automated Emergency Braking (AEB) upon collision vector detection. | Closed-loop lane centering and road curvature drivable corridor segmentation overlay. |
 
 ---
 
@@ -201,93 +196,9 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-## 🛠️ Repository Directory Structure
-
-```
-├── algorithms/
-│   ├── lane_departure_warning.py    # OpenCV LDW pipeline (Canny, HLS, Hough, EMA)
-│   ├── vector_fcw_physics.py        # Deterministic Vector-Based FCW engine & T-Bone logic
-│   ├── monocular_distance.py        # Pinhole distance estimator with known-width reference table
-│   └── isa_speed_adaptation.py      # Intelligent Speed Adaptation module
-├── core/
-│   ├── main_system_controller.py    # Multi-threaded Finite State Machine (FORWARD vs REVERSE)
-│   ├── forward_adas_pipeline.py     # Forward perception orchestrator
-│   ├── driver_monitoring_system.py  # MediaPipe Face Mesh EAR drowsiness detector (<0.22 for >1.5s)
-│   ├── reverse_assist.py            # Rear camera ffplay subprocess & parking buzzer modulation
-│   ├── blind_spot_monitor.py        # Ultrasonic flank monitoring (<=3m danger threshold)
-│   └── auto_headlight_control.py    # LDR photoresistor hysteresis lighting controller
-├── simulation/
-│   ├── beamng_sitl_autopilot.py     # 3-Mode SITL Autopilot (Steering, Braking, Full AP)
-│   ├── beamng_telemetry_client.py   # UDP port 4444 telemetry listener
-│   └── lane_roi_calibrator.py       # Camera ROI calibration utility
-├── data_pipeline/
-│   ├── aiovidout5.py                # Automated collision event extraction & human-in-the-loop grading
-│   ├── adas_launcher.py             # Batch evaluation studio
-│   ├── crash_training_data_v2.csv   # 17-feature collision log dataset
-│   └── events_log.json              # Structured incident log
-├── evaluation/
-│   ├── adas_benchmark_suite.py      # Automated benchmark testing framework
-│   ├── BENCHMARK_GUIDE.md           # Benchmark reproduction instructions
-│   └── results/                     # Metric summaries and accuracy reports
-├── docs/
-│   ├── MDPI_ADAS_Research_Paper.md  # Complete MDPI academic publication paper
-│   ├── MDPI_ADAS_Research_Paper.docx
-│   ├── adasreport_mdpi_short.pdf    # Published PDF report
-│   └── adasreport_mdpi_short.doc
-├── assets/
-│   ├── images/                      # High-resolution collision warning screenshots (34+ scenario frames)
-│   └── videos/                      # Web-optimized demo video clips
-├── requirements.txt                 # Python dependencies
-├── LICENSE                          # MIT License
-└── README.md                        # Project documentation
-```
-
----
-
-## 🚀 Quick Start & Installation
-
-### 1. Clone & Setup Python Environment
-
-```bash
-git clone https://github.com/Erusuru/ADAS-RealTime-MultiFunction.git
-cd ADAS-RealTime-MultiFunction
-
-python -m venv venv
-# Linux / Raspberry Pi:
-source venv/bin/activate
-# Windows:
-.\venv\Scripts\activate
-
-pip install -r requirements.txt
-```
-
-### 2. Run Forward ADAS Pipeline (Standalone / Webcam)
-
-```bash
-python core/forward_adas_pipeline.py
-```
-
-### 3. Run Full Multi-Threaded State Machine
-
-```bash
-python core/main_system_controller.py
-```
-
-*Controls in Debug Mode:*
-- `[Q]`: Quit application cleanly.
-- `[R]`: Toggle simulated reverse gear state.
-
-### 4. Run AI Training Data Acquisition Pipeline
-
-```bash
-python data_pipeline/aiovidout5.py
-```
-
----
-
 ## 📖 Citation
 
-If you use this codebase or reference the methodology in your research, please cite the original research paper:
+If you reference this research or methodology, please cite the published report:
 
 ```bibtex
 @article{aydogan2020adas,

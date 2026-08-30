@@ -1,0 +1,94 @@
+YOLO MODEL INSPECTION REPORT SUMMARY
+================================================================================
+File: best.pt
+  - Full Path: C:\DISKD\ADAS BEST BEFORE OCR UPDATE\best.pt
+  - File Size: 36.41 MB
+  - YOLO Architecture Version (Estimated): Unknown Version
+  - Model Scale / Size (Estimated): Small (s)
+  - Target Task: detect
+  - Total Parameters: 9,439,402 (9.44 M)
+  - Depth Multiple: None
+  - Width Multiple: None
+  - Number of Classes: 30
+  - Classes Map: {0: 'donel_kavsak', 1: 'dur_stop', 2: 'durak', 3: 'gidis_donus', 4: 'girisi_olmayan_yol', 5: 'hiz-100', 6: 'hiz-120', 7: 'hiz-20', 8: 'hiz-30', 9: 'hiz-50', 10: 'hiz-70', 11: 'hiz-80', 12: 'ileri_mecburi', 13: 'ileri_sag_mecburi', 14: 'ileri_sol_mecburi', 15: 'ileriden_saga', 16: 'ileriden_sola', 17: 'lamba_kirmizi', 18: 'lamba_sari', 19: 'lamba_yesil', 20: 'park_edilebilir', 21: 'park_engelli', 22: 'park_yasak', 23: 'sag_mecburi', 24: 'saga_donulmez', 25: 'sol_mecburi', 26: 'sola_donulmez', 27: 'hiz-90', 28: 'hiz-60', 29: 'hiz-40'}
+  - Training Settings (Checkpoint Metadata):
+    * imgsz: 640
+    * epochs: 60
+    * batch: 24
+    * lr0: 0.01
+    * optimizer: auto
+    * data: /content/combined_dataset/data.yaml
+    * device: None
+    * task: detect
+  - Built with Ultralytics version: 8.3.232
+
+--------------------------------------------------------------------------------
+File: heli.pt
+  - Full Path: C:\DISKD\ADAS BEST BEFORE OCR UPDATE\heli.pt
+  - File Size: 14.85 MB
+  - YOLO Architecture Version (Estimated): YOLOv26
+  - Model Scale / Size (Estimated): n
+  - Target Task: detect
+  - Total Parameters: 2,504,190 (2.50 M)
+  - Depth Multiple: None
+  - Width Multiple: None
+  - Number of Classes: 1
+  - Classes Map: {0: 'helipad'}
+  - Training Settings (Checkpoint Metadata):
+    * imgsz: 640
+    * epochs: 300
+    * batch: 21
+    * lr0: 0.01
+    * optimizer: auto
+    * data: /content/helipad-2/data.yaml
+    * device: 0
+    * task: detect
+  - Built with Ultralytics version: 8.4.87
+
+--------------------------------------------------------------------------------
+File: selfdriving.pt
+  - Full Path: C:\DISKD\ADAS BEST BEFORE OCR UPDATE\selfdriving.pt
+  - File Size: 18.28 MB
+  - YOLO Architecture Version (Estimated): YOLOv11
+  - Model Scale / Size (Estimated): s
+  - Target Task: detect
+  - Total Parameters: 9,432,049 (9.43 M)
+  - Depth Multiple: None
+  - Width Multiple: None
+  - Number of Classes: 11
+  - Classes Map: {0: 'biker', 1: 'car', 2: 'pedestrian', 3: 'trafficLight', 4: 'trafficLight-Green', 5: 'trafficLight-GreenLeft', 6: 'trafficLight-Red', 7: 'trafficLight-RedLeft', 8: 'trafficLight-Yellow', 9: 'trafficLight-YellowLeft', 10: 'truck'}
+  - Training Settings (Checkpoint Metadata):
+    * imgsz: 640
+    * epochs: 50
+    * batch: 24
+    * lr0: 0.01
+    * optimizer: auto
+    * data: /content/Self-Driving-Car-Re-Encode-6/data.yaml
+    * device: None
+    * task: detect
+  - Built with Ultralytics version: 8.3.232
+
+--------------------------------------------------------------------------------
+File: yolov8n.pt
+  - Full Path: C:\DISKD\ADAS BEST BEFORE OCR UPDATE\yolov8n.pt
+  - File Size: 6.25 MB
+  - YOLO Architecture Version (Estimated): YOLOv8
+  - Model Scale / Size (Estimated): n
+  - Target Task: detect
+  - Total Parameters: 3,157,200 (3.16 M)
+  - Depth Multiple: 0.33
+  - Width Multiple: 0.25
+  - Number of Classes: 80
+  - Classes Map: {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
+  - Training Settings (Checkpoint Metadata):
+    * imgsz: 640
+    * epochs: 500
+    * batch: 16
+    * lr0: 0.01
+    * optimizer: SGD
+    * data: coco.yaml
+    * device: 0
+    * task: detect
+  - Built with Ultralytics version: 8.0.0.dev0
+
+--------------------------------------------------------------------------------

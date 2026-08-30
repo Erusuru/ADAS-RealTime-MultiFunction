@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Large weight binaries (>50MB)
+*.pt
+*.pth
+*.onnx
+*.bin
+*.tflite
+*.rar
+*.zip
+
+# Local environments & IDEs
+venv/
+env/
+.venv/
+.idea/
+.vscode/
+*.swp
+
+# OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary outputs
+*.log
+scratch/
+temp/

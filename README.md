@@ -2,21 +2,15 @@
 
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--8-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Research: MDPI](https://img.shields.io/badge/Publication-MDPI%20ADAS%20Report-success.svg)](docs/MDPI_ADAS_Research_Paper.md)
 
 **Author:** Ramazan Ertuğrul Aydoğan  
-**Affiliation:** *South-West University "Neofit Rilski", Faculty of Mathematics and Natural Sciences, Blagoevgrad, Bulgaria*  
-**Research Papers Included:**
-- 📄 [`docs/MDPI_ADAS_Research_Paper.md`](docs/MDPI_ADAS_Research_Paper.md) (Markdown Full Text)
-- 📄 [`docs/MDPI_ADAS_Research_Paper.docx`](docs/MDPI_ADAS_Research_Paper.docx) (Microsoft Word Document)
-- 📄 [`docs/adasreport_mdpi_short.pdf`](docs/adasreport_mdpi_short.pdf) (Published PDF Paper)
-- 📄 [`docs/adasreport_mdpi_short.doc`](docs/adasreport_mdpi_short.doc) (Original Manuscript)
+**Affiliation:** *South-West University "Neofit Rilski", Faculty of Mathematics and Natural Sciences, Blagoevgrad, Bulgaria*
 
 ---
 
-## 📌 Research Overview
+## 📌 Overview
 
-This repository documents the research, methodology, visual evaluation, and benchmarking of the **Real-Time, Multi-Function Advanced Driver-Assistance System (ADAS)** engineered for low-cost embedded edge platforms. Designed to operate on a single **Raspberry Pi 5** augmented by a **Hailo-8 AI Accelerator (26 TOPS)**, the system integrates six core active safety and convenience features:
+This repository documents the architecture, visual evaluation, and benchmarking of the **Real-Time, Multi-Function Advanced Driver-Assistance System (ADAS)** engineered for low-cost embedded edge platforms. Designed to operate on a single **Raspberry Pi 5** augmented by a **Hailo-8 AI Accelerator (26 TOPS)**, the system integrates six core active safety and convenience features:
 
 1. **Lane Departure Warning (LDW):** Classical CV pipeline with CLAHE, HLS color filtering, Probabilistic Hough Transform, and Exponential Moving Average ($\alpha = 0.8$) smoothing.
 2. **Real-Time YOLO Object Detection:** Deep learning inference with YOLOv8n offloaded to Hailo-8 NPU at 30+ FPS (1280×720).
@@ -39,15 +33,15 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 | ![Lead SUV Proximity](assets/images/longitudinal_01_lead_suv_proximity_2.9m.jpg) | ![Direct Sun Glare](assets/images/longitudinal_02_direct_sun_glare_107kmh.jpg) | ![Residential Road Approach](assets/images/longitudinal_03_residential_road_approach.jpg) |
 | **`car 2.9m`** in RED box on lead Mitsubishi Outlander SUV triggering **`RED - EMERGENCY BRAKE`**. | High-speed highway following at **107 km/h** driving directly into low-angle blinding sun glare (**`car 10.7m`**). | Two-lane suburban roadway approach to lead vehicle (**`car 12.0m`**) with ego corridor overlay. |
 
-| Highway Overhead Signage | Overcast Morning Deceleration | Oncoming Centerline Drift |
+| Overcast Morning Deceleration | Oncoming Centerline Drift | Rural Driveway Chrysler Approach |
 |:---:|:---:|:---:|
-| ![Overhead Signage](assets/images/longitudinal_04_highway_overhead_signage.jpg) | ![Overcast Slowdown](assets/images/longitudinal_05_overcast_morning_slowdown.jpg) | ![Centerline Drift](assets/images/longitudinal_06_oncoming_centerline_drift.jpg) |
-| Divided highway with overhead exit signs; host lane vehicle flagged at **`21.8m`** while adjacent car (**`9.1m`**) remains safe. | Overcast morning highway lead vehicle rapid slowdown (**`car 7.0m`** at 27 mph). | Oncoming vehicle crossing center double yellow lines into host drivable corridor (**`car 8.4m`**). |
+| ![Overcast Slowdown](assets/images/longitudinal_05_overcast_morning_slowdown.jpg) | ![Centerline Drift](assets/images/longitudinal_06_oncoming_centerline_drift.jpg) | ![Rural Roadway Approach](assets/images/longitudinal_07_rural_roadway_approach.jpg) |
+| Overcast morning highway lead vehicle rapid slowdown (**`car 7.0m`** at 27 mph). | Oncoming vehicle crossing center double yellow lines into host drivable corridor (**`car 8.4m`**). | Rural road approach to oncoming/turning Chrysler sedan (**`car 5.7m`**) with trajectory vector line. |
 
-| Rural Driveway Chrysler Approach | Multi-Lane Desert Highway |
-|:---:|:---:|
-| ![Rural Roadway Approach](assets/images/longitudinal_07_rural_roadway_approach.jpg) | ![Desert Highway](assets/images/longitudinal_08_multi_lane_desert_highway.jpg) |
-| Rural road approach to oncoming/turning Chrysler sedan (**`car 5.7m`**) with trajectory vector line. | Wide desert highway approach to lead vehicle with active green ego corridor. |
+| Multi-Lane Desert Highway Approach |
+|:---:|
+| ![Desert Highway](assets/images/longitudinal_08_multi_lane_desert_highway.jpg) |
+| Wide desert highway approach to lead vehicle with active green ego corridor. |
 
 ---
 
@@ -74,12 +68,12 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-### 4. 🌙 Adverse Lighting, Sun Glare & Camera View Events
+### 4. 🌙 Adverse Lighting, Low-Light & Impact Scenarios
 
-| Nighttime Urban Streetlight Driving | Severe Camera View Occlusion | Rear-End Impact Bumper Damage |
-|:---:|:---:|:---:|
-| ![Night Urban Driving](assets/images/adverse_01_night_urban_intersection_streetlight.jpg) | ![Camera Occlusion](assets/images/adverse_02_camera_occlusion_hood_lift_event.jpg) | ![Bumper Impact Damage](assets/images/adverse_03_rear_end_bumper_impact_underpass.jpg) |
-| True nighttime urban driving at 52 km/h under streetlights; turning white SUV (**`car 4.4m`**; HUD: **`NIGHT \| conf 0.25`**). | Severe camera view obstruction caused by popped vehicle hood / debris during collision event. | Immediate proximity to damaged Chevy Silverado tailgate under highway overpass (**`car 1.6m`**). |
+| Nighttime Urban Streetlight Driving | Rear-End Impact Bumper Damage |
+|:---:|:---:|
+| ![Night Urban Driving](assets/images/adverse_01_night_urban_intersection_streetlight.jpg) | ![Bumper Impact Damage](assets/images/adverse_03_rear_end_bumper_impact_underpass.jpg) |
+| True nighttime urban driving at 52 km/h under streetlights; turning white SUV (**`car 4.4m`**; HUD: **`NIGHT \| conf 0.25`**). | Immediate proximity to damaged Chevy Silverado tailgate under highway overpass (**`car 1.6m`**). |
 
 ---
 
@@ -193,22 +187,6 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 | **Power Management** | 12V-to-5V 5A Buck Converter + Optoisolated Relay Module | €25 |
 | **Peripherals** | MCP3008 ADC, Wiring Harness, Enclosure, PCB | €30 |
 | **TOTAL** | | **€545** |
-
----
-
-## 📖 Citation
-
-If you reference this research or methodology, please cite the published report:
-
-```bibtex
-@article{aydogan2020adas,
-  title={Real-Time, Multi-Function ADAS Application},
-  author={Aydo{\u{g}}an, Ramazan Ertu{\u{g}}rul},
-  journal={South-West University "Neofit Rilski", Faculty of Mathematics and Natural Sciences},
-  year={2020},
-  address={Blagoevgrad, Bulgaria}
-}
-```
 
 ---
 

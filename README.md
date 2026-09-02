@@ -140,16 +140,40 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 
 ## Video Demonstrations
 
-Curated demonstration clips are located in [`assets/videos/`](assets/videos/):
-- [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) - High-speed highway following and imminent braking.
-- [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) - Urban intersection cross-traffic alert.
-- [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) - Aggressive lateral cut-in threat detection and emergency braking.
-- [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) - Head-on intersection collision avoidance.
-- [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) - High-speed highway following at 107 km/h driving directly into blinding low-angle sun glare.
-- [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) - Vehicle pulling out perpendicularly from a commercial entrance with predictive trajectory vector alert.
-- [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) - Multi-lane highway dense traffic with lead SUV braking event and ego corridor tracking.
-- [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) - BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
-- [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) - BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
+Below are high-frame-rate animated previews capturing key real-world detection, tracking, and emergency warning moments across diverse accident typologies. Full-length source clips with high-resolution telemetry overlays are linked underneath each scenario.
+
+### Real-World Perception & Active Hazard Previews
+
+| Longitudinal Lead Vehicle Deceleration | Aggressive Lateral Cut-In / Left-Turning Threat |
+|:---:|:---:|
+| ![Longitudinal Lead Brake](assets/images/demo_01_fcw_longitudinal_lead_brake.gif) | ![Lateral Cut-In Threat](assets/images/demo_02_fcw_aggressive_cutin_threat.gif) |
+| **High-Speed Highway Following:** Lead vehicle brakes rapidly; the system computes closure rate, issues **`RED - EMERGENCY BRAKE`**, and validates collision avoidance.<br>▶️ [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) | **Intersection Incursion:** Turning sedan crosses into host vehicle corridor; Kalman trajectory vector triggers proactive emergency alert before lane crossing.<br>▶️ [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) |
+
+| Adverse Direct Sun Glare (`107 km/h`) | Commercial Driveway Perpendicular Incursion |
+|:---:|:---:|
+| ![Sun Glare 107kmh](assets/images/demo_03_fcw_sun_glare_highspeed_107kmh.gif) | ![Commercial Driveway Incursion](assets/images/demo_04_fcw_commercial_driveway_pullout.gif) |
+| **Severe Lighting Contrast:** Host vehicle traveling at **107 km/h** facing direct blinding sun glare; lead SUV is continuously tracked at 23.4m with timely deceleration alert.<br>▶️ [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) | **Perpendicular Hazard Ingress:** Commercial entrance vehicle pulling out perpendicularly into drivable path; trajectory vector flags imminent threat.<br>▶️ [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) |
+
+| Dense Multi-Lane Highway Traffic Flow | Signalized Intersection Imminent Brake |
+|:---:|:---:|
+| ![Highway Traffic Flow](assets/images/demo_05_fcw_highway_traffic_lead_slowdown.gif) | ![Intersection Imminent Brake](assets/images/demo_06_fcw_intersection_imminent_brake.gif) |
+| **Multi-Target Arbitration:** Heavy highway traffic with simultaneous tracking across adjacent lanes; lead vehicle deceleration triggers localized ego-corridor alert.<br>▶️ [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) | **Signalized Urban Intersection:** Crossing hazard detected under active traffic signal; emergency brake banner issued with TTC margin.<br>▶️ [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) |
+
+---
+
+### Full Demonstration Video Library
+
+All complete demonstration recordings are available in [`assets/videos/`](assets/videos/):
+
+- [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) — High-speed highway following, closing-distance calculation, and imminent braking warning.
+- [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) — Aggressive lateral cut-in threat detection with predictive trajectory vector projection.
+- [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) — High-speed highway following at 107 km/h driving directly into blinding low-angle sun glare.
+- [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) — Vehicle pulling out perpendicularly from a commercial entrance with predictive trajectory vector alert.
+- [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) — Multi-lane highway dense traffic with lead SUV braking event and ego corridor tracking.
+- [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) — Head-on and crossing intersection hazard collision avoidance.
+- [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) — Perpendicular intersection crossing vehicle alert.
+- [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) — BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
+- [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) — BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
 
 ---
 

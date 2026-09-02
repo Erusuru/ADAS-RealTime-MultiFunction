@@ -2,11 +2,40 @@
 
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--10H-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/Erusuru/ADAS-RealTime-MultiFunction?style=social)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/stargazers)
+[![Issues](https://img.shields.io/github/issues/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/commits/main)
 
 **Author:** Ramazan Ertuğrul Aydoğan  
 **Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
 
 **Co-author:** Fatima Sapundzhi — *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
+
+⭐ **If this project is useful or interesting to you, consider starring the repo — it helps others find it.**
+
+---
+
+## 📚 Table of Contents
+
+- [Why This Project](#-why-this-project)
+- [Overview](#-overview)
+- [Crash & Near-Miss Scenario Gallery](#-comprehensive-crash--near-miss-scenario-gallery)
+- [Video Demonstrations](#-video-demonstrations)
+- [System Architecture](#️-system-architecture)
+- [Performance Benchmarks (113 Scenarios)](#-performance-benchmarks-113-manually-reviewed-scenarios)
+- [Automated Benchmark (2,844 Nexar Sequences)](#-automated-benchmark-2844-nexar-derived-sequences)
+- [Custom-Trained YOLO12s Models](#-custom-trained-yolo12s-models)
+- [Android Companion App](#-android-companion-app)
+- [Bill of Materials](#-bill-of-materials-bom)
+- [Future Work](#-future-work)
+- [Related Publication](#-related-publication)
+- [License](#-license)
+
+---
+
+## 💡 Why This Project
+
+Most older vehicles lack built-in driver-assistance technology, since factory-installed ADAS remains expensive and closed. This project is an **open-source, low-cost ADAS suite** that keeps hardware cost down while remaining installable on older vehicles — acting as a co-pilot for the two most safety-critical maneuvers: **forward driving** and **reverse parking**.
 
 ---
 
@@ -24,7 +53,7 @@ The architecture integrates six core active-safety and convenience functions, co
 3. **Automatic Reverse Assist & Ultrasonic Parking:** Reverse-gear-triggered rear-camera feed with distance-modulated buzzer feedback via four JSN-SR04T ultrasonic sensors.
 4. **Intelligent Automatic Headlight Control:** MCP3008 ADC reading ambient-light levels with dual-threshold hysteresis, controlling an isolated 12V automotive relay.
 5. **Driver Monitoring System (DMS):** MediaPipe Face Mesh landmark tracking computing Eye Aspect Ratio (EAR) from six landmarks per eye. EAR below **0.22 for more than 1.5s** triggers the audible drowsiness warning; a longer 5s persistence window was used specifically for the physical actuator-cutoff bench demo.
-6. **Simulation-in-the-Loop (SITL) Bridge:** High-level threat events are mapped to steering/braking commands in **BeamNG.tech** for closed-loop AEB and driver-monitoring validation (actuation is simulation-only; physical vehicle actuation is outside the scope of this study).
+6. **Simulation-in-the-Loop (SITL) Bridge:** High-level threat events are mapped to steering/braking commands in **BeamNG.tech** for closed-loop AEB and driver-monitoring validation. SAE Level 2-style closed-loop steering/braking is exercised **only inside BeamNG.tech**; on the real hardware the system performs SAE Level 0 driver warning only — there is no mechanical actuation on a physical vehicle, since integrating ADAS actuation onto a real car was outside the scope of this project.
 
 DMS, ambient-light sensing, and diagnostics remain active in both operational modes.
 
@@ -96,14 +125,16 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ### 6. 🎮 Simulation-in-the-Loop (BeamNG.tech AEB Validation)
 
+> ⚠️ **SAE Level applies to simulation only.** The SAE Level 2-style closed-loop steering/braking below is exercised **exclusively inside BeamNG.tech**. On the actual Raspberry Pi hardware, the system is **SAE Level 0** — it only warns the driver; there is no mechanical actuation on a real vehicle, as adapting ADAS actuation onto a physical car was outside the scope of this project (no team/resources for that integration).
+
 <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="130"/>
 
 Threat events are bridged from the perception stack into **BeamNG.tech**, which maps them to steering or braking commands for closed-loop validation. In a deliberately forced over-speeding intersection test — a van approaching a 50 km/h zone at 90 km/h behind a braking lead vehicle — the system detected the stationary hazard and applied full AEB, reducing impact speed from **90 km/h to 35 km/h (≈84.9% of kinetic energy dissipated)**. A corresponding drowsiness event from the DMS is also mapped to braking in BeamNG.tech simulations.
 
-| Level 2 AEB Emergency Stop | Drivable Corridor & Closed-Loop Centering |
+| Level 2 AEB Emergency Stop (BeamNG.tech simulation only) | Drivable Corridor & Closed-Loop Centering (BeamNG.tech simulation only) |
 |:---:|:---:|
 | ![BeamNG AEB Stop](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.jpg) | ![BeamNG Autopilot Corridor](assets/images/sitl_02_beamng_drivable_corridor_autopilot.jpg) |
-| Autopilot Mode 2 (Braking Only) executing Automated Emergency Braking (AEB) upon collision vector detection. | Closed-loop lane centering and road curvature drivable corridor segmentation overlay. |
+| Autopilot Mode 2 (Braking Only) executing Automated Emergency Braking (AEB) upon collision vector detection — simulated in BeamNG.tech, not on real hardware. | Closed-loop lane centering and road curvature drivable corridor segmentation overlay — simulated in BeamNG.tech, not on real hardware. |
 
 ---
 
@@ -246,6 +277,16 @@ A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception s
 
 ---
 
+## 🔭 Future Work
+
+- **Hailo-10H hardware validation** — full six-subsystem integration and benchmarking on the target Raspberry Pi 5 + Hailo-10H platform once hardware is available.
+- **Luminance-adaptive segmentation** using **TwinLiteNetPlus** to improve low-light/nighttime performance.
+- **Expanded smartphone-based inference** — building out the Android companion app further.
+- **CAN-bus vehicle telemetry integration.**
+- **YOLO road-hazard model** for detecting animals, potholes, speed bumps, and other road-surface anomalies.
+
+---
+
 ## 📄 Related Publication
 
 This repository accompanies the following peer-reviewed proceedings paper:
@@ -278,3 +319,11 @@ DOI and article link are not yet assigned (pending MDPI production) — update t
 ## 📄 License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
+
+---
+
+<div align="center">
+
+![Visitors](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FErusuru%2FADAS-RealTime-MultiFunction&count_bg=%23E34C26&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false)
+
+</div>

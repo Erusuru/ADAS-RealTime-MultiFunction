@@ -75,10 +75,10 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 | ![Overcast Slowdown](assets/images/longitudinal_05_overcast_morning_slowdown.jpg) | ![Centerline Drift](assets/images/longitudinal_06_oncoming_centerline_drift.jpg) | ![Rural Roadway Approach](assets/images/longitudinal_07_rural_roadway_approach.jpg) |
 | Overcast morning highway lead vehicle rapid slowdown (**`car 7.0m`** at 27 mph). | Oncoming vehicle crossing center double yellow lines into host drivable corridor (**`car 8.4m`**). | Rural road approach to oncoming/turning Chrysler sedan (**`car 5.7m`**) with trajectory vector line. |
 
-| Multi-Lane Desert Highway Approach |
+| Multi-Lane Desert Highway (False-Positive Example) |
 |:---:|
 | ![Desert Highway](assets/images/longitudinal_08_multi_lane_desert_highway.jpg) |
-| Wide desert highway approach to lead vehicle with active green ego corridor. |
+| **False-Positive Analysis:** Transient nuisance warning issued on an adjacent vehicle in the right lane. Caused by temporary ego-corridor boundary drift when detecting faint/distant lane lines; the Kalman trajectory filter and lane boundary tracking self-correct and clear the alert within $\le 1.0\,\text{s}$ once markings stabilize. |
 
 ---
 
@@ -98,10 +98,10 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ### 3. Lateral Merging, Cut-Ins & Vehicle Incursions (27.3% Timely-Warning Rate)
 
-| Aggressive Perpendicular Merge | Highway Ramp Merging Incursion | Blind-Spot Close Incursion | Rural Highway Crossroad Pull-Out |
-|:---:|:---:|:---:|:---:|
-| ![White Car Cut-In](assets/images/cutin_01_perpendicular_merge_white_car.jpg) | ![Highway Ramp Sedan](assets/images/cutin_02_highway_ramp_merging_sedan.jpg) | ![Blind Spot Incursion](assets/images/cutin_03_blind_spot_close_incursion.jpg) | ![Rural Red SUV Pullout](assets/images/cutin_04_rural_roadside_red_suv_entry.jpg) |
-| **`car 1.8m [T-BONE?]`** cutting into host lane; flagged 500ms before crossing lane markings. | Dark sedan merging into curved highway ramp from right shoulder (**`car 4.7m`**). | Close-proximity vehicle cutting closely in front of bumper (**`car 1.6m [T-BONE?]`**). | Red SUV pulling out perpendicularly from right roadside at 49 mph (**`car 2.6m`**). |
+| Aggressive Perpendicular Merge | Highway Ramp Merging Incursion | Rural Highway Crossroad Pull-Out |
+|:---:|:---:|:---:|
+| ![White Car Cut-In](assets/images/cutin_01_perpendicular_merge_white_car.jpg) | ![Highway Ramp Sedan](assets/images/cutin_02_highway_ramp_merging_sedan.jpg) | ![Rural Red SUV Pullout](assets/images/cutin_04_rural_roadside_red_suv_entry.jpg) |
+| **`car 12.2m [T-BONE?]`** turning into host lane; proactively flagged with active **`EMERGENCY BRAKE`** and trajectory projection well before crossing lane markings. | Dark sedan merging into curved highway ramp from right shoulder (**`car 4.7m`**). | Red SUV pulling out perpendicularly from right roadside at 49 mph (**`car 2.6m`**). |
 
 ---
 
@@ -116,10 +116,10 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ### 5. Dense Multi-Target Urban Environments & HUD Telemetry
 
-| Dense Palm-Tree Avenue Crosswalk | Residential Driveway Parked Vehicles |
-|:---:|:---:|
-| ![Dense Avenue Crosswalk](assets/images/multi_target_01_dense_avenue_pedestrian_crosswalk.jpg) | ![Residential Parked Cars](assets/images/multi_target_02_residential_parked_cars.jpg) |
-| High-density urban avenue approaching pedestrian crosswalk with **7 surrounding vehicles tracked simultaneously** (**`car 11.6m`** lead alert). | Residential neighborhood drive with parked vehicles (**`car 14.5m`** lead alert with **`car 7.4m`** parked SUV in orange). |
+| Dense Palm-Tree Avenue Crosswalk |
+|:---:|
+| ![Dense Avenue Crosswalk](assets/images/multi_target_01_dense_avenue_pedestrian_crosswalk.jpg) |
+| High-density urban avenue approaching pedestrian crosswalk with **7 surrounding vehicles tracked simultaneously** (**`car 11.6m`** lead alert). |
 
 ---
 
@@ -133,8 +133,8 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 
 | Level 2 AEB Emergency Stop (BeamNG.tech simulation only) | Drivable Corridor & Closed-Loop Centering (BeamNG.tech simulation only) |
 |:---:|:---:|
-| ![BeamNG AEB Stop](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.jpg) | ![BeamNG Autopilot Corridor](assets/images/sitl_02_beamng_drivable_corridor_autopilot.jpg) |
-| Autopilot Mode 2 (Braking Only) executing Automated Emergency Braking (AEB) upon collision vector detection - simulated in BeamNG.tech, not on real hardware. | Closed-loop lane centering and road curvature drivable corridor segmentation overlay - simulated in BeamNG.tech, not on real hardware. |
+| ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Lane Centering GIF](assets/images/sitl_02_beamng_drivable_corridor_autopilot.gif) |
+| **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (≈84.9% kinetic energy dissipated). *(Simulated in BeamNG.tech, not on real hardware).* | **Closed-Loop Lane Centering & Safe Stopping:** Road curvature drivable corridor segmentation and top-down road map tracking; closed-loop vehicle safely decelerates to 0 km/h and holds behind lead traffic. *(Simulated in BeamNG.tech, not on real hardware).* |
 
 ---
 
@@ -143,9 +143,13 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 Curated demonstration clips are located in [`assets/videos/`](assets/videos/):
 - [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) - High-speed highway following and imminent braking.
 - [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) - Urban intersection cross-traffic alert.
-- [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) - Aggressive lateral cut-in threat detection.
+- [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) - Aggressive lateral cut-in threat detection and emergency braking.
 - [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) - Head-on intersection collision avoidance.
+- [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) - High-speed highway following at 107 km/h driving directly into blinding low-angle sun glare.
+- [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) - Vehicle pulling out perpendicularly from a commercial entrance with predictive trajectory vector alert.
+- [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) - Multi-lane highway dense traffic with lead SUV braking event and ego corridor tracking.
 - [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) - BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
+- [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) - BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
 
 ---
 

@@ -1,4 +1,4 @@
-# 🚗 Real-Time, Multi-Function ADAS Application
+# Real-Time, Multi-Function ADAS Application
 
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--10H-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -6,64 +6,64 @@
 [![Issues](https://img.shields.io/github/issues/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/commits/main)
 
-**Author:** Ramazan Ertuğrul Aydoğan  
+**Author:** Ramazan Ertuğrul Aydoğan
 **Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
 
-**Co-author:** Fatima Sapundzhi — *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
+**Co-author:** Fatima Sapundzhi - *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
 
-⭐ **If this project is useful or interesting to you, consider starring the repo — it helps others find it.**
-
----
-
-## 📚 Table of Contents
-
-- [Why This Project](#-why-this-project)
-- [Overview](#-overview)
-- [Crash & Near-Miss Scenario Gallery](#-comprehensive-crash--near-miss-scenario-gallery)
-- [Video Demonstrations](#-video-demonstrations)
-- [System Architecture](#️-system-architecture)
-- [Performance Benchmarks (113 Scenarios)](#-performance-benchmarks-113-manually-reviewed-scenarios)
-- [Automated Benchmark (2,844 Nexar Sequences)](#-automated-benchmark-2844-nexar-derived-sequences)
-- [Custom-Trained YOLO12s Models](#-custom-trained-yolo12s-models)
-- [Android Companion App](#-android-companion-app)
-- [Bill of Materials](#-bill-of-materials-bom)
-- [Future Work](#-future-work)
-- [Related Publication](#-related-publication)
-- [License](#-license)
+**If this project is useful or interesting to you, consider starring the repo - it helps others find it.**
 
 ---
 
-## 💡 Why This Project
+## Table of Contents
 
-Most older vehicles lack built-in driver-assistance technology, since factory-installed ADAS remains expensive and closed. This project is an **open-source, low-cost ADAS suite** that keeps hardware cost down while remaining installable on older vehicles — acting as a co-pilot for the two most safety-critical maneuvers: **forward driving** and **reverse parking**.
+- [Why This Project](#why-this-project)
+- [Overview](#overview)
+- [Crash & Near-Miss Scenario Gallery](#comprehensive-crash--near-miss-scenario-gallery)
+- [Video Demonstrations](#video-demonstrations)
+- [System Architecture](#system-architecture)
+- [Performance Benchmarks (113 Scenarios)](#performance-benchmarks-113-manually-reviewed-scenarios)
+- [Automated Benchmark (2,844 Nexar Sequences)](#automated-benchmark-2844-nexar-derived-sequences)
+- [Custom-Trained YOLO12s Models](#custom-trained-yolo12s-models)
+- [Android Companion App](#android-companion-app)
+- [Bill of Materials](#bill-of-materials-bom)
+- [Future Work](#future-work)
+- [Related Publication](#related-publication)
+- [License](#license)
 
 ---
 
-## 📌 Overview
+## Why This Project
+
+Most older vehicles lack built-in driver-assistance technology, since factory-installed ADAS remains expensive and closed. This project is an **open-source, low-cost ADAS suite** that keeps hardware cost down while remaining installable on older vehicles - acting as a co-pilot for the two most safety-critical maneuvers: **forward driving** and **reverse parking**.
+
+---
+
+## Overview
 
 This repository documents the architecture, visual evaluation, and benchmarking of a **state-driven, six-function Advanced Driver-Assistance System (ADAS)** designed for low-cost embedded edge platforms. The intended deployment target is a **Raspberry Pi 5** paired with a **Hailo-10H AI Accelerator** (rated up to **40 TOPS**, INT4). That target board was unavailable during this study period due to the global memory-chip shortage, so the system was validated on substitute hardware instead:
 
 - **Raspberry Pi 4B (4 GB RAM):** LDW, DMS, ultrasonic parking assist, automatic headlight control, and the YOLO11n baseline detector.
-- **Laptop tiers (Intel i5-8265U/MX110 and AMD Ryzen 7 AI 350/RTX 5060, 32 GB RAM):** the heavier perception stack — a custom-trained YOLO12s detector plus the vector-based Forward Collision Warning (FCW) module.
+- **Laptop tiers (Intel i5-8265U/MX110 and AMD Ryzen 7 AI 350/RTX 5060, 32 GB RAM):** the heavier perception stack - a custom-trained YOLO12s detector plus the vector-based Forward Collision Warning (FCW) module.
 
 The architecture integrates six core active-safety and convenience functions, coordinated by a central state controller that switches between `FORWARD_MODE` and `REVERSE_MODE` based on the vehicle's reverse-gear signal:
 
-1. **Lane Departure Warning (LDW):** Classical CV pipeline — grayscale conversion, Gaussian filtering, Canny edge detection, and Probabilistic Hough Transform (OpenCV) within a trapezoidal ROI.
-2. **YOLO Object Detection + Deterministic Vector-Based Forward Collision Warning (FCW):** YOLO11n (Pi 4B tier) or custom-trained YOLO12s (laptop tiers) feeds a ByteTrack-refined, six-state Kalman filter. The physics layer tracks centroid history over 10 frames, computes image-plane velocity vectors, projects a ~1s trajectory, and checks intersection against the ego-lane polygon — flagging both longitudinal rear-end threats and lateral cut-in / T-bone threats that a purely longitudinal check would miss. Monocular distance is estimated via a calibrated pinhole model.
+1. **Lane Departure Warning (LDW):** Classical CV pipeline - grayscale conversion, Gaussian filtering, Canny edge detection, and Probabilistic Hough Transform (OpenCV) within a trapezoidal ROI.
+2. **YOLO Object Detection + Deterministic Vector-Based Forward Collision Warning (FCW):** YOLO11n (Pi 4B tier) or custom-trained YOLO12s (laptop tiers) feeds a ByteTrack-refined, six-state Kalman filter. The physics layer tracks centroid history over 10 frames, computes image-plane velocity vectors, projects a ~1s trajectory, and checks intersection against the ego-lane polygon - flagging both longitudinal rear-end threats and lateral cut-in / T-bone threats that a purely longitudinal check would miss. Monocular distance is estimated via a calibrated pinhole model (`Distance = Focal Length × Real Width / Pixel Width`).
 3. **Automatic Reverse Assist & Ultrasonic Parking:** Reverse-gear-triggered rear-camera feed with distance-modulated buzzer feedback via four JSN-SR04T ultrasonic sensors.
 4. **Intelligent Automatic Headlight Control:** MCP3008 ADC reading ambient-light levels with dual-threshold hysteresis, controlling an isolated 12V automotive relay.
 5. **Driver Monitoring System (DMS):** MediaPipe Face Mesh landmark tracking computing Eye Aspect Ratio (EAR) from six landmarks per eye. EAR below **0.22 for more than 1.5s** triggers the audible drowsiness warning; a longer 5s persistence window was used specifically for the physical actuator-cutoff bench demo.
-6. **Simulation-in-the-Loop (SITL) Bridge:** High-level threat events are mapped to steering/braking commands in **BeamNG.tech** for closed-loop AEB and driver-monitoring validation. SAE Level 2-style closed-loop steering/braking is exercised **only inside BeamNG.tech**; on the real hardware the system performs SAE Level 0 driver warning only — there is no mechanical actuation on a physical vehicle, since integrating ADAS actuation onto a real car was outside the scope of this project.
+6. **Simulation-in-the-Loop (SITL) Bridge:** High-level threat events are mapped to steering/braking commands in **BeamNG.tech** for closed-loop AEB and driver-monitoring validation. SAE Level 2-style closed-loop steering/braking is exercised **only inside BeamNG.tech**; on the real hardware the system performs SAE Level 0 driver warning only - there is no mechanical actuation on a physical vehicle, since integrating ADAS actuation onto a real car was outside the scope of this project.
 
 DMS, ambient-light sensing, and diagnostics remain active in both operational modes.
 
 ---
 
-## 📸 Comprehensive Crash & Near-Miss Scenario Gallery
+## Comprehensive Crash & Near-Miss Scenario Gallery
 
 The system was evaluated across **113 diverse real-world crash and near-miss scenarios** (day, night, rain, dust). Below is the verified visual gallery detailing the system's detection and warning performance across all accident typologies:
 
-### 1. 🛑 Longitudinal Forward Collisions & Lead Vehicle Deceleration (94.0% Timely-Warning Rate)
+### 1. Longitudinal Forward Collisions & Lead Vehicle Deceleration (94.0% Timely-Warning Rate)
 
 | Lead SUV Close Proximity (`2.9m`) | High-Speed Sun Glare (`107 km/h`) | Residential Two-Lane Approach |
 |:---:|:---:|:---:|
@@ -82,7 +82,7 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-### 2. ⚡ Lateral Cross-Traffic & Intersection T-Bone Hazards (48.3% Timely-Warning Rate)
+### 2. Lateral Cross-Traffic & Intersection T-Bone Hazards (48.3% Timely-Warning Rate)
 
 | Signalized Intersection Cross-Traffic | Intersection Impact / Damaged Hood | Urban Avenue Red Beetle Crossing |
 |:---:|:---:|:---:|
@@ -96,7 +96,7 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-### 3. 🔀 Lateral Merging, Cut-Ins & Vehicle Incursions (27.3% Timely-Warning Rate)
+### 3. Lateral Merging, Cut-Ins & Vehicle Incursions (27.3% Timely-Warning Rate)
 
 | Aggressive Perpendicular Merge | Highway Ramp Merging Incursion | Blind-Spot Close Incursion | Rural Highway Crossroad Pull-Out |
 |:---:|:---:|:---:|:---:|
@@ -105,7 +105,7 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-### 4. 🌙 Adverse Lighting, Low-Light & Impact Scenarios (8.3% Timely-Warning Rate)
+### 4. Adverse Lighting, Low-Light & Impact Scenarios (8.3% Timely-Warning Rate)
 
 | Nighttime Urban Streetlight Driving | Rear-End Impact Bumper Damage |
 |:---:|:---:|
@@ -114,7 +114,7 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-### 5. 🏙️ Dense Multi-Target Urban Environments & HUD Telemetry
+### 5. Dense Multi-Target Urban Environments & HUD Telemetry
 
 | Dense Palm-Tree Avenue Crosswalk | Residential Driveway Parked Vehicles |
 |:---:|:---:|
@@ -123,82 +123,82 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ---
 
-### 6. 🎮 Simulation-in-the-Loop (BeamNG.tech AEB Validation)
+### 6. Simulation-in-the-Loop (BeamNG.tech AEB Validation)
 
-> ⚠️ **SAE Level applies to simulation only.** The SAE Level 2-style closed-loop steering/braking below is exercised **exclusively inside BeamNG.tech**. On the actual Raspberry Pi hardware, the system is **SAE Level 0** — it only warns the driver; there is no mechanical actuation on a real vehicle, as adapting ADAS actuation onto a physical car was outside the scope of this project (no team/resources for that integration).
+> **SAE Level applies to simulation only.** The SAE Level 2-style closed-loop steering/braking below is exercised **exclusively inside BeamNG.tech**. On the actual Raspberry Pi hardware, the system is **SAE Level 0** - it only warns the driver; there is no mechanical actuation on a real vehicle, as adapting ADAS actuation onto a physical car was outside the scope of this project (no team/resources for that integration).
 
 <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="130"/>
 
-Threat events are bridged from the perception stack into **BeamNG.tech**, which maps them to steering or braking commands for closed-loop validation. In a deliberately forced over-speeding intersection test — a van approaching a 50 km/h zone at 90 km/h behind a braking lead vehicle — the system detected the stationary hazard and applied full AEB, reducing impact speed from **90 km/h to 35 km/h (≈84.9% of kinetic energy dissipated)**. A corresponding drowsiness event from the DMS is also mapped to braking in BeamNG.tech simulations.
+Threat events are bridged from the perception stack into **BeamNG.tech**, which maps them to steering or braking commands for closed-loop validation. In a deliberately forced over-speeding intersection test - a van approaching a 50 km/h zone at 90 km/h behind a braking lead vehicle - the system detected the stationary hazard and applied full AEB, reducing impact speed from **90 km/h to 35 km/h (≈84.9% of kinetic energy dissipated)**. A corresponding drowsiness event from the DMS is also mapped to braking in BeamNG.tech simulations.
 
 | Level 2 AEB Emergency Stop (BeamNG.tech simulation only) | Drivable Corridor & Closed-Loop Centering (BeamNG.tech simulation only) |
 |:---:|:---:|
 | ![BeamNG AEB Stop](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.jpg) | ![BeamNG Autopilot Corridor](assets/images/sitl_02_beamng_drivable_corridor_autopilot.jpg) |
-| Autopilot Mode 2 (Braking Only) executing Automated Emergency Braking (AEB) upon collision vector detection — simulated in BeamNG.tech, not on real hardware. | Closed-loop lane centering and road curvature drivable corridor segmentation overlay — simulated in BeamNG.tech, not on real hardware. |
+| Autopilot Mode 2 (Braking Only) executing Automated Emergency Braking (AEB) upon collision vector detection - simulated in BeamNG.tech, not on real hardware. | Closed-loop lane centering and road curvature drivable corridor segmentation overlay - simulated in BeamNG.tech, not on real hardware. |
 
 ---
 
-## 🎬 Video Demonstrations
+## Video Demonstrations
 
 Curated demonstration clips are located in [`assets/videos/`](assets/videos/):
-- 🎥 [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) — High-speed highway following and imminent braking.
-- 🎥 [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) — Urban intersection cross-traffic alert.
-- 🎥 [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) — Aggressive lateral cut-in threat detection.
-- 🎥 [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) — Head-on intersection collision avoidance.
-- 🎥 [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) — BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
+- [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) - High-speed highway following and imminent braking.
+- [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) - Urban intersection cross-traffic alert.
+- [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) - Aggressive lateral cut-in threat detection.
+- [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) - Head-on intersection collision avoidance.
+- [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) - BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 The software architecture is structured as a concurrent multi-threaded finite state machine (FSM), coordinated by a central state controller that arbitrates camera/display resources between `FORWARD_MODE` and `REVERSE_MODE`:
 
 ```mermaid
 flowchart TD
-    subgraph Hardware Layer
-        CAM_FWD[Forward USB 1080p Camera]
-        CAM_REAR[Rear Bumper USB 720p Camera]
-        CAM_DMS[Driver-Facing Camera]
-        SONAR[JSN-SR04T Waterproof Ultrasonic Sensors]
-        LDR[LDR Photoresistor + MCP3008 ADC]
-        GPIO_REV[12V Reverse Light Signal -> Optocoupler]
-        PI5[Raspberry Pi 5 + Hailo-10H NPU]
-    end
+subgraph Hardware Layer
+CAM_FWD[Forward USB 1080p Camera]
+CAM_REAR[Rear Bumper USB 720p Camera]
+CAM_DMS[Driver-Facing Camera]
+SONAR[JSN-SR04T Waterproof Ultrasonic Sensors]
+LDR[LDR Photoresistor + MCP3008 ADC]
+GPIO_REV[12V Reverse Light Signal -> Optocoupler]
+PI5[Raspberry Pi 5 + Hailo-10H NPU]
+end
 
-    subgraph State Machine Controller
-        FSM{Main Control Thread\nPoll Reverse GPIO}
-    end
+subgraph State Machine Controller
+FSM{Main Control Thread\nPoll Reverse GPIO}
+end
 
-    subgraph FORWARD_MODE [FORWARD_MODE Threads]
-        LDW[Lane Departure Warning\nCanny + Hough]
-        YOLO[YOLO11n / YOLO12s Object Detector\n+ ByteTrack]
-        FCW[Vector Physics Engine\nKalman Filter + TTC + Cut-In + Ego Corridor]
-        DMS[Driver Monitoring\nMediaPipe Face Mesh + EAR]
-        BSM[Blind Spot Ultrasonic Monitor\n<= 3.0m Side LEDs]
-        HEADLIGHT[Auto Headlight Controller\nHysteresis 30%/50%]
-    end
+subgraph FORWARD_MODE [FORWARD_MODE Threads]
+LDW[Lane Departure Warning\nCanny + Hough]
+YOLO[YOLO11n / YOLO12s Object Detector\n+ ByteTrack]
+FCW[Vector Physics Engine\nKalman Filter + TTC + Cut-In + Ego Corridor]
+DMS[Driver Monitoring\nMediaPipe Face Mesh + EAR]
+BSM[Blind Spot Ultrasonic Monitor\n<= 3.0m Side LEDs]
+HEADLIGHT[Auto Headlight Controller\nHysteresis 30%/50%]
+end
 
-    subgraph REVERSE_MODE [REVERSE_MODE Threads]
-        FFPLAY[Low-Latency Rear Camera Stream]
-        PARK[Parking Distance Sonar + Buzzer Modulation]
-    end
+subgraph REVERSE_MODE [REVERSE_MODE Threads]
+FFPLAY[Low-Latency Rear Camera Stream]
+PARK[Parking Distance Sonar + Buzzer Modulation]
+end
 
-    GPIO_REV --> FSM
-    FSM -- FORWARD --> FORWARD_MODE
-    FSM -- REVERSE --> REVERSE_MODE
+GPIO_REV --> FSM
+FSM -- FORWARD --> FORWARD_MODE
+FSM -- REVERSE --> REVERSE_MODE
 
-    CAM_FWD --> LDW & YOLO
-    YOLO --> FCW
-    LDW --> FCW
-    CAM_DMS --> DMS
-    SONAR --> BSM & PARK
-    LDR --> HEADLIGHT
-    CAM_REAR --> FFPLAY
+CAM_FWD --> LDW & YOLO
+YOLO --> FCW
+LDW --> FCW
+CAM_DMS --> DMS
+SONAR --> BSM & PARK
+LDR --> HEADLIGHT
+CAM_REAR --> FFPLAY
 ```
 
 ---
 
-## 📊 Performance Benchmarks (113 Manually Reviewed Scenarios)
+## Performance Benchmarks (113 Manually Reviewed Scenarios)
 
 The system was evaluated across **113 diverse real-world crash and near-miss scenarios** spanning highway, urban, low-light, and adverse weather conditions. A warning was considered timely if issued at least **1.5s** before the annotated impact or critical conflict point.
 
@@ -212,57 +212,57 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 | **Nighttime / Low-Light** | 12 | 1 | 11 | **8.3%** (1.5–35.4%) |
 | **TOTAL** | **113** | **68** | **45** | **60.2%** (51.0–68.7%) |
 
-- **Nuisance Alerts:** **5 of 113 cases (4.4%)** — occurring exclusively when adjacent vehicles overtook the host car at close lateral distance. This is not a time-normalized false-alarm rate; specificity was not calculated on the manually reviewed set.
+- **Nuisance Alerts:** **5 of 113 cases (4.4%)** - occurring exclusively when adjacent vehicles overtook the host car at close lateral distance. This is not a time-normalized false-alarm rate; specificity was not calculated on the manually reviewed set.
 
 ---
 
-## 🤖 Automated Benchmark (2,844 Nexar-Derived Sequences)
+## Automated Benchmark (2,844 Nexar-Derived Sequences)
 
 In addition to the manual 113-scenario review, seven vision-pipeline configurations were compared across 2,844 processed sequences derived from the [Nexar dashcam collision dataset](https://arxiv.org/abs/2503.03848).
 
-**<font color="red">Because the automated scoring script flags any alert without an actual crash as a false positive — and the Nexar set is mostly near-miss footage where drivers avoided a crash — the automated false-alarm rate is not directly comparable to the low nuisance-alert rate measured in manual review above.</font>**
+**<font color="red">Because the automated scoring script flags any alert without an actual crash as a false positive - and the Nexar set is mostly near-miss footage where drivers avoided a crash - the automated false-alarm rate is not directly comparable to the low nuisance-alert rate measured in manual review above.</font>**
 
-The **recall/timely-warning numbers below are trustworthy** — a correct warning issued in time is a correct warning whether or not a crash actually followed. It's specifically the *false-alarm* percentage in the automated benchmark that is inflated and not reflective of real-world nuisance-alert behavior; the manually reviewed 4.4% nuisance-alert rate above is the accurate figure for that.
+The **recall/timely-warning numbers below are trustworthy** - a correct warning issued in time is a correct warning whether or not a crash actually followed. It's specifically the *false-alarm* percentage in the automated benchmark that is inflated and not reflective of real-world nuisance-alert behavior; the manually reviewed 4.4% nuisance-alert rate above is the accurate figure for that.
 
 | Configuration | Recall / Sensitivity | False Alarm Rate | F1-Score | Nighttime Acc. |
 |:---|:---:|:---:|:---:|:---:|
-| **Config 01 — CPU baseline** (raw pinhole distance) | 89.80% | 77.08% | 67.69% | 60.32% |
-| **Config 11 — balanced optimum** (conf=0.35) | 90.72% | 76.04% | **68.22%** (highest F1) | 63.49% |
-| **Config 17 — high recall** (TwinLiteNet, 640×384) | **92.50%** (highest recall) | 80.83% | 67.68% | **63.64%** (highest night acc.) |
+| **Config 01 - CPU baseline** (raw pinhole distance) | 89.80% | 77.08% | 67.69% | 60.32% |
+| **Config 11 - balanced optimum** (conf=0.35) | 90.72% | 76.04% | **68.22%** (highest F1) | 63.49% |
+| **Config 17 - high recall** (TwinLiteNet, 640×384) | **92.50%** (highest recall) | 80.83% | 67.68% | **63.64%** (highest night acc.) |
 
 ---
 
-## 🧠 Custom-Trained YOLO12s Models
+## Custom-Trained YOLO12s Models
 
 Two 9.26-million-parameter **YOLO12s** models were trained at 1024×1024 resolution on an RTX 5060 laptop GPU, forming the heavier detection tier used for the vector-based FCW module:
 
 | Model | Classes | Training | Validation mAP@50 | Validation mAP@50-95 |
 |:---|:---:|:---|:---:|:---:|
 | **Turkish Traffic Sign Detector** | 24 | 85 epochs (50 initial + 35 fine-tuning) | **93.47%** | 73.11% |
-| **Self-Driving / Road-Object Detector** (7-class) | 7 | Reduced Roboflow-hosted base set + custom dashcam additions | **94.75%** | — |
+| **Self-Driving / Road-Object Detector** (7-class) | 7 | Reduced Roboflow-hosted base set + custom dashcam additions | **94.75%** | - |
 
 These are training-log validation metrics. The lighter **YOLO11n** baseline detector (no custom training) is used on the Raspberry Pi 4B tier where the full YOLO12s stack is too heavy.
 
 ---
 
-## 📱 Android Companion App
+## Android Companion App
 
 A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception stack to smartphones, independent of the embedded Raspberry Pi platform:
 
 - **CameraX + TensorFlow Lite** inference with a GPU → NNAPI → CPU delegate cascade for on-device fallback.
 - **11 detected classes** with class-aware Non-Maximum Suppression (NMS).
 - A **SAFE / CAUTION / WARNING / CRITICAL** threat classifier with a live time-to-collision (TTC) estimate.
-- A separate automated benchmarking pipeline uses a large multimodal model as an objective judge — scoring bounding-box validity, threat severity, and warning timing to produce reward scores for future training data.
+- A separate automated benchmarking pipeline uses a large multimodal model as an objective judge - scoring bounding-box validity, threat severity, and warning timing to produce reward scores for future training data.
 
 <img src="assets/images/android_app_screenshot.jpg" alt="Android ADAS companion app" width="280"/>
 
 ---
 
-## 💰 Bill of Materials (BOM)
+## Bill of Materials (BOM)
 
 ### Table I: Prototype Hardware Implementation
 
-> ⚠️ The Raspberry Pi 5 + Hailo-10H target configuration below was not benchmarked in the current study (hardware unavailable during this cycle). See [Overview](#-overview) for the substitute platforms actually used for validation.
+> The Raspberry Pi 5 + Hailo-10H target configuration below was not benchmarked in the current study (hardware unavailable during this cycle). See [Overview](#-overview) for the substitute platforms actually used for validation.
 
 | Component | Specification | Est. Cost (EUR) |
 |:---|:---|:---:|
@@ -277,46 +277,46 @@ A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception s
 
 ---
 
-## 🔭 Future Work
+## Future Work
 
-- **Hailo-10H hardware validation** — full six-subsystem integration and benchmarking on the target Raspberry Pi 5 + Hailo-10H platform once hardware is available.
+- **Hailo-10H hardware validation** - full six-subsystem integration and benchmarking on the target Raspberry Pi 5 + Hailo-10H platform once hardware is available.
 - **Luminance-adaptive segmentation** using **TwinLiteNetPlus** to improve low-light/nighttime performance.
-- **Expanded smartphone-based inference** — building out the Android companion app further.
+- **Expanded smartphone-based inference** - building out the Android companion app further.
 - **CAN-bus vehicle telemetry integration.**
 - **YOLO road-hazard model** for detecting animals, potholes, speed bumps, and other road-surface anomalies.
 
 ---
 
-## 📄 Related Publication
+## Related Publication
 
 This repository accompanies the following peer-reviewed proceedings paper:
 
-> **Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning**  
-> Ramazan Ertuğrul Aydoğan, Fatima Sapundzhi  
-> Presented at the 13th International Electronic Conference on Sensors and Applications (ECSA-13), 18–20 November 2026  
+> **Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning**
+> Ramazan Ertuğrul Aydoğan, Fatima Sapundzhi
+> Presented at the 13th International Electronic Conference on Sensors and Applications (ECSA-13), 18–20 November 2026
 > *Engineering Proceedings* (MDPI)
 
 ### Citation
 
-DOI and article link are not yet assigned (pending MDPI production) — update the fields below once available.
+DOI and article link are not yet assigned (pending MDPI production) - update the fields below once available.
 
 ```bibtex
 @inproceedings{aydogan2026adas,
-  author    = {Aydoğan, Ramazan Ertuğrul and Sapundzhi, Fatima},
-  title     = {Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning},
-  booktitle = {Proceedings of the 13th International Electronic Conference on Sensors and Applications (ECSA-13)},
-  series    = {Engineering Proceedings},
-  publisher = {MDPI},
-  year      = {2026},
-  month     = {11},
-  note      = {DOI to be assigned},
-  url       = {}
+author = {Aydoğan, Ramazan Ertuğrul and Sapundzhi, Fatima},
+title = {Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning},
+booktitle = {Proceedings of the 13th International Electronic Conference on Sensors and Applications (ECSA-13)},
+series = {Engineering Proceedings},
+publisher = {MDPI},
+year = {2026},
+month = {11},
+note = {DOI to be assigned},
+url = {}
 }
 ```
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 

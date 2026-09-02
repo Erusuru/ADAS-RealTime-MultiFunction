@@ -164,15 +164,15 @@ Below are high-frame-rate animated previews capturing key real-world detection, 
 | ![Night Urban FCW](assets/images/demo_07_fcw_night_wet_asphalt_braking.gif) | ![Intersection Left-Turn Truck](assets/images/demo_08_fcw_intersection_left_turn_truck.gif) |
 | **Adverse Night Conditions:** Driving at 52 km/h on wet asphalt with street glare; lead SUV detected at 7.2m with instantaneous **`RED - EMERGENCY BRAKE`** trigger.<br>▶️ [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) | **Traffic Light & Cross-Turn Arbitration:** Enters intersection under **`trafficLight-Green`** at 43 mph; oncoming pickup turns across host path, triggering emergency brake banner.<br>▶️ [`demo_fcw_intersection_left_turn_truck.mp4`](assets/videos/demo_fcw_intersection_left_turn_truck.mp4) |
 
-| Imminent Oncoming Centerline Incursion (`37 mph`) | C10 Multi-Target Radar Footprint Overlay |
+| Imminent Oncoming Centerline Incursion (`37 mph`) | Urban Lead Emergency Brake & Roadside Pedestrian (`2.2m`) |
 |:---:|:---:|
-| ![Oncoming Incursion](assets/images/demo_09_fcw_oncoming_lane_incursion.gif) | ![C10 Radar Footprint Overlay](assets/images/demo_10_benchmark_radar_perspective_carpisma.gif) |
-| **Head-On Threat Detection:** Vehicle encroaching into host lane polygon at 4.9m; instant **`RED - EMERGENCY BRAKE`** alert issued at 37 mph.<br>▶️ [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | **Multi-Target Perspective Tracking:** Simultaneous 4-vehicle tracking with ground footprint perspective projections and **`!!! CARPISMA !!!`** flashing border.<br>▶️ [`demo_benchmark_radar_perspective_carpisma.mp4`](assets/videos/demo_benchmark_radar_perspective_carpisma.mp4) |
+| ![Oncoming Incursion](assets/images/demo_09_fcw_oncoming_lane_incursion.gif) | ![Urban Lead Brake Pedestrian](assets/images/demo_10_fcw_urban_lead_brake_pedestrian.gif) |
+| **Head-On Threat Detection:** Vehicle encroaching into host lane polygon at 4.9m; instant **`RED - EMERGENCY BRAKE`** alert issued at 37 mph.<br>▶️ [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | **Multi-Class Urban Hazard Arbitration:** Rapid lead SUV braking down to 2.2m alongside active roadside pedestrian tracking (**`pedestrian 9.6m`**) and cross-traffic classification (**`car 10.7m [T-BONE?]`**).<br>▶️ [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) |
 
 | BeamNG SITL Mountain Pass Curvature Autopilot |
 |:---:|
 | ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) |
-| **Closed-Loop Speed & Curvature Control:** System operating in **`ON FULL AP`** mode; dynamically applies automated curve deceleration (**`CURVE SLOW -11%`**) and steering angle adjustments on sharp mountain bends.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) |
+| **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit at 24s.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) |
 
 ---
 
@@ -189,8 +189,8 @@ All complete demonstration recordings with full telemetry overlays are available
 - [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) — Nighttime urban driving with road reflections and lead vehicle emergency braking.
 - [`demo_fcw_intersection_left_turn_truck.mp4`](assets/videos/demo_fcw_intersection_left_turn_truck.mp4) — Signalized intersection left-turn truck collision alert under active green traffic light.
 - [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) — Oncoming vehicle centerline lane encroaching hazard alert at 37 mph.
-- [`demo_benchmark_radar_perspective_carpisma.mp4`](assets/videos/demo_benchmark_radar_perspective_carpisma.mp4) — Multi-target perspective footprint ground projection with collision warning banner (Configuration C10).
-- [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) — Full autonomous autopilot speed limit negotiation and curve slowdown on mountain highway.
+- [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) — Close-proximity lead vehicle emergency brake (2.2m) with simultaneous roadside pedestrian detection.
+- [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) — Full autonomous autopilot speed limit negotiation, curve slowdown, and steering on mountain highway.
 - [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) — BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
 - [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) — BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
 - [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) — Perpendicular intersection crossing vehicle alert.

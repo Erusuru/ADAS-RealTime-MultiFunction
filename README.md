@@ -225,8 +225,6 @@ A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception s
 
 <img src="assets/images/android_app_screenshot.jpg" alt="Android ADAS companion app" width="280"/>
 
-> 📤 Upload your Android app screenshot as **`assets/images/android_app_screenshot.jpg`** for the image above to render.
-
 ---
 
 ## 💰 Bill of Materials (BOM)

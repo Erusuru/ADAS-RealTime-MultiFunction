@@ -187,13 +187,45 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 ## 🤖 Automated Benchmark (2,844 Nexar-Derived Sequences)
 
-In addition to the manual 113-scenario review, seven vision-pipeline configurations were compared across 2,844 processed sequences derived from the [Nexar dashcam collision dataset](https://arxiv.org/abs/2503.03848). Because the automated scoring script flags *any* alert without an actual crash as a false positive — and the Nexar set is mostly near-miss footage where drivers avoided a crash — the automated false-alarm rate is not directly comparable to the low nuisance-alert rate measured in manual review above.
+In addition to the manual 113-scenario review, seven vision-pipeline configurations were compared across 2,844 processed sequences derived from the [Nexar dashcam collision dataset](https://arxiv.org/abs/2503.03848).
+
+**<font color="red">Because the automated scoring script flags any alert without an actual crash as a false positive — and the Nexar set is mostly near-miss footage where drivers avoided a crash — the automated false-alarm rate is not directly comparable to the low nuisance-alert rate measured in manual review above.</font>**
+
+The **recall/timely-warning numbers below are trustworthy** — a correct warning issued in time is a correct warning whether or not a crash actually followed. It's specifically the *false-alarm* percentage in the automated benchmark that is inflated and not reflective of real-world nuisance-alert behavior; the manually reviewed 4.4% nuisance-alert rate above is the accurate figure for that.
 
 | Configuration | Recall / Sensitivity | False Alarm Rate | F1-Score | Nighttime Acc. |
 |:---|:---:|:---:|:---:|:---:|
 | **Config 01 — CPU baseline** (raw pinhole distance) | 89.80% | 77.08% | 67.69% | 60.32% |
 | **Config 11 — balanced optimum** (conf=0.35) | 90.72% | 76.04% | **68.22%** (highest F1) | 63.49% |
 | **Config 17 — high recall** (TwinLiteNet, 640×384) | **92.50%** (highest recall) | 80.83% | 67.68% | **63.64%** (highest night acc.) |
+
+---
+
+## 🧠 Custom-Trained YOLO12s Models
+
+Two 9.26-million-parameter **YOLO12s** models were trained at 1024×1024 resolution on an RTX 5060 laptop GPU, forming the heavier detection tier used for the vector-based FCW module:
+
+| Model | Classes | Training | Validation mAP@50 | Validation mAP@50-95 |
+|:---|:---:|:---|:---:|:---:|
+| **Turkish Traffic Sign Detector** | 24 | 85 epochs (50 initial + 35 fine-tuning) | **93.47%** | 73.11% |
+| **Self-Driving / Road-Object Detector** (7-class) | 7 | Reduced Roboflow-hosted base set + custom dashcam additions | **94.75%** | — |
+
+These are training-log validation metrics. The lighter **YOLO11n** baseline detector (no custom training) is used on the Raspberry Pi 4B tier where the full YOLO12s stack is too heavy.
+
+---
+
+## 📱 Android Companion App
+
+A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception stack to smartphones, independent of the embedded Raspberry Pi platform:
+
+- **CameraX + TensorFlow Lite** inference with a GPU → NNAPI → CPU delegate cascade for on-device fallback.
+- **11 detected classes** with class-aware Non-Maximum Suppression (NMS).
+- A **SAFE / CAUTION / WARNING / CRITICAL** threat classifier with a live time-to-collision (TTC) estimate.
+- A separate automated benchmarking pipeline uses a large multimodal model as an objective judge — scoring bounding-box validity, threat severity, and warning timing to produce reward scores for future training data.
+
+<img src="assets/images/android_app_screenshot.jpg" alt="Android ADAS companion app" width="280"/>
+
+> 📤 Upload your Android app screenshot as **`assets/images/android_app_screenshot.jpg`** for the image above to render.
 
 ---
 
@@ -224,6 +256,24 @@ This repository accompanies the following peer-reviewed proceedings paper:
 > Ramazan Ertuğrul Aydoğan, Fatima Sapundzhi  
 > Presented at the 13th International Electronic Conference on Sensors and Applications (ECSA-13), 18–20 November 2026  
 > *Engineering Proceedings* (MDPI)
+
+### Citation
+
+DOI and article link are not yet assigned (pending MDPI production) — update the fields below once available.
+
+```bibtex
+@inproceedings{aydogan2026adas,
+  author    = {Aydoğan, Ramazan Ertuğrul and Sapundzhi, Fatima},
+  title     = {Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning},
+  booktitle = {Proceedings of the 13th International Electronic Conference on Sensors and Applications (ECSA-13)},
+  series    = {Engineering Proceedings},
+  publisher = {MDPI},
+  year      = {2026},
+  month     = {11},
+  note      = {DOI to be assigned},
+  url       = {}
+}
+```
 
 ---
 

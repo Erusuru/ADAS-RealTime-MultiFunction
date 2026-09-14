@@ -352,7 +352,7 @@ This repository accompanies the following peer-reviewed proceedings paper:
 
 ### Citation
 
-DOI and article link are not yet assigned (pending MDPI production) - update the fields below once available.
+DOI and article link are not yet assigned (pending MDPI production).
 
 ```bibtex
 @inproceedings{aydogan2026adas,

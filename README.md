@@ -136,10 +136,10 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 | ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Lane Centering GIF](assets/images/sitl_02_beamng_drivable_corridor_autopilot.gif) |
 | **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (≈84.9% kinetic energy dissipated). *(Simulated in BeamNG.tech, not on real hardware).* | **Closed-Loop Lane Centering & Safe Stopping:** Road curvature drivable corridor segmentation and top-down road map tracking; closed-loop vehicle safely decelerates to 0 km/h and holds behind lead traffic. *(Simulated in BeamNG.tech, not on real hardware).* |
 
-| 47-Second Continuous Closed-Loop Autopilot (`ON FULL AP` - Winding Course) |
-|:---:|
-| ![BeamNG 47s Closed-Loop Autopilot](assets/images/sitl_03_beamng_full_autopilot_coastal_route_47s.gif) |
-| **Continuous Closed-Loop Steering & Speed Control:** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
+| BeamNG SITL Mountain Pass Curvature Autopilot | Continuous Closed-Loop Autopilot (Winding Course) |
+|:---:|:---:|
+| ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) | ![BeamNG 47s Closed-Loop Autopilot](assets/images/sitl_03_beamng_full_autopilot_coastal_route_47s.gif) |
+| **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit at 24s.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) | **Continuous Closed-Loop Steering & Speed Control:** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
 
 ---
 
@@ -173,11 +173,6 @@ Below are high-frame-rate animated previews capturing key real-world detection, 
 |:---:|:---:|
 | ![Oncoming Incursion](assets/images/demo_09_fcw_oncoming_lane_incursion.gif) | ![Urban Lead Brake Pedestrian](assets/images/demo_10_fcw_urban_lead_brake_pedestrian.gif) |
 | **Head-On Threat Detection:** Vehicle encroaching into host lane polygon at 4.9m; instant **`RED - EMERGENCY BRAKE`** alert issued at 37 mph.<br>▶️ [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | **Multi-Class Urban Hazard Arbitration:** Rapid lead SUV braking down to 2.2m alongside active roadside pedestrian tracking (**`pedestrian 9.6m`**) and cross-traffic classification (**`car 10.7m [T-BONE?]`**).<br>▶️ [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) |
-
-| BeamNG SITL Mountain Pass Curvature Autopilot |
-|:---:|
-| ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) |
-| **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit at 24s.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) |
 
 ---
 

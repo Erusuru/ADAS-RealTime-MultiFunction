@@ -127,7 +127,7 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 
 > **SAE Level applies to simulation only.** The SAE Level 2-style closed-loop steering/braking below is exercised **exclusively inside BeamNG.tech**. On the actual Raspberry Pi hardware, the system is **SAE Level 0** - it only warns the driver; there is no mechanical actuation on a real vehicle, as adapting ADAS actuation onto a physical car was outside the scope of this project (no team/resources for that integration).
 
-<img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="130"/>
+<img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="210"/>
 
 Threat events are bridged from the perception stack into **BeamNG.tech**, which maps them to steering or braking commands for closed-loop validation. In a deliberately forced over-speeding intersection test - a van approaching a 50 km/h zone at 90 km/h behind a braking lead vehicle - the system detected the stationary hazard and applied full AEB, reducing impact speed from **90 km/h to 35 km/h (≈84.9% of kinetic energy dissipated)**. A corresponding drowsiness event from the DMS is also mapped to braking in BeamNG.tech simulations.
 
@@ -135,6 +135,11 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 |:---:|:---:|
 | ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Lane Centering GIF](assets/images/sitl_02_beamng_drivable_corridor_autopilot.gif) |
 | **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (≈84.9% kinetic energy dissipated). *(Simulated in BeamNG.tech, not on real hardware).* | **Closed-Loop Lane Centering & Safe Stopping:** Road curvature drivable corridor segmentation and top-down road map tracking; closed-loop vehicle safely decelerates to 0 km/h and holds behind lead traffic. *(Simulated in BeamNG.tech, not on real hardware).* |
+
+| 47-Second Continuous Closed-Loop Autopilot (`ON FULL AP` - Winding Course) |
+|:---:|
+| ![BeamNG 47s Closed-Loop Autopilot](assets/images/sitl_03_beamng_full_autopilot_coastal_route_47s.gif) |
+| **Continuous Closed-Loop Steering & Speed Control (0s – 47s):** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
 
 ---
 
@@ -191,6 +196,7 @@ All complete demonstration recordings with full telemetry overlays are available
 - [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) — Oncoming vehicle centerline lane encroaching hazard alert at 37 mph.
 - [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) — Close-proximity lead vehicle emergency brake (2.2m) with simultaneous roadside pedestrian detection.
 - [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) — Full autonomous autopilot speed limit negotiation, curve slowdown, and steering on mountain highway.
+- [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) — 47-second continuous closed-loop autopilot (`ON FULL AP`) navigating narrow winding coastal curves with dynamic curve slowing (-20%) and active steering.
 - [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) — BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
 - [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) — BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
 - [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) — Perpendicular intersection crossing vehicle alert.

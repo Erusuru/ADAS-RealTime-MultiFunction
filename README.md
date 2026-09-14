@@ -10,7 +10,7 @@
 **Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
 
 **Supervisor:** Prof. Dr. Uğur Cem Hasar - *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)*
-*(Conducted as a final-year project for the **EEE499 Graduation Project** course; the author works and conducts research under his supervision)*
+
 
 **Co-author:** Fatima Sapundzhi - *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
 

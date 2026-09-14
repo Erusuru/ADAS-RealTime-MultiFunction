@@ -8,6 +8,8 @@
 
 **Author:** Ramazan Ertuğrul Aydoğan
 **Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
+**Supervisor:** Prof. Dr. Uğur Cem Hasar - *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)*
+*(Conducted as a final-year project for the **EEE499 Graduation Project** course; the author works and conducts research under his supervision)*
 
 **Co-author:** Fatima Sapundzhi - *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
 
@@ -29,6 +31,7 @@
 - [Bill of Materials](#bill-of-materials-bom)
 - [Future Work](#future-work)
 - [Related Publication](#related-publication)
+- [Academic Context & Supervision](#academic-context--supervision)
 - [License](#license)
 
 ---
@@ -362,6 +365,14 @@ note = {DOI to be assigned},
 url = {}
 }
 ```
+
+---
+
+## Academic Context & Supervision
+
+This project was developed as a final-year senior design capstone project for the **EEE499 Graduation Project** course in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
+
+The project was carried out under the academic supervision of **Prof. Dr. Uğur Cem Hasar**, under whose supervision the author conducts academic research and ongoing engineering development.
 
 ---
 

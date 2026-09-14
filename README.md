@@ -139,7 +139,7 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 | 47-Second Continuous Closed-Loop Autopilot (`ON FULL AP` - Winding Course) |
 |:---:|
 | ![BeamNG 47s Closed-Loop Autopilot](assets/images/sitl_03_beamng_full_autopilot_coastal_route_47s.gif) |
-| **Continuous Closed-Loop Steering & Speed Control (0s – 47s):** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
+| **Continuous Closed-Loop Steering & Speed Control:** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
 
 ---
 

@@ -1,6 +1,7 @@
 # Real-Time, Multi-Function ADAS Application
 
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--10H-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
+[![Code Status](https://img.shields.io/badge/code-closed--source%20%2F%20private%20dev-critical.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/Erusuru/ADAS-RealTime-MultiFunction?style=social)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/stargazers)
 [![Issues](https://img.shields.io/github/issues/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/issues)
@@ -33,13 +34,20 @@
 - [Future Work](#future-work)
 - [Related Publication](#related-publication)
 - [Academic Context & Supervision](#academic-context--supervision)
+- [About the Lead Developer](#about-the-lead-developer)
 - [License](#license)
 
 ---
 
 ## Why This Project
 
-Most older vehicles lack built-in driver-assistance technology, since factory-installed ADAS remains expensive and closed. This project is an **open-source, low-cost ADAS suite** that keeps hardware cost down while remaining installable on older vehicles - acting as a co-pilot for the two most safety-critical maneuvers: **forward driving** and **reverse parking**.
+Most older vehicles lack built-in driver-assistance technology, since factory-installed ADAS remains expensive and closed. This project is a **low-cost ADAS suite** designed to keep hardware cost down while remaining installable on older vehicles - acting as a co-pilot for the two most safety-critical maneuvers: **forward driving** and **reverse parking**.
+
+### Code & Release Status
+
+The complete source code, trained model weights, and proprietary firmware are currently **closed-source and under active private development**. This repository serves as technical documentation, benchmarking architecture, and system evaluation for the project - it is not a source-code distribution.
+
+A public code release will not occur at least until full cross-platform stability, embedded hardware hardening, and extensive physical drive testing are completed across all target hardware tiers. No future open-source release is guaranteed.
 
 ---
 
@@ -378,6 +386,37 @@ url = {}
 This project was developed as a final-year senior design capstone project for the **EEE499 Graduation Project** course in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
 
 The project was carried out under the academic supervision of **Prof. Dr. Uğur Cem Hasar**, under whose supervision the author conducts academic research and ongoing engineering development. Simulation-in-the-loop (SITL) validation was conducted using **BeamNG.tech** under an academic research license generously provided by **BeamNG GmbH**.
+
+---
+
+## About the Lead Developer
+
+**Ramazan Ertuğrul Aydoğan** - B.Sc., Electrical and Electronics Engineering, Gaziantep University (GAÜN)
+
+Sole system architect and lead developer of this end-to-end, multi-function ADAS suite. Modules designed and implemented by the author include:
+
+- Lane Departure Warning (LDW) using classical edge detection and probabilistic Hough transforms
+- YOLO-based real-time object and traffic sign detection (custom-trained 24-class Turkish Traffic Sign Recognition and 7-class road-object models)
+- Monocular pinhole-camera distance and time-to-collision (TTC) estimation
+- Deterministic, vector-based Forward Collision Warning (FCW) predicting longitudinal and lateral trajectories
+- Lateral threat, high-speed cut-in, and intersection (T-bone) hazard detection
+- Driver Monitoring System (DMS) using MediaPipe Face Mesh and Eye Aspect Ratio (EAR) micro-sleep cutoff
+- Automatic reverse-camera switching with reverse-gear optocoupler interfacing
+- Ultrasonic proximity and parking assist with frequency-modulated piezo feedback (JSN-SR04T)
+- LDR/MCP3008 ADC ambient-light headlight automation with dual-threshold hysteresis
+- Multi-threaded state controller managing dynamic resource allocation
+- Closed-loop simulation-in-the-loop (SITL) AEB and steering validation via BeamNG.tech / BeamNGpy
+- Companion Android application (Kotlin, Jetpack Compose) with TFLite GPU/NNAPI acceleration
+
+**Distinctions & academic credentials**
+
+- **IEEE Best Paper Award** (Student Category), 2026 IEEE International Conference on Advanced Topics on Measurements and Simulation (ATOMS 2026), Cluj-Napoca, Romania
+- Presenting author at multiple international IEEE and MDPI conferences across Europe, including research presented in Romania and an upcoming third international paper plus session co-chairing at ICETASI 2026, Greece
+- **Team Captain, ORET Autonomous Systems** (Gaziantep University) - directs 20+ engineers on autonomous UAV/UGV systems for national competitions
+- Lead telemetry and software engineer for ORET at the Shell Eco-marathon Europe & Africa 2025 (Silesia Ring, Poland), passing strict European technical inspection
+- Dual Erasmus+ engineering scholar: Transilvania University of Brașov, Romania, and South-West University "Neofit Rilski," Blagoevgrad, Bulgaria (4.0 GPA semester)
+
+**Contact:** [LinkedIn](https://www.linkedin.com/in/ramazan-ertu%C4%9Frul-aydo%C4%9Fan-807655252/)
 
 ---
 

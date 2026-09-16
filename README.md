@@ -398,6 +398,8 @@ The project was carried out under the academic supervision of **Prof. Dr. Uğur 
 
 ## Acknowledgements & Hardware Support
 
+<img src="assets/images/ORET-Logo.png" alt="ORET - Otomobil, Robot ve Enerji Topluluğu" width="220"/>
+
 Special thanks and sincere gratitude to **ORET (Otomobil, Robot ve Enerji Topluluğu / Automotive, Robotics and Energy Society)** at **Gaziantep University (GAÜN)** for their generous hardware and community support throughout the development and prototyping of this project.
 
 The author is deeply thankful to ORET for granting access to laboratory facilities and lending critical electronic components—including the **Raspberry Pi single-board computer, ultrasonic distance sensors, capacitors, discrete semiconductors, and prototyping accessories**—which were instrumental in assembling, breadboarding, and benchmarking the physical embedded ADAS implementation.

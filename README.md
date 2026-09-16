@@ -34,7 +34,7 @@
 - [Future Work](#future-work)
 - [Related Publication](#related-publication)
 - [Academic Context & Supervision](#academic-context--supervision)
-- [Acknowledgements & Hardware Support](#acknowledgements--hardware-support)
+- [Acknowledgements](#acknowledgements)
 - [About the Lead Developer](#about-the-lead-developer)
 - [License](#license)
 
@@ -396,7 +396,19 @@ The project was carried out under the academic supervision of **Prof. Dr. Uğur 
 
 ---
 
-## Acknowledgements & Hardware Support
+## Acknowledgements
+
+### BeamNG.tech Academic Research License
+
+<p align="left">
+  <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="190"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="200"/>
+</p>
+
+Special thanks and sincere gratitude to **BeamNG GmbH** for generously providing an academic research license for **BeamNG.tech** in support of this university graduation project and simulation evaluation. The high-fidelity physics and software-in-the-loop (SITL) environment provided by BeamNG.tech were essential for developing, validating, and stress-testing the closed-loop autonomous emergency braking (AEB), lane centering, obstacle overtaking, and trajectory tracking architectures.
+
+### Hardware & Laboratory Support — ORET
 
 <img src="assets/images/ORET-Logo.png" alt="ORET - Otomobil, Robot ve Enerji Topluluğu" width="220"/>
 

@@ -34,6 +34,7 @@
 - [Future Work](#future-work)
 - [Related Publication](#related-publication)
 - [Academic Context & Supervision](#academic-context--supervision)
+- [Acknowledgements & Hardware Support](#acknowledgements--hardware-support)
 - [About the Lead Developer](#about-the-lead-developer)
 - [License](#license)
 
@@ -392,6 +393,14 @@ url = {}
 This project was developed as a final-year senior design capstone project for the **EEE499 Graduation Project** course in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
 
 The project was carried out under the academic supervision of **Prof. Dr. Uğur Cem Hasar**, under whose supervision the author conducts academic research and ongoing engineering development. Simulation-in-the-loop (SITL) validation was conducted using **BeamNG.tech** under an academic research license generously provided by **BeamNG GmbH**.
+
+---
+
+## Acknowledgements & Hardware Support
+
+Special thanks and sincere gratitude to **ORET (Otomobil, Robot ve Enerji Topluluğu / Automotive, Robotics and Energy Society)** at **Gaziantep University (GAÜN)** for their generous hardware and community support throughout the development and prototyping of this project.
+
+The author is deeply thankful to ORET for granting access to laboratory facilities and lending critical electronic components—including the **Raspberry Pi single-board computer, ultrasonic distance sensors, capacitors, discrete semiconductors, and prototyping accessories**—which were instrumental in assembling, breadboarding, and benchmarking the physical embedded ADAS implementation.
 
 ---
 

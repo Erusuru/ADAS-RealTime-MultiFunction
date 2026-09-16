@@ -401,9 +401,9 @@ The project was carried out under the academic supervision of **Prof. Dr. Uğur 
 ### BeamNG.tech Academic Research License
 
 <p align="left">
-  <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="190"/>
+  <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="300"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="200"/>
+  <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="390"/>
 </p>
 
 Special thanks and sincere gratitude to **BeamNG GmbH** for generously providing an academic research license for **BeamNG.tech** in support of this university graduation project and simulation evaluation. The high-fidelity physics and software-in-the-loop (SITL) environment provided by BeamNG.tech were essential for developing, validating, and stress-testing the closed-loop autonomous emergency braking (AEB), lane centering, obstacle overtaking, and trajectory tracking architectures.

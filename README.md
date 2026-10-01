@@ -38,6 +38,7 @@
 - [Overview](#overview)
 - [Crash & Near-Miss Scenario Gallery](#comprehensive-crash--near-miss-scenario-gallery)
 - [Video Demonstrations](#video-demonstrations)
+- [Project Evolution & Version History (V1 – V27)](#project-evolution--version-history-v1--v27)
 - [System Architecture](#system-architecture)
 - [Performance Benchmarks (113 Scenarios)](#performance-benchmarks-113-manually-reviewed-scenarios)
 - [Automated Benchmark (2,844 Nexar Sequences)](#automated-benchmark-2844-nexar-derived-sequences)
@@ -231,6 +232,75 @@ All complete demonstration recordings with full telemetry overlays are available
 - [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) — BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
 - [`demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4`](assets/videos/demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4) — TEKNOFEST Robotaksi technical inspection simulation replica: dynamic obstacle avoidance & lane change, autonomous intersection left turn, and precision automated parking stop.
 - [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) — Perpendicular intersection crossing vehicle alert.
+
+---
+
+## Project Evolution & Version History (V1 – V27)
+
+Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this ADAS ecosystem evolved from basic screen-captured keyboard emulation into an industrial-grade, multi-domain autonomous driving and safety perception suite. Below is the chronological breakdown of developmental eras, milestones, and architectural upgrades.
+
+```
+                           CHRONOLOGICAL DEVELOPMENT ROADMAP
+ 2025 Q4 - 2026 Q1          2026 Q2                     2026 Q3                     2026 Q3 - Q4
+┌────────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐
+│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │
+│ • Proof-of-concept │──▶│ • BeamNG Native API    │──▶│ • Deep Learning (YOLO12)│──▶│ • Metric BEV Polynomials │
+│ • Screen scraping  │   │ • Continuous Steering  │   │ • TwinLiteNet RoadSeg   │   │ • Active ESC & 3D LiDAR  │
+│ • Keyboard steering│   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │
+└────────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘
+           │                         │                             │                              │
+           ▼                         ▼                             ▼                              ▼
+ ┌───────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐
+ │ allinonevideoout  │   │ aiovidout V1 - V7      │   │ Nexar 1.5k Crash Bench  │   │ ultimate_adas_pipeline   │
+ │ First batch video │   │ Colab T4 / CUDA batch  │   │ Day/Night HSV splitter  │   │ Real-car IRL HUD + ZED   │
+ └───────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘
+```
+
+---
+
+### 1. Closed-Loop Simulation Autopilot Evolution (BeamNG.tech: V1 to V27)
+
+| Era / Version Range | Architectural Paradigm | Key Capabilities & Milestones Added | Critical Engineering Bottlenecks Diagnosed & Solved |
+| :--- | :--- | :--- | :--- |
+| **Era 1: Proof-of-Concept<br>(V1 – V2)**<br>*Jan – Apr 2026* | Screen Capture (`mss`) + OpenCV Canny/Hough + DirectInput (`pydirectinput`) | • First closed-loop steering in BeamNG.<br>• Discrete bang-bang keyboard actuation (`'a'` / `'d'`).<br>• MediaPipe in-cabin driver drowsiness detection (EAR). | **Latency & Buffer Bloat:** Fixed keyboard emulation queue delays by setting zero-pause execution; established baseline feasibility of vision-guided steering. |
+| **Era 2: Native Physics API & Lateral Stabilization<br>(V3 – V10)**<br>*Jun 2026* | BeamNG.tech Native API (`beamngpy`) + Virtual Camera + Analog Actuation | • Transition from discrete keyboard to continuous floating-point steering (`vehicle.control`).<br>• Stanley geometric path-tracking implementation.<br>• "The Ultimate Hybrid": 60 FPS screen capture paired with native analog steering. | **Oversteer & Frame Drops:** Overcame virtual camera render overhead via hybrid capture; tuned soft-body lateral damping to eliminate high-speed pendulum fishtailing. |
+| **Era 3: Deep Neural Perception & AEB Gating<br>(V11 – V15)**<br>*Jun – Aug 2026* | Hybrid Vision + TwinLiteNet (`nano.pth`) + YOLOv12s (`selfdrivingv12s.pt`) + ByteTrack | • Dual-head road segmentation (Drivable Area + Lane Lines at 640×384).<br>• Multi-tier Forward Collision Warning state machine.<br>• RT-DETR vs YOLO benchmarking.<br>• In-corridor polygon threat gating. | **Phantom AEB & ROI Interference:** Gated cross-lane oncoming traffic to eliminate false emergency braking; masked out in-cockpit digital speedometer rings that mimicked road lines. |
+| **Era 4: Predictive Curvature Feedforward & 3D LiDAR<br>(V16 – V23)**<br>*Aug 2026* | Multi-Horizon Sampling + GPS Spatial Hash (`RoadMemory`) + 64-Ch LiDAR | • Multi-depth lookahead horizon sampling (near, mid, far).<br>• Proactive Ackermann curvature feedforward steering.<br>• $2\text{m} \times 2\text{m}$ spatial hash road memory and 60 Hz synchronous blackbox (`RoadDataLogger`).<br>• 64-channel 360° roof LiDAR with 72-sector polar HUD radar.<br>• Adaptive histogram equalization (`CVBrightnessManager`). | **Curve Understeer & Darkness Washout:** Replaced reactive steering with anticipatory curve entry; maintained sensor contrast across dusk/dawn transitions; immune to dense fog via 3D LiDAR. |
+| **Era 5: Mountain Pavement Fallback & Metric BEV<br>(V24 – V27)**<br>*Aug – Sep 2026* | Orthographic Inverse Perspective Mapping (BEV) + 2-DOF ESC + Monolithic Core | • Pavement right-border asphalt tracking (`compute_roadseg_fallback_deviation`) for unpainted mountain descents.<br>• Bird's-Eye-View 2nd-order polynomial fitting ($x = ay^2 + by + c$).<br>• 2-DOF linear bicycle model Active Electronic Stability Control (ESC).<br>• Autonomous 3-second stationary obstacle detour state machine.<br>• In-situ live calibration GUI overlay (`[ç]` key hot-reload).<br>• Full 8,000-line monolithic production autopilot (`beamng_pilot_v27.py`). | **Slalom Hunting & Cliff Drops:** Fully eradicated lateral limit-cycle oscillations ("slalom") via metric BEV; enabled cliff-side navigation on roads without painted lines; zero optical jumping. |
+
+---
+
+### 2. Open-World Perception, YouTube Stream Processing & Benchmarking Engines
+
+Parallel to simulation development, a comprehensive suite of offline and real-world perception workstations was created:
+
+#### 🎞️ Autopilot Studio Suite (`aiovidout` V1 – V12 | Nov 2025 – Jul 2026)
+- **V1 – V5 (`aiovidout.py` to `aiovidout5.py`):** CPU-optimized YOLO execution; 2-stage Time-to-Collision (30m rule + TTC < 2.8s); automated multi-video playlist batch queuing; structured 18-feature kinematics CSV export (`crash_training_data_v2.csv`).
+- **Cloud & Edge Acceleration (`aiovidout3G.py` & `aio5tflite.py`):** Google Colab Tesla T4 GPU cloud execution with FP16 half-precision and automatic resume; lightweight TFLite model optimization for embedded targets.
+- **V6 – V7 (`aiovidout6.py` to `aiovidout7_roadseg.py`):** Dedicated CUDA batch memory management and TwinLiteNet drivable area segmentation integration for offline video processing.
+- **V10 – V12 Live-AI Studio (`aiovidout_v10.py` & `aiovidout_v12.py`):** Rolling 10-second RAM frame buffer (`VideoFrameBuffer`); asynchronous background LLM evaluation (`AsyncGeminiWorker`) for incident grading; automated incident report generation; hardware execution profiles (`HIGH_SPEC` vs `LOW_SPEC`).
+
+#### 🎥 YouTube Batch Ingestion & Advanced Pipeline (`ultimate_adas_pipeline`)
+- **Direct Stream Digestion:** Headless streaming and batch downloading of automotive dashcam playlists via `yt-dlp`.
+- **Dual-Model Deep Perception:** Synchronous YOLOv12s obstacle tracking coupled with TwinLiteNetPlus drivable surface segmentation.
+- **Kinematic Filtering & OCR:** Alpha-Beta tracking filter ($\alpha = 0.60, \beta = 0.35$) for smooth distance/velocity estimation; automated speed-sign OCR (`easyocr` / `pytesseract`) extracting regulatory speed limits ($30\text{--}120\text{ km/h}$).
+- **Automated Incident Reporting:** Generates self-contained HTML dashboards (`events_report.html`) complete with event replay GIFs, metric telemetry, and threat classifications.
+- **Automated Channel Analysis (`youtube_analyzer.py`):** Subtitle transcript extraction via `youtube_transcript_api` and LLM structuring of driving hazards and causal factors into formatted `.docx` reports.
+
+#### 📊 Kaggle Nexar Collision Prediction Benchmark Suite
+- **1,500-Video Dataset Evaluation:** Rigorous benchmarking across 750 crash/near-miss and 750 normal driving sequences ($1280 \times 720$ @ 30 FPS).
+- **Official Lookahead Horizons:** Mean Average Precision (mAP) scoring across $500\text{ ms}$, $1000\text{ ms}$, and $1500\text{ ms}$ pre-impact horizons using `evaluate_submission.py`.
+- **Day/Night Lighting Decomposition (`day_night_analyzer.py`):** HSV color space luminance partitioning ($\bar{V} < 80.0 \implies \text{Night}$) to evaluate headlight glare degradation and ensure threat models perform reliably 24/7.
+
+---
+
+### 3. Physical Hardware Robotics & In-Vehicle (IRL) Testing
+
+- **Real-Car Windshield HUD (`adas_irl_v1.py`):** Zero-actuation driver warning display for passenger vehicles utilizing standard dashboard webcams; real-time unsharp masking kernel to correct windshield focus softness; dual YOLO execution (`selfdrivingv12s.pt` + 21-class `scout.pt` for Turkish signs, potholes, cones, and hazards); monocular bounding-box dilation rate TTC calculation.
+- **Stereolabs ZED Stereo Vision (`zed_live_adas.py`):** Native hardware metric depth mapping via the ZED SDK (`pyzed.sl`), eliminating pinhole optical assumptions; Visual-Inertial Odometry (VIO) for host velocity tracking; decoupled asynchronous audio siren thread preventing frame stutter during neural spikes.
+- **Physical Robotics & 2D LiDAR SLAM (`road_survey_lidar_scanner.py` & `dual_camera_intersection_navigator.py`):** 
+  - Dual camera setup ($0^\circ$ forward + $60^\circ$ oblique left) for cross-street pavement pre-viewing.
+  - Slamtec RPLiDAR S3 2D laser scanner for obstacle chicane solving, RANSAC road boundary extraction, and drift-free 2D occupancy mapping on physical robotic test platforms.
 
 ---
 

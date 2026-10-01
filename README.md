@@ -1,11 +1,24 @@
 # Real-Time, Multi-Function ADAS Application
 
+[![Paper Status](https://img.shields.io/badge/MDPI%20ECSA--13-ACCEPTED%20%F0%9F%8E%89-success.svg?style=for-the-badge)](https://sciforum.net/event/ecsa-13)
 [![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--10H-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
 [![Code Status](https://img.shields.io/badge/code-closed--source%20%2F%20private%20dev-critical.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/Erusuru/ADAS-RealTime-MultiFunction?style=social)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/stargazers)
 [![Issues](https://img.shields.io/github/issues/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/commits/main)
+
+> [!IMPORTANT]
+> ### 🏆 🚀 ACCEPTED FOR PUBLICATION — MDPI (BASEL, SWITZERLAND) 🎉
+> **Thrilled to announce that our research paper has been officially ACCEPTED by the Scientific Committee of MDPI Switzerland!**
+> 
+> 📄 **Title:** *"Design and simulation evaluation of an embedded multi-sensor ADAS architecture with AI-assisted collision warning"*  
+> 🏛️ **Publisher:** **MDPI AG** (*Basel, Switzerland*) — Published in [***Engineering Proceedings***](https://www.mdpi.com/journal/engproc) (ISSN 2673-4591)  
+> 🗓️ **Conference:** [**The 13th International Electronic Conference on Sensors and Applications (ECSA-13)**](https://sciforum.net/event/ecsa-13) (18–20 November 2026)  
+> 🔬 **Session:** *S4. Sensors and Artificial Intelligence* | **Submission ID:** `Sciforum-195321`  
+> 👥 **Authors:** **Ramazan Ertuğrul Aydoğan\*** *(GAÜN)*, **Fatima Sapundzhi\*** *(SWU)*  
+>
+> 👉 *See the [Related Publication](#related-publication) section below for full citation details.*
 
 **Author:** Ramazan Ertuğrul Aydoğan
 **Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
@@ -361,28 +374,29 @@ A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception s
 
 ## Related Publication
 
-This repository accompanies the following peer-reviewed proceedings paper:
+This repository accompanies the following peer-reviewed proceedings paper (**officially accepted by MDPI, Basel, Switzerland**):
 
-> **Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning**
-> Ramazan Ertuğrul Aydoğan, Fatima Sapundzhi
-> Presented at the 13th International Electronic Conference on Sensors and Applications (ECSA-13), 18–20 November 2026
-> *Engineering Proceedings* (MDPI)
+> **Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning**  
+> Ramazan Ertuğrul Aydoğan, Fatima Sapundzhi  
+> **Status:** Accepted (Submission ID: `Sciforum-195321`) — To be presented at the 13th International Electronic Conference on Sensors and Applications (ECSA-13), Session S4: *Sensors and Artificial Intelligence*, 18–20 November 2026  
+> *Engineering Proceedings* (MDPI AG, Basel, Switzerland, ISSN: 2673-4591)
 
 ### Citation
 
-DOI and article link are not yet assigned (pending MDPI production).
+Article link and official DOI will be assigned upon publication during ECSA-13 proceedings release (MDPI production).
 
 ```bibtex
 @inproceedings{aydogan2026adas,
-author = {Aydoğan, Ramazan Ertuğrul and Sapundzhi, Fatima},
-title = {Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning},
-booktitle = {Proceedings of the 13th International Electronic Conference on Sensors and Applications (ECSA-13)},
-series = {Engineering Proceedings},
-publisher = {MDPI},
-year = {2026},
-month = {11},
-note = {DOI to be assigned},
-url = {}
+  author    = {Aydo{\u{g}}an, Ramazan Ertu{\u{g}}rul and Sapundzhi, Fatima},
+  title     = {Design and Simulation Evaluation of an Embedded Multi-Sensor ADAS Architecture with AI-Assisted Collision Warning},
+  booktitle = {Proceedings of the 13th International Electronic Conference on Sensors and Applications (ECSA-13)},
+  series    = {Engineering Proceedings},
+  publisher = {MDPI AG},
+  address   = {Basel, Switzerland},
+  year      = {2026},
+  month     = {11},
+  note      = {Accepted for publication (Sciforum-195321)},
+  url       = {https://sciforum.net/event/ecsa-13}
 }
 ```
 

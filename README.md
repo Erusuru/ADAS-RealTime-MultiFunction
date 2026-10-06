@@ -173,6 +173,16 @@ Threat events are bridged from the perception stack into **BeamNG.tech**, which 
 | ![TEKNOFEST Robotaksi Inspection Autopilot](assets/images/sitl_04_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.gif) |
 | **TEKNOFEST Robotaksi Technical Inspection Simulation Replica:** Digital twin validation replicating the official TEKNOFEST Robotaksi autonomous competition technical control test course. Designed to prove system readiness for passing strict autonomous qualification inspections. Utilizing multi-camera perception (`Cam 1 Forward` + `Cam 2 60° Left`), the system detects a stationary obstacle vehicle blocking the lane (`LEFT [AHEAD] Dist: 24.6m -> 11.1m`), executes an autonomous dynamic lane-change maneuver to overtake the obstruction, tracks lane markings into an intersection, executes an automated 90-degree left turn guided by road-continuity segmentation, and performs a precision automated target parking stop (`State: FINAL_STOP`).<br>▶️ [`demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4`](assets/videos/demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4) |
 
+| Utah Canyon Highway Viaduct Cruise (`87 km/h`) | Utah Mountain Tunnel Low-Light Transit (`71 km/h`) |
+|:---:|:---:|
+| ![Utah Highway Bridge Autopilot](assets/images/sitl_05_beamng_utah_highspeed_highway_bridge.gif) | ![Utah Tunnel Transit Autopilot](assets/images/sitl_06_beamng_utah_tunnel_lowlight_transit.gif) |
+| **High-Speed Closed-Loop Highway Cruise:** Operating in **`ON FULL AP`** mode at **87 km/h** across the Utah Canyon viaduct bridge. Demonstrates zero-drift lateral error correction (`STR -0.007 DEV -3px`), active road edge feedback (`ROAD-EDGE FB`), and smooth continuous steering stabilization at highway speeds.<br>▶️ [`sitl_05_beamng_utah_highspeed_highway_bridge.mp4`](assets/videos/sitl_05_beamng_utah_highspeed_highway_bridge.mp4) | **Subterranean Tunnel & Lighting Transition:** Host vehicle transitions from open daylight into an unlit mountain tunnel under sodium lamp glare at **71 km/h**. Drivable corridor segmentation retains lane lock without GPS or map priors, maintaining smooth sub-pixel steering regulation through abrupt illumination drop.<br>▶️ [`sitl_06_beamng_utah_tunnel_lowlight_transit.mp4`](assets/videos/sitl_06_beamng_utah_tunnel_lowlight_transit.mp4) |
+
+| Metric Bird's-Eye-View (BEV) Polynomial Tracking & Hairpin Moderation |
+|:---:|
+| ![BEV Metric Polynomial Hairpin](assets/images/sitl_07_beamng_bev_polynomial_mountain_hairpin.gif) |
+| **Orthographic BEV IPM Curve Tracking:** Real-time top-down inverse perspective mapping fitting 2nd-degree metric lane polynomials ($x = ay^2 + by + c$) alongside mountain retaining walls. Live curvature computation triggers predictive speed moderation (**`CURVE SLOW -21%`**) entering a sharp mountain hairpin bend.<br>▶️ [`sitl_07_beamng_bev_polynomial_mountain_hairpin.mp4`](assets/videos/sitl_07_beamng_bev_polynomial_mountain_hairpin.mp4) |
+
 > **Academic License Acknowledgement:** Special thanks to **BeamNG GmbH** for generously providing an academic research license for **BeamNG.tech** in support of this university graduation project and simulation evaluation.
 >
 > <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="220"/>
@@ -210,6 +220,11 @@ Below are high-frame-rate animated previews capturing key real-world detection, 
 | ![Oncoming Incursion](assets/images/demo_09_fcw_oncoming_lane_incursion.gif) | ![Urban Lead Brake Pedestrian](assets/images/demo_10_fcw_urban_lead_brake_pedestrian.gif) |
 | **Head-On Threat Detection:** Vehicle encroaching into host lane polygon at 4.9m; instant **`RED - EMERGENCY BRAKE`** alert issued at 37 mph.<br>▶️ [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | **Multi-Class Urban Hazard Arbitration:** Rapid lead SUV braking down to 2.2m alongside active roadside pedestrian tracking (**`pedestrian 9.6m`**) and cross-traffic classification (**`car 10.7m [T-BONE?]`**).<br>▶️ [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) |
 
+| Perpendicular Intersection T-Bone Cut-In (`5.8m TTC 0.0s`) | 1080p Dual-Model Perception (TwinLiteNet + YOLOv12s) |
+|:---:|:---:|
+| ![T-Bone Red Truck FCW](assets/images/demo_12_yt_fcw_tbone_intersection_red_truck.gif) | ![TwinLiteNet YOLOv12s 1080p](assets/images/demo_13_yt_perception_twinlitenet_yolo12s.gif) |
+| **High-Risk Cross-Traffic Arbitration:** Red commercial truck crosses host path perpendicularly at +72 km/h; system instantly triggers flashing red alert banner (**`COLLISION IMMINENT ??? CAR 5.8m (TTC 0.0s)`**) with simultaneous pedestrian arbitration at 7.4m.<br>▶️ [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) | **Full HD Dual-Network Drivable Segmentation:** Real-time CUDA FP16 perception running TwinLiteNet road segmentation mask (drivable corridor) merged with YOLOv12s multi-target detection, distance estimation, and dynamic motion vectors on RTX 5060.<br>▶️ [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) |
+
 ---
 
 ### Full Demonstration Video Library
@@ -226,6 +241,11 @@ All complete demonstration recordings with full telemetry overlays are available
 - [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) — Nighttime urban driving with road reflections and lead vehicle emergency braking.
 - [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) — Oncoming vehicle centerline lane encroaching hazard alert at 37 mph.
 - [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) — Close-proximity lead vehicle emergency brake (2.2m) with simultaneous roadside pedestrian detection.
+- [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) — Perpendicular intersection T-bone crossing truck with flashing collision alert banner and pedestrian detection.
+- [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) — High-resolution 1080p dual-network perception pipeline (TwinLiteNet road segmentation + YOLOv12s object tracking) on RTX 5060.
+- [`sitl_05_beamng_utah_highspeed_highway_bridge.mp4`](assets/videos/sitl_05_beamng_utah_highspeed_highway_bridge.mp4) — High-speed 87 km/h closed-loop autopilot cruise across Utah Canyon highway viaduct bridge.
+- [`sitl_06_beamng_utah_tunnel_lowlight_transit.mp4`](assets/videos/sitl_06_beamng_utah_tunnel_lowlight_transit.mp4) — Subterranean mountain tunnel low-light high-speed transit at 71 km/h with continuous lane lock.
+- [`sitl_07_beamng_bev_polynomial_mountain_hairpin.mp4`](assets/videos/sitl_07_beamng_bev_polynomial_mountain_hairpin.mp4) — Orthographic Bird's-Eye-View (BEV) metric polynomial curve tracking with dynamic speed moderation (-21%).
 - [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) — Full autonomous autopilot speed limit negotiation, curve slowdown, and steering on mountain highway.
 - [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) — 47-second continuous closed-loop autopilot (`ON FULL AP`) navigating narrow winding coastal curves with dynamic curve slowing (-20%) and active steering.
 - [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) — BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).

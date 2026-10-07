@@ -231,6 +231,7 @@ Below are high-frame-rate animated previews capturing key real-world detection, 
 
 All complete demonstration recordings with full telemetry overlays are available in [`assets/videos/`](assets/videos/):
 
+- ⭐ **[`ADAS_ORET_Community_Showcase_Full_1080p.mp4`](assets/videos/ADAS_ORET_Community_Showcase_Full_1080p.mp4) — Master 1080p Full HD Showcase Compilation (`2m 14s`):** Comprehensive engineering presentation video combining real-world deep learning perception (YOLOv12 multi-class detection, TwinLiteNet drivable road segmentation, TTC collision warning) with BeamNG.tech closed-loop autonomous dynamics (TEKNOFEST Robotaksi Proving Ground replica, Custom ESC oversteer slide recovery at 92 km/h, Utah Canyon cruise & tunnel transit, Level 2 AEB 85% energy dissipation). Prepared for ORET Community Presentation.
 - [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) — High-speed highway following, closing-distance calculation, and imminent braking warning.
 - [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) — Aggressive lateral cut-in threat detection with predictive trajectory vector projection.
 - [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) — High-speed highway following at 107 km/h driving directly into blinding low-angle sun glare.

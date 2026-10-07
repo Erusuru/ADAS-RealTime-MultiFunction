@@ -32,6 +32,20 @@
 
 **If this project is useful or interesting to you, consider starring the repo - it helps others find it.**
 
+> [!TIP]
+> ### 🚀 MAJOR MILESTONE: BeamNG Pilot V29 Released — 100% Autonomous Utah Highway & Tunnel Full Loop! 🏎️💨
+>
+> We are thrilled to announce the release of **BeamNG Pilot V29**, representing a monumental breakthrough in our closed-loop autonomous driving research powered by **BeamNG.tech**. In rigorous Software-in-the-Loop (SITL) stress evaluations, the V29 autopilot successfully achieved a **COMPLETE, UNINTERRUPTED HIGHWAY AND SUBTERRANEAN MOUNTAIN TUNNEL FULL LOOP IN THE UTAH MAP WITHOUT A SINGLE CRASH OR MANUAL INTERVENTION** — validated under **both zero-traffic and dense AI traffic conditions**!
+>
+> #### 🌟 Why V29 is a Generational Leap Forward:
+> 
+> * 🌑 **Subterranean Dark Tunnel Mastery:** First time the autonomous perception and lateral controller successfully navigate pitch-black, unlit mountain tunnels with zero illumination, maintaining absolute lane centering where prior models drifted into tunnel rock walls.
+> * ⚡ **1–2s Optical Blindness & Portal Distortion Resilience:** Entering and exiting mountain tunnels creates severe camera exposure transitions (drastic overexposure blowout / underexposure darkness) lasting $1\text{--}2\text{ seconds}$. V29's predictive road-edge guardian and inertial curvature retention hold vehicle trajectory perfectly steady, completely immune to portal lighting distortion.
+> * 🧈 **Silky-Smooth, Zero-Oscillation Cruising:** Completely eradicated the chronic high-speed lateral limit cycles ("slalom hunting") seen in older versions. V29 delivers passenger-grade highway ride comfort with continuous analog precision and dynamic yaw damping.
+> * 🔄 **Dynamic Overtaking & Obstacle Detour:** Introduces autonomous overtaking and traffic bypass state logic (`[o]` key manual dispatch & automated blocked-corridor detour), allowing the vehicle to evaluate adjacent lane clearance, change lanes, overtake slower traffic, and return safely (in active refinement).
+> * 🛡️ **Active Electronic Stability Control (ESC) & High-Speed Curve Correction:** First time integrating closed-loop dynamic vehicle stability control. Evaluates 2-DOF bicycle model yaw errors to counteract oversteer slides, counter-steer, cut throttle, and apply dynamic stabilization braking during high-speed curve entry errors ($92 \to 61\text{ km/h}$).
+> * 🔊 **Comma.ai Openpilot Architectural Upgrades:** Integrated genuine Openpilot audio alert chimes (`critical.wav`, `warning.wav`, `engage.wav`), dynamic automotive HUD chevrons, acceleration-aware lead vehicle tracking Kalman filter (`KF1D` predicting hard braking 300–500ms faster), and road camber / banking gravity feedforward ($g \sin(\phi)$).
+
 ---
 
 ## Table of Contents
@@ -40,7 +54,7 @@
 - [Overview](#overview)
 - [Crash & Near-Miss Scenario Gallery](#comprehensive-crash--near-miss-scenario-gallery)
 - [Video Demonstrations](#video-demonstrations)
-- [Project Evolution & Version History (V1 – V27)](#project-evolution--version-history-v1--v27)
+- [Project Evolution & Version History (V1 – V29)](#project-evolution--version-history-v1--v29)
 - [System Architecture](#system-architecture)
 - [Performance Benchmarks (113 Scenarios)](#performance-benchmarks-113-manually-reviewed-scenarios)
 - [Automated Benchmark (2,844 Nexar Sequences)](#automated-benchmark-2844-nexar-derived-sequences)
@@ -258,30 +272,30 @@ All complete demonstration recordings with full telemetry overlays are available
 
 ---
 
-## Project Evolution & Version History (V1 – V27)
+## Project Evolution & Version History (V1 – V29)
 
 Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this ADAS ecosystem evolved from basic screen-captured keyboard emulation into an industrial-grade, multi-domain autonomous driving and safety perception suite. Below is the chronological breakdown of developmental eras, milestones, and architectural upgrades.
 
 ```
-                           CHRONOLOGICAL DEVELOPMENT ROADMAP
- 2025 Q4 - 2026 Q1          2026 Q2                     2026 Q3                     2026 Q3 - Q4
-┌────────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐
-│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │
-│ • Proof-of-concept │──▶│ • BeamNG Native API    │──▶│ • Deep Learning (YOLO12)│──▶│ • Metric BEV Polynomials │
-│ • Screen scraping  │   │ • Continuous Steering  │   │ • TwinLiteNet RoadSeg   │   │ • Active ESC & 3D LiDAR  │
-│ • Keyboard steering│   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │
-└────────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘
-           │                         │                             │                              │
-           ▼                         ▼                             ▼                              ▼
- ┌───────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐
- │ allinonevideoout  │   │ aiovidout V1 - V7      │   │ Nexar 1.5k Crash Bench  │   │ ultimate_adas_pipeline   │
- │ First batch video │   │ Colab T4 / CUDA batch  │   │ Day/Night HSV splitter  │   │ Real-car IRL HUD + ZED   │
- └───────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘
+                                                        CHRONOLOGICAL DEVELOPMENT ROADMAP
+ 2025 Q4 - 2026 Q1          2026 Q2                     2026 Q3                     2026 Q3 - Q4                     2026 Q4 (CURRENT)
+┌────────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐   ┌──────────────────────────────┐
+│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │   │   ERA 6 (V28 - V29) 🚀       │
+│ • Proof-of-concept │──▶│ • BeamNG Native API    │──▶│ • Deep Learning (YOLO12)│──▶│ • Metric BEV Polynomials │──▶│ • Utah Full Loop (0 Crashes) │
+│ • Screen scraping  │   │ • Continuous Steering  │   │ • TwinLiteNet RoadSeg   │   │ • Active ESC & 3D LiDAR  │   │ • Dark Tunnel & Blindness    │
+│ • Keyboard steering│   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │   │ • Openpilot & Guardian Core  │
+└────────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘   └──────────────────────────────┘
+           │                         │                             │                              │                               │
+           ▼                         ▼                             ▼                              ▼                               ▼
+ ┌───────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐   ┌──────────────────────────────┐
+ │ allinonevideoout  │   │ aiovidout V1 - V7      │   │ Nexar 1.5k Crash Bench  │   │ ultimate_adas_pipeline   │   │ beamng_pilot_v29.py (8.7k LoC│
+ │ First batch video │   │ Colab T4 / CUDA batch  │   │ Day/Night HSV splitter  │   │ Real-car IRL HUD + ZED   │   │ Full Highway+Tunnel Loop SITL│
+ └───────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘   └──────────────────────────────┘
 ```
 
 ---
 
-### 1. Closed-Loop Simulation Autopilot Evolution (BeamNG.tech: V1 to V27)
+### 1. Closed-Loop Simulation Autopilot Evolution (BeamNG.tech: V1 to V29)
 
 | Era / Version Range | Architectural Paradigm | Key Capabilities & Milestones Added | Critical Engineering Bottlenecks Diagnosed & Solved |
 | :--- | :--- | :--- | :--- |
@@ -290,6 +304,7 @@ Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this AD
 | **Era 3: Deep Neural Perception & AEB Gating<br>(V11 – V15)**<br>*Jun – Aug 2026* | Hybrid Vision + TwinLiteNet (`nano.pth`) + YOLOv12s (`selfdrivingv12s.pt`) + ByteTrack | • Dual-head road segmentation (Drivable Area + Lane Lines at 640×384).<br>• Multi-tier Forward Collision Warning state machine.<br>• RT-DETR vs YOLO benchmarking.<br>• In-corridor polygon threat gating. | **Phantom AEB & ROI Interference:** Gated cross-lane oncoming traffic to eliminate false emergency braking; masked out in-cockpit digital speedometer rings that mimicked road lines. |
 | **Era 4: Predictive Curvature Feedforward & 3D LiDAR<br>(V16 – V23)**<br>*Aug 2026* | Multi-Horizon Sampling + GPS Spatial Hash (`RoadMemory`) + 64-Ch LiDAR | • Multi-depth lookahead horizon sampling (near, mid, far).<br>• Proactive Ackermann curvature feedforward steering.<br>• $2\text{m} \times 2\text{m}$ spatial hash road memory and 60 Hz synchronous blackbox (`RoadDataLogger`).<br>• 64-channel 360° roof LiDAR with 72-sector polar HUD radar.<br>• Adaptive histogram equalization (`CVBrightnessManager`). | **Curve Understeer & Darkness Washout:** Replaced reactive steering with anticipatory curve entry; maintained sensor contrast across dusk/dawn transitions; immune to dense fog via 3D LiDAR. |
 | **Era 5: Mountain Pavement Fallback & Metric BEV<br>(V24 – V27)**<br>*Aug – Sep 2026* | Orthographic Inverse Perspective Mapping (BEV) + 2-DOF ESC + Monolithic Core | • Pavement right-border asphalt tracking (`compute_roadseg_fallback_deviation`) for unpainted mountain descents.<br>• Bird's-Eye-View 2nd-order polynomial fitting ($x = ay^2 + by + c$).<br>• 2-DOF linear bicycle model Active Electronic Stability Control (ESC).<br>• Autonomous 3-second stationary obstacle detour state machine.<br>• In-situ live calibration GUI overlay (`[ç]` key hot-reload).<br>• Full 8,000-line monolithic production autopilot (`beamng_pilot_v27.py`). | **Slalom Hunting & Cliff Drops:** Fully eradicated lateral limit-cycle oscillations ("slalom") via metric BEV; enabled cliff-side navigation on roads without painted lines; zero optical jumping. |
+| **Era 6: Utah Highway-Tunnel Full-Loop & Openpilot Guardian<br>(V28 – V29)**<br>*Sep – Oct 2026* | Dual-Head TwinLiteNet+ (Large) + 31-Arc Road-Edge Guardian + Openpilot `KF1D` & Roll Feedforward + 2-DOF Active ESC | • **Utah Highway + Mountain Tunnel Loop:** First 100% crash-free closed-loop loop completed with and without traffic.<br>• **Subterranean Tunnel & Optical Distortion Resilience:** Withstands 1–2s camera auto-exposure blowout/washout during tunnel portals via inertial curvature hold & 31-arc free-space fan.<br>• **Zero Lateral Slalom:** Fully eliminated lateral hunting; passenger-grade smooth cruise.<br>• **Dynamic Overtaking & Lane Change:** Dynamic traffic passing state machine (`[o]` key dispatch & stationary detour).<br>• **Active High-Speed Curve ESC:** Oversteer counter-steer, understeer authority boost, and extreme overspeed curve stabilization (92 → 61 km/h).<br>• Genuine comma.ai Openpilot alert chimes (`critical.wav`, `warning.wav`, `engage.wav`).<br>• 8,700-line monolithic flagship architecture (`beamng_pilot_v29.py`). | **Tunnel Blindness & High-Speed Corner Spinouts:** Solved catastrophic portal camera exposure lag via curvature retention & guardian arc arbitration; neutralized soft-body tire slip and high-speed spinouts via closed-loop IMU yaw damping. |
 
 ---
 

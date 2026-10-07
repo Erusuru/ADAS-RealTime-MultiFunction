@@ -9,16 +9,16 @@
 [![Last Commit](https://img.shields.io/github/last-commit/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/commits/main)
 
 > [!IMPORTANT]
-> ### 🏆 🚀 ACCEPTED FOR PUBLICATION — MDPI (BASEL, SWITZERLAND) 🎉
-> **Thrilled to announce that our research paper has been officially ACCEPTED by the Scientific Committee of MDPI Switzerland!**
+> ### Accepted for Publication — MDPI (Basel, Switzerland)
+> Our research paper has been officially accepted by the Scientific Committee of MDPI Switzerland:
 > 
-> 📄 **Title:** *"Design and simulation evaluation of an embedded multi-sensor ADAS architecture with AI-assisted collision warning"*  
-> 🏛️ **Publisher:** **MDPI AG** (*Basel, Switzerland*) — Published in [***Engineering Proceedings***](https://www.mdpi.com/journal/engproc) (ISSN 2673-4591)  
-> 🗓️ **Conference:** [**The 13th International Electronic Conference on Sensors and Applications (ECSA-13)**](https://sciforum.net/event/ecsa-13) (18–20 November 2026)  
-> 🔬 **Session:** *S4. Sensors and Artificial Intelligence* | **Submission ID:** `Sciforum-195321`  
-> 👥 **Authors:** **Ramazan Ertuğrul Aydoğan\*** *(GAÜN)*, **Fatima Sapundzhi\*** *(SWU)*  
+> - **Title:** *"Design and simulation evaluation of an embedded multi-sensor ADAS architecture with AI-assisted collision warning"*  
+> - **Publisher:** **MDPI AG** (*Basel, Switzerland*) — Published in [***Engineering Proceedings***](https://www.mdpi.com/journal/engproc) (ISSN 2673-4591)  
+> - **Conference:** [**The 13th International Electronic Conference on Sensors and Applications (ECSA-13)**](https://sciforum.net/event/ecsa-13) (18–20 November 2026)  
+> - **Session:** *S4. Sensors and Artificial Intelligence* | **Submission ID:** `Sciforum-195321`  
+> - **Authors:** **Ramazan Ertuğrul Aydoğan\*** *(GAÜN)*, **Fatima Sapundzhi\*** *(SWU)*  
 >
-> 👉 *See the [Related Publication](#related-publication) section below for full citation details.*
+> *See the [Related Publication](#related-publication) section below for full citation details.*
 
 **Author:** Ramazan Ertuğrul Aydoğan
 **Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
@@ -28,23 +28,21 @@
 
 **Co-author:** Fatima Sapundzhi - *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
 
-**Sponsor:** **BeamNG GmbH** *(Academic Research License)* &nbsp;&nbsp;<img src="assets/images/Drive-Logo.png" alt="BeamNG" height="20" style="vertical-align: middle;"/>
+**Sponsor:** **BeamNG GmbH** *(Academic Research License)* &nbsp;&nbsp;<img src="assets/images/Drive-Logo.png" alt="BeamNG" height="26" style="vertical-align: middle;"/>
 
 **If this project is useful or interesting to you, consider starring the repo - it helps others find it.**
 
-> [!TIP]
-> ### 🚀 MAJOR MILESTONE: BeamNG Pilot V29 Released — 100% Autonomous Utah Highway & Tunnel Full Loop! 🏎️💨
+> [!NOTE]
+> ### Major Update: BeamNG Pilot V29 Released (Full Utah Highway & Tunnel Loop)
 >
-> We are thrilled to announce the release of **BeamNG Pilot V29**, representing a monumental breakthrough in our closed-loop autonomous driving research powered by **BeamNG.tech**. In rigorous Software-in-the-Loop (SITL) stress evaluations, the V29 autopilot successfully achieved a **COMPLETE, UNINTERRUPTED HIGHWAY AND SUBTERRANEAN MOUNTAIN TUNNEL FULL LOOP IN THE UTAH MAP WITHOUT A SINGLE CRASH OR MANUAL INTERVENTION** — validated under **both zero-traffic and dense AI traffic conditions**!
+> The V29 release marks an important milestone in our closed-loop simulation testing with BeamNG.tech. The autopilot successfully completed a **full, continuous highway and mountain tunnel loop on the Utah map without a single crash or manual intervention**, validated under **both zero-traffic and dense AI traffic conditions**.
 >
-> #### 🌟 Why V29 is a Generational Leap Forward:
-> 
-> * 🌑 **Subterranean Dark Tunnel Mastery:** First time the autonomous perception and lateral controller successfully navigate pitch-black, unlit mountain tunnels with zero illumination, maintaining absolute lane centering where prior models drifted into tunnel rock walls.
-> * ⚡ **1–2s Optical Blindness & Portal Distortion Resilience:** Entering and exiting mountain tunnels creates severe camera exposure transitions (drastic overexposure blowout / underexposure darkness) lasting $1\text{--}2\text{ seconds}$. V29's predictive road-edge guardian and inertial curvature retention hold vehicle trajectory perfectly steady, completely immune to portal lighting distortion.
-> * 🧈 **Silky-Smooth, Zero-Oscillation Cruising:** Completely eradicated the chronic high-speed lateral limit cycles ("slalom hunting") seen in older versions. V29 delivers passenger-grade highway ride comfort with continuous analog precision and dynamic yaw damping.
-> * 🔄 **Dynamic Overtaking & Obstacle Detour:** Introduces autonomous overtaking and traffic bypass state logic (`[o]` key manual dispatch & automated blocked-corridor detour), allowing the vehicle to evaluate adjacent lane clearance, change lanes, overtake slower traffic, and return safely (in active refinement).
-> * 🛡️ **Active Electronic Stability Control (ESC) & High-Speed Curve Correction:** First time integrating closed-loop dynamic vehicle stability control. Evaluates 2-DOF bicycle model yaw errors to counteract oversteer slides, counter-steer, cut throttle, and apply dynamic stabilization braking during high-speed curve entry errors ($92 \to 61\text{ km/h}$).
-> * 🔊 **Comma.ai Openpilot Architectural Upgrades:** Integrated genuine Openpilot audio alert chimes (`critical.wav`, `warning.wav`, `engage.wav`), dynamic automotive HUD chevrons, acceleration-aware lead vehicle tracking Kalman filter (`KF1D` predicting hard braking 300–500ms faster), and road camber / banking gravity feedforward ($g \sin(\phi)$).
+> **Key improvements in V29 compared to previous versions:**
+> - **Dark tunnel navigation:** For the first time, the perception and lateral controller successfully navigate pitch-black, unlit subterranean tunnels, maintaining lane centering where previous builds lost road boundaries and drifted into tunnel walls.
+> - **Resilience to tunnel entrance/exit exposure distortion:** Transitioning between direct sunlight and dark tunnels causes 1 to 2 seconds of severe camera exposure distortion (dynamic range blowout and underexposure). V29 uses predictive road-edge guidance and curvature retention to maintain vehicle trajectory through this transient blindness period without unstable steering corrections.
+> - **Comfortable cruising without lateral oscillation:** Eradicated the persistent lateral hunting ("slalom" limit cycles) present in earlier versions. V29 achieves smooth, passenger-comfortable highway cruising using continuous geometric lateral control and yaw damping.
+> - **Dynamic overtaking and vehicle bypass:** Initial implementation of autonomous lane-change logic to maneuver around slower lead vehicles (via manual trigger or blocked-lane detection), currently undergoing further refinement.
+> - **Active ESC for high-speed curve stabilization:** First integration of active electronic stability control that corrects oversteer and understeer in sharp curves. When entering high-speed bends above safe entry speeds (e.g. entering a curve above 90 km/h), the system automatically applies stability braking and counter-steer damping to bring the car back into lane alignment (stabilizing down to ~60 km/h).
 
 ---
 
@@ -280,10 +278,10 @@ Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this AD
                                                         CHRONOLOGICAL DEVELOPMENT ROADMAP
  2025 Q4 - 2026 Q1          2026 Q2                     2026 Q3                     2026 Q3 - Q4                     2026 Q4 (CURRENT)
 ┌────────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐   ┌──────────────────────────────┐
-│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │   │   ERA 6 (V28 - V29) 🚀       │
+│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │   │   ERA 6 (V28 - V29)          │
 │ • Proof-of-concept │──▶│ • BeamNG Native API    │──▶│ • Deep Learning (YOLO12)│──▶│ • Metric BEV Polynomials │──▶│ • Utah Full Loop (0 Crashes) │
 │ • Screen scraping  │   │ • Continuous Steering  │   │ • TwinLiteNet RoadSeg   │   │ • Active ESC & 3D LiDAR  │   │ • Dark Tunnel & Blindness    │
-│ • Keyboard steering│   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │   │ • Openpilot & Guardian Core  │
+│ • Keyboard steering│   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │   │ • Guardian & Dynamic ESC     │
 └────────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘   └──────────────────────────────┘
            │                         │                             │                              │                               │
            ▼                         ▼                             ▼                              ▼                               ▼
@@ -304,7 +302,7 @@ Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this AD
 | **Era 3: Deep Neural Perception & AEB Gating<br>(V11 – V15)**<br>*Jun – Aug 2026* | Hybrid Vision + TwinLiteNet (`nano.pth`) + YOLOv12s (`selfdrivingv12s.pt`) + ByteTrack | • Dual-head road segmentation (Drivable Area + Lane Lines at 640×384).<br>• Multi-tier Forward Collision Warning state machine.<br>• RT-DETR vs YOLO benchmarking.<br>• In-corridor polygon threat gating. | **Phantom AEB & ROI Interference:** Gated cross-lane oncoming traffic to eliminate false emergency braking; masked out in-cockpit digital speedometer rings that mimicked road lines. |
 | **Era 4: Predictive Curvature Feedforward & 3D LiDAR<br>(V16 – V23)**<br>*Aug 2026* | Multi-Horizon Sampling + GPS Spatial Hash (`RoadMemory`) + 64-Ch LiDAR | • Multi-depth lookahead horizon sampling (near, mid, far).<br>• Proactive Ackermann curvature feedforward steering.<br>• $2\text{m} \times 2\text{m}$ spatial hash road memory and 60 Hz synchronous blackbox (`RoadDataLogger`).<br>• 64-channel 360° roof LiDAR with 72-sector polar HUD radar.<br>• Adaptive histogram equalization (`CVBrightnessManager`). | **Curve Understeer & Darkness Washout:** Replaced reactive steering with anticipatory curve entry; maintained sensor contrast across dusk/dawn transitions; immune to dense fog via 3D LiDAR. |
 | **Era 5: Mountain Pavement Fallback & Metric BEV<br>(V24 – V27)**<br>*Aug – Sep 2026* | Orthographic Inverse Perspective Mapping (BEV) + 2-DOF ESC + Monolithic Core | • Pavement right-border asphalt tracking (`compute_roadseg_fallback_deviation`) for unpainted mountain descents.<br>• Bird's-Eye-View 2nd-order polynomial fitting ($x = ay^2 + by + c$).<br>• 2-DOF linear bicycle model Active Electronic Stability Control (ESC).<br>• Autonomous 3-second stationary obstacle detour state machine.<br>• In-situ live calibration GUI overlay (`[ç]` key hot-reload).<br>• Full 8,000-line monolithic production autopilot (`beamng_pilot_v27.py`). | **Slalom Hunting & Cliff Drops:** Fully eradicated lateral limit-cycle oscillations ("slalom") via metric BEV; enabled cliff-side navigation on roads without painted lines; zero optical jumping. |
-| **Era 6: Utah Highway-Tunnel Full-Loop & Openpilot Guardian<br>(V28 – V29)**<br>*Sep – Oct 2026* | Dual-Head TwinLiteNet+ (Large) + 31-Arc Road-Edge Guardian + Openpilot `KF1D` & Roll Feedforward + 2-DOF Active ESC | • **Utah Highway + Mountain Tunnel Loop:** First 100% crash-free closed-loop loop completed with and without traffic.<br>• **Subterranean Tunnel & Optical Distortion Resilience:** Withstands 1–2s camera auto-exposure blowout/washout during tunnel portals via inertial curvature hold & 31-arc free-space fan.<br>• **Zero Lateral Slalom:** Fully eliminated lateral hunting; passenger-grade smooth cruise.<br>• **Dynamic Overtaking & Lane Change:** Dynamic traffic passing state machine (`[o]` key dispatch & stationary detour).<br>• **Active High-Speed Curve ESC:** Oversteer counter-steer, understeer authority boost, and extreme overspeed curve stabilization (92 → 61 km/h).<br>• Genuine comma.ai Openpilot alert chimes (`critical.wav`, `warning.wav`, `engage.wav`).<br>• 8,700-line monolithic flagship architecture (`beamng_pilot_v29.py`). | **Tunnel Blindness & High-Speed Corner Spinouts:** Solved catastrophic portal camera exposure lag via curvature retention & guardian arc arbitration; neutralized soft-body tire slip and high-speed spinouts via closed-loop IMU yaw damping. |
+| **Era 6: Utah Highway-Tunnel Full-Loop & Active Dynamics<br>(V28 – V29)**<br>*Sep – Oct 2026* | Dual-Head TwinLiteNet+ (Large) + 31-Arc Road-Edge Guardian + Lead Vehicle Kalman Filter & Camber Feedforward + 2-DOF Active ESC | • **Utah Highway + Mountain Tunnel Loop:** First crash-free closed-loop loop completed with and without AI traffic.<br>• **Subterranean Tunnel & Optical Distortion Resilience:** Withstands 1–2s camera auto-exposure blowout/washout during tunnel portals via inertial curvature hold & 31-arc free-space fan.<br>• **Zero Lateral Slalom:** Fully eliminated lateral hunting; smooth, stable highway cruise.<br>• **Dynamic Overtaking & Lane Change:** Dynamic traffic passing state machine (`[o]` key dispatch & stationary detour).<br>• **Active High-Speed Curve ESC:** Oversteer counter-steer, understeer authority boost, and extreme overspeed curve stabilization (92 → 61 km/h).<br>• 8,700-line monolithic architecture (`beamng_pilot_v29.py`) with road camber and rack friction feedforward. | **Tunnel Blindness & High-Speed Corner Spinouts:** Solved catastrophic portal camera exposure lag via curvature retention & guardian arc arbitration; neutralized soft-body tire slip and high-speed spinouts via closed-loop IMU yaw damping. |
 
 ---
 
@@ -312,20 +310,20 @@ Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this AD
 
 Parallel to simulation development, a comprehensive suite of offline and real-world perception workstations was created:
 
-#### 🎞️ Autopilot Studio Suite (`aiovidout` V1 – V12 | Nov 2025 – Jul 2026)
+#### Autopilot Studio Suite (`aiovidout` V1 – V12 | Nov 2025 – Jul 2026)
 - **V1 – V5 (`aiovidout.py` to `aiovidout5.py`):** CPU-optimized YOLO execution; 2-stage Time-to-Collision (30m rule + TTC < 2.8s); automated multi-video playlist batch queuing; structured 18-feature kinematics CSV export (`crash_training_data_v2.csv`).
 - **Cloud & Edge Acceleration (`aiovidout3G.py` & `aio5tflite.py`):** Google Colab Tesla T4 GPU cloud execution with FP16 half-precision and automatic resume; lightweight TFLite model optimization for embedded targets.
 - **V6 – V7 (`aiovidout6.py` to `aiovidout7_roadseg.py`):** Dedicated CUDA batch memory management and TwinLiteNet drivable area segmentation integration for offline video processing.
 - **V10 – V12 Live-AI Studio (`aiovidout_v10.py` & `aiovidout_v12.py`):** Rolling 10-second RAM frame buffer (`VideoFrameBuffer`); asynchronous background LLM evaluation (`AsyncGeminiWorker`) for incident grading; automated incident report generation; hardware execution profiles (`HIGH_SPEC` vs `LOW_SPEC`).
 
-#### 🎥 YouTube Batch Ingestion & Advanced Pipeline (`ultimate_adas_pipeline`)
+#### YouTube Batch Ingestion & Advanced Pipeline (`ultimate_adas_pipeline`)
 - **Direct Stream Digestion:** Headless streaming and batch downloading of automotive dashcam playlists via `yt-dlp`.
 - **Dual-Model Deep Perception:** Synchronous YOLOv12s obstacle tracking coupled with TwinLiteNetPlus drivable surface segmentation.
 - **Kinematic Filtering & OCR:** Alpha-Beta tracking filter ($\alpha = 0.60, \beta = 0.35$) for smooth distance/velocity estimation; automated speed-sign OCR (`easyocr` / `pytesseract`) extracting regulatory speed limits ($30\text{--}120\text{ km/h}$).
 - **Automated Incident Reporting:** Generates self-contained HTML dashboards (`events_report.html`) complete with event replay GIFs, metric telemetry, and threat classifications.
 - **Automated Channel Analysis (`youtube_analyzer.py`):** Subtitle transcript extraction via `youtube_transcript_api` and LLM structuring of driving hazards and causal factors into formatted `.docx` reports.
 
-#### 📊 Kaggle Nexar Collision Prediction Benchmark Suite
+#### Kaggle Nexar Collision Prediction Benchmark Suite
 - **1,500-Video Dataset Evaluation:** Rigorous benchmarking across 750 crash/near-miss and 750 normal driving sequences ($1280 \times 720$ @ 30 FPS).
 - **Official Lookahead Horizons:** Mean Average Precision (mAP) scoring across $500\text{ ms}$, $1000\text{ ms}$, and $1500\text{ ms}$ pre-impact horizons using `evaluate_submission.py`.
 - **Day/Night Lighting Decomposition (`day_night_analyzer.py`):** HSV color space luminance partitioning ($\bar{V} < 80.0 \implies \text{Night}$) to evaluate headlight glare degradation and ensure threat models perform reliably 24/7.

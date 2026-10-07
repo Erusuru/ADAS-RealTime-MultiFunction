@@ -28,6 +28,8 @@
 
 **Co-author:** Fatima Sapundzhi - *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
 
+**Sponsor:** **BeamNG GmbH** *(Academic Research License)* &nbsp;&nbsp;<img src="assets/images/Drive-Logo.png" alt="BeamNG" height="20" style="vertical-align: middle;"/>
+
 **If this project is useful or interesting to you, consider starring the repo - it helps others find it.**
 
 ---
@@ -495,7 +497,7 @@ Article link and official DOI will be assigned upon publication during ECSA-13 p
 
 ## Academic Context & Supervision
 
-This project was developed as a final-year senior design capstone project for the **EEE499 Graduation Project** course in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
+This project was originally initiated independently by the author to conduct academic research (peer-reviewed papers) and to advance autonomous systems capabilities for **ORET (Otomobil, Robot ve Enerji Topluluğu)**. As the engineering scope and implementation matured, it was subsequently formalized and submitted as the final-year senior design capstone project for the **EEE499 Graduation Project** course in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
 
 The project was carried out under the academic supervision of **Prof. Dr. Uğur Cem Hasar**, under whose supervision the author conducts academic research and ongoing engineering development. Simulation-in-the-loop (SITL) validation was conducted using **BeamNG.tech** under an academic research license generously provided by **BeamNG GmbH**.
 

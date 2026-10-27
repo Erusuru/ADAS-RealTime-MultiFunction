@@ -94,7 +94,7 @@ Below are high-frame-rate animated previews capturing key real-world detection, 
 
 ---
 
-### Closed-Loop Simulation Autopilot (BeamNG.tech)
+### Closed-Loop Simulation Autopilot Previews (BeamNG.tech)
 
 | Overspeed Curve Slide & Custom ESC (92 → 61 km/h) | TEKNOFEST Robotaksi: Detour, 90° Turn & Park |
 |:---:|:---:|
@@ -106,29 +106,49 @@ Below are high-frame-rate animated previews capturing key real-world detection, 
 | ![Utah Highway Bridge Autopilot](assets/images/sitl_05_beamng_utah_highspeed_highway_bridge.gif) | ![Utah Tunnel Transit Autopilot](assets/images/sitl_06_beamng_utah_tunnel_lowlight_transit.gif) |
 | **High-Speed Closed-Loop Highway Cruise:** Operating in **`ON FULL AP`** mode at **74 km/h** across the Utah Canyon viaduct bridge. Demonstrates zero-drift lateral error correction (`STR -0.007 DEV -3px`), active road edge feedback (`ROAD-EDGE FB`), and smooth continuous steering stabilization at highway speeds.<br>▶️ [`sitl_05_beamng_utah_highspeed_highway_bridge.mp4`](assets/videos/sitl_05_beamng_utah_highspeed_highway_bridge.mp4) | **Subterranean Tunnel & Lighting Transition:** Host vehicle transitions from open daylight into an unlit mountain tunnel under sodium lamp glare at **71 km/h**. Drivable corridor segmentation retains lane lock without GPS or map priors, maintaining smooth sub-pixel steering regulation through abrupt illumination drop.<br>▶️ [`sitl_06_beamng_utah_tunnel_lowlight_transit.mp4`](assets/videos/sitl_06_beamng_utah_tunnel_lowlight_transit.mp4) |
 
-| Level 2 AEB Emergency Stop (Crash Energy Mitigation) | Mountain Pass Curvature Autopilot & Continuous Cruise |
+| Level 2 AEB Emergency Stop (Crash Energy Mitigation) | Drivable Corridor & Closed-Loop Lane Centering |
 |:---:|:---:|
-| ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) |
-| **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (**≈84.9% kinetic energy dissipated**). *(Simulated in BeamNG.tech).*<br>▶️ [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) | **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) |
+| ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Lane Centering GIF](assets/images/sitl_02_beamng_drivable_corridor_autopilot.gif) |
+| **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (**≈84.9% kinetic energy dissipated**). *(Simulated in BeamNG.tech).*<br>▶️ [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) | **Closed-Loop Lane Centering & Safe Stopping:** Road curvature drivable corridor segmentation and top-down road map tracking; closed-loop vehicle safely decelerates to 0 km/h and holds behind lead traffic. *(Simulated in BeamNG.tech).*<br>▶️ [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) |
+
+| Mountain Pass Curvature Autopilot & Continuous Steering | Continuous Closed-Loop Autopilot (47s Winding Route) |
+|:---:|:---:|
+| ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) | ![BeamNG 47s Closed-Loop Autopilot](assets/images/sitl_03_beamng_full_autopilot_coastal_route_47s.gif) |
+| **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) | **Continuous Closed-Loop Steering & Speed Control:** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
 
 ---
 
-### Real-World Vision & Deep Learning Perception Previews
+### Real-World Vision Perception & Hazard Previews
 
 | Full HD Dual-Network Perception (TwinLiteNet + YOLOv12s) | Perpendicular Intersection T-Bone Cut-In (`5.8m TTC 0.0s`) |
 |:---:|:---:|
 | ![TwinLiteNet YOLOv12s 1080p](assets/images/demo_13_yt_perception_twinlitenet_yolo12s.gif) | ![T-Bone Red Truck FCW](assets/images/demo_12_yt_fcw_tbone_intersection_red_truck.gif) |
 | **1080p Dual-Model Perception Stack:** Real-time CUDA FP16 inference running TwinLiteNet road segmentation mask (drivable corridor) merged with YOLOv12s multi-target detection, distance estimation, and dynamic motion vectors on RTX 5060.<br>▶️ [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) | **High-Risk Cross-Traffic Arbitration:** Red commercial truck crosses host path perpendicularly at +72 km/h; system instantly triggers flashing red alert banner (**`COLLISION IMMINENT ??? CAR 5.8m (TTC 0.0s)`**) with simultaneous pedestrian arbitration at 7.4m.<br>▶️ [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) |
 
-| Adverse Direct Sun Glare (`107 km/h`) | Residential Approach & Predictive Swerve Crash |
+| Longitudinal Lead Vehicle Deceleration | Aggressive Lateral Cut-In / Left-Turning Threat |
 |:---:|:---:|
-| ![Sun Glare 107kmh](assets/images/demo_03_fcw_sun_glare_highspeed_107kmh.gif) | ![Residential Swerve Crash](assets/images/demo_06_fcw_residential_two_lane_swerve_crash.gif) |
-| **Severe Low-Angle Sun Glare:** Host vehicle traveling at **107 km/h** facing direct blinding sun glare; lead SUV is continuously tracked at 23.4m with timely deceleration alert.<br>▶️ [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) | **Predictive Suspension Roll & Swerve Trajectory:** Oncoming sedan approaches at 18 mph; as the driver steers hard left, right-half suspension compresses under lateral roll. The system instantly computes the hard steer vector into the host corridor, triggers **`RED - EMERGENCY BRAKE`**, and predicts incursion before impact.<br>▶️ [`demo_fcw_residential_two_lane_swerve_crash.mp4`](assets/videos/demo_fcw_residential_two_lane_swerve_crash.mp4) |
+| ![Longitudinal Lead Brake](assets/images/demo_01_fcw_longitudinal_lead_brake.gif) | ![Lateral Cut-In Threat](assets/images/demo_02_fcw_aggressive_cutin_threat.gif) |
+| **High-Speed Highway Following:** Lead vehicle brakes rapidly; the system computes closure rate, issues **`RED - EMERGENCY BRAKE`**, and validates collision avoidance.<br>▶️ [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) | **Intersection Incursion:** Turning sedan crosses into host vehicle corridor; Kalman trajectory vector triggers proactive emergency alert before lane crossing.<br>▶️ [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) |
+
+| Adverse Direct Sun Glare (`107 km/h`) | Commercial Driveway Perpendicular Incursion |
+|:---:|:---:|
+| ![Sun Glare 107kmh](assets/images/demo_03_fcw_sun_glare_highspeed_107kmh.gif) | ![Commercial Driveway Incursion](assets/images/demo_04_fcw_commercial_driveway_pullout.gif) |
+| **Severe Low-Angle Sun Glare:** Host vehicle traveling at **107 km/h** facing direct blinding sun glare; lead SUV is continuously tracked at 23.4m with timely deceleration alert.<br>▶️ [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) | **Perpendicular Hazard Ingress:** Commercial entrance vehicle pulling out perpendicularly into drivable path; trajectory vector flags imminent threat.<br>▶️ [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) |
+
+| Dense Multi-Lane Highway Traffic Flow | Residential Approach & Predictive Swerve Crash |
+|:---:|:---:|
+| ![Highway Traffic Flow](assets/images/demo_05_fcw_highway_traffic_lead_slowdown.gif) | ![Residential Swerve Crash](assets/images/demo_06_fcw_residential_two_lane_swerve_crash.gif) |
+| **Multi-Target Arbitration:** Heavy highway traffic with simultaneous tracking across adjacent lanes; lead vehicle deceleration triggers localized ego-corridor alert.<br>▶️ [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) | **Predictive Suspension Roll & Swerve Trajectory:** Oncoming sedan approaches at 18 mph; as the driver steers hard left, right-half suspension compresses under lateral roll. The system instantly computes the hard steer vector into the host corridor, triggers **`RED - EMERGENCY BRAKE`**, and predicts incursion before impact.<br>▶️ [`demo_fcw_residential_two_lane_swerve_crash.mp4`](assets/videos/demo_fcw_residential_two_lane_swerve_crash.mp4) |
 
 | Night Urban Wet Asphalt Deceleration (`52 km/h`) | Signalized Intersection Left-Turn Truck (`43 mph`) |
 |:---:|:---:|
 | ![Night Urban FCW](assets/images/demo_07_fcw_night_wet_asphalt_braking.gif) | ![Intersection Left-Turn Truck](assets/images/demo_08_fcw_intersection_left_turn_truck.gif) |
 | **Adverse Night Conditions:** Driving at 52 km/h on wet asphalt with street glare; lead SUV detected at 7.2m with instantaneous **`RED - EMERGENCY BRAKE`** trigger.<br>▶️ [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) | **Traffic Light & Cross-Turn Arbitration:** Enters intersection under **`trafficLight-Green`** at 43 mph; oncoming pickup turns across host path, triggering emergency brake banner.<br>▶️ [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) |
+
+| Imminent Oncoming Centerline Incursion (`37 mph`) | Urban Lead Emergency Brake & Roadside Pedestrian (`2.2m`) |
+|:---:|:---:|
+| ![Oncoming Incursion](assets/images/demo_09_fcw_oncoming_lane_incursion.gif) | ![Urban Lead Brake Pedestrian](assets/images/demo_10_fcw_urban_lead_brake_pedestrian.gif) |
+| **Head-On Threat Detection:** Vehicle encroaching into host lane polygon at 4.9m; instant **`RED - EMERGENCY BRAKE`** alert issued at 37 mph.<br>▶️ [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | **Multi-Class Urban Hazard Arbitration:** Rapid lead SUV braking down to 2.2m alongside active roadside pedestrian tracking (**`pedestrian 9.6m`**) and cross-traffic classification (**`car 10.7m [T-BONE?]`**).<br>▶️ [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) |
 
 ---
 

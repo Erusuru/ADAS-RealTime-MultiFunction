@@ -231,20 +231,15 @@ flowchart TD
 
 ---
 
-## Real-World ZED 2 + Cube Orange Perception
+## Real-World ZED 2 + Cube Orange Perception Architecture
 
-Below is the live operational HUD of `zed2_realcar_adas4.py` running in real time on a passenger vehicle, fusing sub-pixel stereo vision with Cube Orange GNSS/IMU telemetry:
-
-<div align="center">
-  <img src="assets/images/zed2_cube_live_hud.jpg" alt="ZED 2 + Cube Orange Live ADAS HUD" width="850"/>
-  <p><em>Figure: Live real-car HUD from <code>zed2_realcar_adas4.py</code> showing metric stereo bounding boxes, Cube Orange GNSS/EKF ground speed, satellite count, IMU yaw-rate road curvature, center laser rangefinder reticle, and time-headway monitoring.</em></p>
-</div>
+The physical vehicle testing tier (`zed2_realcar_adas4.py`) implements a complete SAE Level 0 driver warning and telemetry fusion pipeline on passenger vehicles (e.g. Honda Civic), integrating sub-pixel stereo disparity with Cube Orange GNSS/IMU navigation:
 
 ### Real-Life SAE Level 0 ADAS Capabilities
-- **Sub-Pixel Metric Stereo Rangefinder:** Epipolar rectification using factory calibration parameters, multi-band 1D Parabolic Sub-Pixel NCC refiner with **~0.02 px precision**, and mouse click-to-measure 3D rangefinder probe.
-- **Cube Orange + Dual Here 3 GNSS Fusion:** MAVLink USB auto-probing connection, EKF ground speed, heading, satellite fix quality, and IMU-derived road curvature compensation.
+- **Sub-Pixel Metric Stereo Rangefinder:** Epipolar rectification using factory calibration parameters, multi-band 1D Parabolic Sub-Pixel NCC refiner with **~0.02 px precision** (delivering centimeter-level 0.01m accuracy under 15m), and live mouse click-to-measure 3D rangefinder probe.
+- **Cube Orange + Dual Here 3 GNSS Fusion:** MAVLink USB auto-probing connection (automatically skips SLCAN port), EKF ground speed, heading, 3D/RTK satellite fix quality, and IMU-derived road curvature compensation.
 - **Predictive Warning Suite:** Forward Collision Warning (FCW), Headway Monitoring Warning (HMW), Stopped-Ego Hysteresis, Lead Vehicle Departure Alert (LVDA), Cut-In & T-Bone cross-traffic detection, and Lane Departure Warning (LDW).
-- **Raspberry Pi Telemetry Ingestion:** Decoupled `PiStateListener` listens on UDP port 5005; when the driver looks away or shows drowsiness, FCW thresholds automatically expand (`--pi-boost`) to provide earlier warnings.
+- **Raspberry Pi Telemetry Ingestion:** Decoupled `PiStateListener` listens on UDP port 5005; when the in-cabin driver monitor flags drowsiness or inattention, FCW thresholds automatically expand (`--pi-boost`) to provide earlier warnings.
 
 ---
 

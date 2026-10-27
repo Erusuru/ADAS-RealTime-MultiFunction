@@ -179,54 +179,62 @@ The system operates across three interconnected tiers: a **Simulation-in-the-Loo
 
 ```mermaid
 flowchart TD
-    subgraph SENSORS ["Visual & Telemetry Sensors"]
-        ZED["Stereolabs ZED 2 / ZED 2i\nStereo Camera (Sub-Pixel NCC)"]
-        CUBE["Cube Orange + Dual Here 3 GNSS\nMAVLink USB (EKF Speed + IMU Yaw)"]
-        DMS_CAM["Driver-Facing Camera\n(USB / Picamera2)"]
-        LDR["LDR Ambient Light Sensor\n+ MCP3008 ADC"]
-        SONAR["4× JSN-SR04T Waterproof\nUltrasonic Sensors"]
-        REV_SIG["12V Reverse Signal\n-> Optocoupler"]
+    subgraph SENSORS ["Visual and Telemetry Sensors"]
+        ZED["Stereolabs ZED 2 / ZED 2i<br/>Stereo Camera (Sub-Pixel NCC)"]
+        CUBE["Cube Orange + Dual Here 3 GNSS<br/>MAVLink USB (EKF Speed + IMU Yaw)"]
+        DMS_CAM["Driver-Facing Camera<br/>(USB / Picamera2)"]
+        LDR["LDR Ambient Light Sensor<br/>+ MCP3008 ADC"]
+        SONAR["4x JSN-SR04T Waterproof<br/>Ultrasonic Sensors"]
+        REV_SIG["12V Reverse Signal<br/>to Optocoupler"]
     end
 
     subgraph RPI_NODE ["Raspberry Pi Embedded Node (Bookworm 64-bit)"]
-        DMS["Driver Monitoring System (DMS)\nMediaPipe Face Mesh (EAR, PERCLOS, MAR)"]
-        TOUCH["7\" Waveshare Touchscreen UI\n(1024×600 Interactive HUD)"]
-        RELAY["Dual Hysteresis Headlight Relay\n(30% ON / 50% OFF)"]
-        CUTOFF["L298N Actuator Cutoff\n(Engine Shutdown on >5s Micro-Sleep)"]
-        UDP_PUB["UDP Telemetry Broadcaster\n(Port 5005 -> Driver State)"]
-        MJPEG["HTTP MJPEG Video Server\n(Port 8080 -> Driver Stream)"]
+        DMS["Driver Monitoring System (DMS)<br/>MediaPipe Face Mesh (EAR, PERCLOS, MAR)"]
+        TOUCH["7-Inch Waveshare Touchscreen UI<br/>(1024x600 Interactive HUD)"]
+        RELAY["Dual Hysteresis Headlight Relay<br/>(30 pct ON / 50 pct OFF)"]
+        CUTOFF["L298N Actuator Cutoff<br/>(Engine Shutdown on 5s Micro-Sleep)"]
+        UDP_PUB["UDP Telemetry Broadcaster<br/>(Port 5005 Driver State)"]
+        MJPEG["HTTP MJPEG Video Server<br/>(Port 8080 Driver Stream)"]
     end
 
     subgraph LAPTOP_NODE ["Real-Car Perception Node (zed2_realcar_adas4.py)"]
-        STEREO_ENG["Metric Stereo Depth Engine\nDense Disparity + StereoSGBM + NCC"]
-        FUSION["Cube Orange EKF Speed &\nIMU Yaw-Rate Road Curvature Fusion"]
-        YOLO_TRT["YOLOv12s / RT-DETR\nTensorRT FP16 Engine (RTX 5060)"]
-        TWIN["TwinLiteNet Drivable Segmentation\n(CUDA FP16 Above-Hood Tensor)"]
-        FCW_ENG["Kinematic FCW & Kalman Filter\n(TTC, Cut-In, T-Bone & Ego Corridor)"]
-        PI_SUB["PiStateListener\n(Ingests Driver State -> Boosts FCW)"]
-        LIVE_HUD["Real-Time Augmented HUD\nLaser Rangefinder Probe & Alerts"]
+        STEREO_ENG["Metric Stereo Depth Engine<br/>Dense Disparity + StereoSGBM + NCC"]
+        FUSION["Cube Orange EKF Speed and<br/>IMU Yaw-Rate Road Curvature Fusion"]
+        YOLO_TRT["YOLOv12s / RT-DETR<br/>TensorRT FP16 Engine (RTX 5060)"]
+        TWIN["TwinLiteNet Drivable Segmentation<br/>(CUDA FP16 Above-Hood Tensor)"]
+        FCW_ENG["Kinematic FCW and Kalman Filter<br/>(TTC, Cut-In, T-Bone and Ego Corridor)"]
+        PI_SUB["PiStateListener<br/>(Ingests Driver State to Boost FCW)"]
+        LIVE_HUD["Real-Time Augmented HUD<br/>Laser Rangefinder Probe and Alerts"]
     end
 
     subgraph BEAMNG_NODE ["Closed-Loop Simulation Node (beamng_pilot_v31)"]
-        SIM_API["BeamNG.tech Physics Bridge\n(Sensors, Steering & Braking)"]
-        QUINTIC["Quintic Min-Jerk Trajectory Planner\nS(t) = 10t³ - 15t⁴ + 6t⁵"]
-        ESC_SYS["Dynamic 2-DOF Active ESC\n(Counter-Steer & Stability Braking)"]
-        SHADOW["Touch-Free Shadow Mode & RL Engine\n(Records Human vs AI & Rewards)"]
+        SIM_API["BeamNG.tech Physics Bridge<br/>(Sensors, Steering and Braking)"]
+        QUINTIC["Quintic Min-Jerk Trajectory Planner<br/>S(t) = 10t^3 - 15t^4 + 6t^5"]
+        ESC_SYS["Dynamic 2-DOF Active ESC<br/>(Counter-Steer and Stability Braking)"]
+        SHADOW["Touch-Free Shadow Mode and RL Engine<br/>(Records Human vs AI and Rewards)"]
     end
 
     ZED --> STEREO_ENG
     CUBE --> FUSION
     DMS_CAM --> DMS
     LDR --> RELAY
-    DMS --> TOUCH & CUTOFF & UDP_PUB & MJPEG
+    DMS --> TOUCH
+    DMS --> CUTOFF
+    DMS --> UDP_PUB
+    DMS --> MJPEG
     
-    UDP_PUB -. Direct Ethernet (192.168.50.x) .-> PI_SUB
+    UDP_PUB -.->|"Direct Ethernet (192.168.50.x)"| PI_SUB
     PI_SUB --> FCW_ENG
 
-    STEREO_ENG & FUSION & YOLO_TRT & TWIN --> FCW_ENG
+    STEREO_ENG --> FCW_ENG
+    FUSION --> FCW_ENG
+    YOLO_TRT --> FCW_ENG
+    TWIN --> FCW_ENG
     FCW_ENG --> LIVE_HUD
 
-    SIM_API --> QUINTIC & ESC_SYS & SHADOW
+    SIM_API --> QUINTIC
+    SIM_API --> ESC_SYS
+    SIM_API --> SHADOW
 ```
 
 ---

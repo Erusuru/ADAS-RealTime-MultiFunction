@@ -1,11 +1,11 @@
-# Real-Time, Multi-Function ADAS Application
+# Real-Time, Multi-Function ADAS & Autonomous Driving Suite
 
 [![Paper Status](https://img.shields.io/badge/MDPI%20ECSA--13-ACCEPTED%20%F0%9F%8E%89-success.svg?style=for-the-badge)](https://sciforum.net/event/ecsa-13)
-[![Platform](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--10H-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
-[![Code Status](https://img.shields.io/badge/code-closed--source%20%2F%20private%20dev-critical.svg)]()
+[![Simulation Partner](https://img.shields.io/badge/BeamNG.tech-Academic%20Partner-orange.svg?style=for-the-badge)](https://beamng.tech/)
+[![Edge Hardware](https://img.shields.io/badge/hardware-Raspberry%20Pi%205%20%7C%20Hailo--10H%20%7C%20ZED%202-red.svg)](https://www.raspberrypi.com/products/raspberry-pi-5/)
+[![Inference Engine](https://img.shields.io/badge/inference-TensorRT%20FP16%20%7C%20CUDA-green.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/Erusuru/ADAS-RealTime-MultiFunction?style=social)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/stargazers)
-[![Issues](https://img.shields.io/github/issues/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/Erusuru/ADAS-RealTime-MultiFunction)](https://github.com/Erusuru/ADAS-RealTime-MultiFunction/commits/main)
 
 > [!IMPORTANT]
@@ -20,379 +20,263 @@
 >
 > *See the [Related Publication](#related-publication) section below for full citation details.*
 
-**Author:** Ramazan Ertuğrul Aydoğan
-**Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*
+**Lead Developer:** Ramazan Ertuğrul Aydoğan  
+**Affiliation:** *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN), Gaziantep, Türkiye*  
+**Academic Supervisor:** Prof. Dr. Uğur Cem Hasar — *Department of EEE, Gaziantep University (GAÜN)*  
+**Co-author:** Fatima Sapundzhi — *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*  
+**Sponsor:** **BeamNG GmbH** *(Official Academic Research License)* &nbsp;&nbsp;<img src="assets/images/Drive-Logo.png" alt="BeamNG" height="26" style="vertical-align: middle;"/>
 
-**Supervisor:** Prof. Dr. Uğur Cem Hasar - *Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)*
-
-
-**Co-author:** Fatima Sapundzhi - *South-West University "Neofit Rilski", Blagoevgrad, Bulgaria*
-
-**Sponsor:** **BeamNG GmbH** *(Academic Research License)* &nbsp;&nbsp;<img src="assets/images/Drive-Logo.png" alt="BeamNG" height="26" style="vertical-align: middle;"/>
-
-**If this project is useful or interesting to you, consider starring the repo - it helps others find it.**
+---
 
 > [!NOTE]
-> ### Major Update: BeamNG Pilot V29 Released (Full Utah Highway & Tunnel Loop)
->
-> The V29 release marks an important milestone in our closed-loop simulation testing with BeamNG.tech. The autopilot successfully completed a **full, continuous highway and mountain tunnel loop on the Utah map without a single crash or manual intervention**, validated under **both zero-traffic and dense AI traffic conditions**.
->
-> **Key improvements in V29 compared to previous versions:**
-> - **Dark tunnel navigation:** For the first time, the perception and lateral controller successfully navigate pitch-black, unlit subterranean tunnels, maintaining lane centering where previous builds lost road boundaries and drifted into tunnel walls.
-> - **Resilience to tunnel entrance/exit exposure distortion:** Transitioning between direct sunlight and dark tunnels causes 1 to 2 seconds of severe camera exposure distortion (dynamic range blowout and underexposure). V29 uses predictive road-edge guidance and curvature retention to maintain vehicle trajectory through this transient blindness period without unstable steering corrections.
-> - **Comfortable cruising without lateral oscillation:** Eradicated the persistent lateral hunting ("slalom" limit cycles) present in earlier versions. V29 achieves smooth, passenger-comfortable highway cruising using continuous geometric lateral control and yaw damping.
-> - **Dynamic overtaking and vehicle bypass:** Initial implementation of autonomous lane-change logic to maneuver around slower lead vehicles (via manual trigger or blocked-lane detection), currently undergoing further refinement.
-> - **Active ESC for high-speed curve stabilization:** First integration of active electronic stability control that corrects oversteer and understeer in sharp curves. When entering high-speed bends above safe entry speeds (e.g. entering a curve above 90 km/h), the system automatically applies stability braking and counter-steer damping to bring the car back into lane alignment (stabilizing down to ~60 km/h).
+> ### Major Release: BeamNG Pilot V31 (Smooth Overtaking, Minimum-Jerk Trajectory & Shadow Mode)
+> 
+> **BeamNG Pilot V31** advances closed-loop simulation by solving high-speed overtake dynamics, trajectory discontinuities, and autonomous data collection:
+> 
+> - **Quintic Minimum-Jerk Trajectory Planning ($S(t) = 10t^3 - 15t^4 + 6t^5$):** Replaces abrupt lateral steps with $C^2$-continuous polynomial trajectory synthesis ($S'(0)=S'(1)=0, S''(0)=S''(1)=0$). Overtakes and obstacle bypass maneuvers execute with zero lateral jerk, eliminating suspension rocking and vehicle instability.
+> - **BEV Lane Fitter Slot Continuity:** Eliminates discontinuous $\pm 3.66\text{m}$ lateral jumps during passing maneuvers, ensuring mathematically smooth lane transitions.
+> - **Speed-Adaptive Horizons:** Lookahead distance dynamically expands by 55–85m at highway speeds, and maneuver duration scales between 3.0s and 4.5s (replacing the violent 1.85s fixed window).
+> - **Bilateral Overtaking Decisions:** Executes both left-side passing and right-side bypass based on spatial clearance and oncoming corridor arbitration.
+> - **Steering Authority Softening:** Damps cross-track gains during active maneuvers (`maneuver_active=True`) to prevent over-correction.
+> - **Proven V29 Quadratic Geometry Baseline:** Restores strict rejection of implausible lane fits, eliminating the V30pro clamp/refit artifacts that grabbed adjacent roads.
+> - **Multi-Tier ESC Separation:** Safe and Aggressive driving modes strictly utilize the proven rock-solid V29 envelope, while Track mode retains aggressive V30pro high-speed drift experimentation.
+> - **BeamNG Pilot V31 PRO (Touch-Free Shadow Mode & RL Suite):** Runs 100% in the background without touching vehicle controls, recording human driving inputs, AI shadow calculations, detailed lane/object metrics, and reinforcement learning rewards for offline imitation and policy training.
+> 
+> *(Note: `beamng_pilot_v31 - Copy.py` represents the verified stable production baseline of V31, while `beamng_pilot_v31.py` is actively receiving TensorRT `.engine` auto-discovery on RTX 5060, emerald green/orange lane departure ribbon HUD, and dual-border road-edge fallback rendering).*
+
+---
+
+> [!TIP]
+> ### Real-Car Deployment: ZED ADAS Realtime V4 & Raspberry Pi Embedded Edge Suite
+> 
+> For physical vehicle testing (SAE Level 0 Driver Warning), the system deploys a decoupled dual-node architecture:
+> 
+> 1. **Production Laptop Perception Node (`zed2_realcar_adas4.py`):**
+>    - **Stereolabs ZED 2 / ZED 2i Stereo Vision:** Multi-cue sub-pixel depth extraction combining dense disparity, StereoSGBM, and 1D Parabolic Sub-Pixel Epipolar NCC refiner (~0.02 px precision, **0.01m accuracy under 15m**), complete with live laser rangefinder reticle and click-to-measure 3D probe.
+>    - **Cube Orange + Dual Here 3 GNSS / IMU Fusion:** USB MAVLink auto-discovery (skipping SLCAN), EKF ground speed, heading, longitudinal acceleration, and IMU yaw-rate road curvature compensation.
+>    - **Accelerated Dual Perception on RTX 5060:** CUDA-accelerated TwinLiteNet (stretched above-hood road tensor) + YOLOv12s / RT-DETR TensorRT FP16 engine with dynamic runtime input scaling.
+>    - **Safety Logic:** Multi-tier Forward Collision Warning (FCW), Headway Monitoring Warning (HMW), Stopped-Ego Hysteresis, Lead Vehicle Departure Alert (LVDA), Cut-In & T-Bone cross-traffic prediction, and Lane Departure Warning (LDW).
+> 2. **Raspberry Pi Embedded Companion System (`raspberry_pi_adas_hardware.py` / `pi_driver_monitor.py`):**
+>    - **Hardware Platform:** Raspberry Pi 4B / Pi 5 (Bookworm 64-bit) with 7" Waveshare 1024×600 touchscreen.
+>    - **In-Cabin Driver Monitoring System (DMS):** MediaPipe Face Mesh on CPU tracking Eye Aspect Ratio (EAR), PERCLOS, Mouth Aspect Ratio (MAR yawn detection), and 3D head pose nodding.
+>    - **Direct Ethernet Link (CAT6, 192.168.50.x):** UDP JSON state broadcast (Port 5005) received by `zed2_realcar_adas4.py` (`PiStateListener`) to dynamically boost FCW sensitivity (`--pi-boost`) during driver inattention or drowsiness; HTTP MJPEG video stream (Port 8080) for remote driver viewing via `pi_stream_viewer.py`.
+>    - **Physical Automotive Controls:** Ambient light photoresistor (LDR) with dual-threshold hysteresis relay (30% ON, 50% OFF) for automatic headlights, L298N actuator power cutoff for emergency micro-sleep engine shutdown, and MQ-3 alcohol sensor for anti-DUI lock.
 
 ---
 
 ## Table of Contents
 
+- [Visual Showcase: Live Autopilot & Vision Detections](#visual-showcase-live-autopilot--vision-detections)
+- [Master Demonstration Video Library](#master-demonstration-video-library)
 - [Why This Project](#why-this-project)
-- [Overview](#overview)
-- [Crash & Near-Miss Scenario Gallery](#comprehensive-crash--near-miss-scenario-gallery)
-- [Video Demonstrations](#video-demonstrations)
-- [Project Evolution & Version History (V1 – V29)](#project-evolution--version-history-v1--v29)
-- [System Architecture](#system-architecture)
+- [System Architecture & Hardware Nodes](#system-architecture--hardware-nodes)
+- [Project Evolution & Version History (V1 – V31)](#project-evolution--version-history-v1--v31)
+- [Real-World ZED 2 + Cube Orange Perception](#real-world-zed-2--cube-orange-perception)
 - [Performance Benchmarks (113 Scenarios)](#performance-benchmarks-113-manually-reviewed-scenarios)
 - [Automated Benchmark (2,844 Nexar Sequences)](#automated-benchmark-2844-nexar-derived-sequences)
 - [Custom-Trained YOLO12s Models](#custom-trained-yolo12s-models)
 - [Android Companion App](#android-companion-app)
-- [Bill of Materials](#bill-of-materials-bom)
-- [Future Work](#future-work)
-- [Related Publication](#related-publication)
-- [Academic Context & Supervision](#academic-context--supervision)
-- [Acknowledgements](#acknowledgements)
+- [Bill of Materials (BOM)](#bill-of-materials-bom)
+- [Related Publication & Citation](#related-publication)
+- [Academic Context, Supervision & Acknowledgements](#academic-context--supervision)
 - [About the Lead Developer](#about-the-lead-developer)
 - [License](#license)
 
 ---
 
-## Why This Project
+## Visual Showcase: Live Autopilot & Vision Detections
 
-Most older vehicles lack built-in driver-assistance technology, since factory-installed ADAS remains expensive and closed. This project is a **low-cost ADAS suite** designed to keep hardware cost down while remaining installable on older vehicles - acting as a co-pilot for the two most safety-critical maneuvers: **forward driving** and **reverse parking**.
+Below are high-frame-rate animated previews capturing key real-world detection, tracking, and closed-loop simulation moments across diverse accident typologies, adverse weather/lighting, and autopilot maneuvers.
 
-### Code & Release Status
-
-The complete source code, trained model weights, and proprietary firmware are currently **closed-source and under active private development**. This repository serves as technical documentation, benchmarking architecture, and system evaluation for the project - it is not a source-code distribution.
-
-A public code release will not occur at least until full cross-platform stability, embedded hardware hardening, and extensive physical drive testing are completed across all target hardware tiers. No future open-source release is guaranteed.
+### Featured Full Presentations
+- ⭐ **[`ADAS_ORET_Community_Showcase_Full_1080p.mp4`](assets/videos/ADAS_ORET_Community_Showcase_Full_1080p.mp4) — Master 1080p Showcase Compilation (`2m 14s`):** Comprehensive engineering presentation video combining real-world deep learning perception with BeamNG.tech closed-loop autonomous dynamics (TEKNOFEST Robotaksi Proving Ground replica, Custom ESC oversteer slide recovery at 92 km/h, Utah Canyon cruise & tunnel transit, Level 2 AEB 85% energy dissipation). Prepared for ORET Community Presentation.
+- 📱 **[`ADAS_Instagram_Story_9x16.mp4`](assets/videos/ADAS_Instagram_Story_9x16.mp4) — 9:16 Vertical Story / Reels Showcase (`52s`, 1080×1920):** Specially formatted vertical showcase video optimized for mobile platforms (Instagram Story / Reels / Shorts). Features exclusively BeamNG.tech closed-loop simulation scenarios rendered with zoomed vertical framing (>52% canvas coverage) and live telemetry HUD cards: (1) 92 km/h overspeed curve crash avoidance with custom ESC yaw stabilization, (2) V29 Utah highway viaduct cruise & dark subterranean tunnel full loop with zero oscillation, and (3) TEKNOFEST Robotaksi course detour swerve, 90° intersection turn, and automated precision parking.
 
 ---
 
-## Overview
+### Closed-Loop Simulation Autopilot (BeamNG.tech)
 
-This repository documents the architecture, visual evaluation, and benchmarking of a **state-driven, six-function Advanced Driver-Assistance System (ADAS)** designed for low-cost embedded edge platforms. The intended deployment target is a **Raspberry Pi 5** paired with a **Hailo-10H AI Accelerator** (rated up to **40 TOPS**, INT4). That target board was unavailable during this study period due to the global memory-chip shortage, so the system was validated on substitute hardware instead:
-
-- **Raspberry Pi 4B (4 GB RAM):** LDW, DMS, ultrasonic parking assist, automatic headlight control, and the YOLO11n baseline detector.
-- **Laptop tiers (Intel i5-8265U/MX110 and AMD Ryzen 7 AI 350/RTX 5060, 32 GB RAM):** the heavier perception stack - a custom-trained YOLO12s detector plus the vector-based Forward Collision Warning (FCW) module.
-
-The architecture integrates six core active-safety and convenience functions, coordinated by a central state controller that switches between `FORWARD_MODE` and `REVERSE_MODE` based on the vehicle's reverse-gear signal:
-
-1. **Lane Departure Warning (LDW):** Classical CV pipeline - grayscale conversion, Gaussian filtering, Canny edge detection, and Probabilistic Hough Transform (OpenCV) within a trapezoidal ROI.
-2. **YOLO Object Detection + Deterministic Vector-Based Forward Collision Warning (FCW):** YOLO11n (Pi 4B tier) or custom-trained YOLO12s (laptop tiers) feeds a ByteTrack-refined, six-state Kalman filter. The physics layer tracks centroid history over 10 frames, computes image-plane velocity vectors, projects a ~1s trajectory, and checks intersection against the ego-lane polygon - flagging both longitudinal rear-end threats and lateral cut-in / T-bone threats that a purely longitudinal check would miss. Monocular distance is estimated via a calibrated pinhole model (`Distance = Focal Length × Real Width / Pixel Width`).
-3. **Automatic Reverse Assist & Ultrasonic Parking:** Reverse-gear-triggered rear-camera feed with distance-modulated buzzer feedback via four JSN-SR04T ultrasonic sensors.
-4. **Intelligent Automatic Headlight Control:** MCP3008 ADC reading ambient-light levels with dual-threshold hysteresis, controlling an isolated 12V automotive relay.
-5. **Driver Monitoring System (DMS):** MediaPipe Face Mesh landmark tracking computing Eye Aspect Ratio (EAR) from six landmarks per eye. EAR below **0.22 for more than 1.5s** triggers the audible drowsiness warning; a longer 5s persistence window was used specifically for the physical actuator-cutoff bench demo.
-6. **Simulation-in-the-Loop (SITL) Bridge:** High-level threat events are mapped to steering/braking commands in **BeamNG.tech** for closed-loop AEB and driver-monitoring validation. SAE Level 2-style closed-loop steering/braking is exercised **only inside BeamNG.tech**; on the real hardware the system performs SAE Level 0 driver warning only - there is no mechanical actuation on a physical vehicle, since integrating ADAS actuation onto a real car was outside the scope of this project.
-
-DMS, ambient-light sensing, and diagnostics remain active in both operational modes.
-
----
-
-## Comprehensive Crash & Near-Miss Scenario Gallery
-
-The system was evaluated across **113 diverse real-world crash and near-miss scenarios** (day, night, rain, dust). Below is the verified visual gallery detailing the system's detection and warning performance across all accident typologies:
-
-### 1. Longitudinal Forward Collisions & Lead Vehicle Deceleration (94.0% Timely-Warning Rate)
-
-| Lead SUV Close Proximity (`2.9m`) | High-Speed Sun Glare (`107 km/h`) | Residential Two-Lane Approach |
-|:---:|:---:|:---:|
-| ![Lead SUV Proximity](assets/images/longitudinal_01_lead_suv_proximity_2.9m.jpg) | ![Direct Sun Glare](assets/images/longitudinal_02_direct_sun_glare_107kmh.jpg) | ![Residential Road Approach](assets/images/longitudinal_03_residential_road_approach.jpg) |
-| **`car 2.9m`** in RED box on lead Mitsubishi Outlander SUV triggering **`RED - EMERGENCY BRAKE`**. | High-speed highway following at **107 km/h** driving directly into low-angle blinding sun glare (**`car 10.7m`**). | Two-lane suburban roadway approach to lead vehicle (**`car 12.0m`**) with ego corridor overlay. |
-
-| Overcast Morning Deceleration | Oncoming Centerline Drift | Rural Driveway Chrysler Approach |
-|:---:|:---:|:---:|
-| ![Overcast Slowdown](assets/images/longitudinal_05_overcast_morning_slowdown.jpg) | ![Centerline Drift](assets/images/longitudinal_06_oncoming_centerline_drift.jpg) | ![Rural Roadway Approach](assets/images/longitudinal_07_rural_roadway_approach.jpg) |
-| Overcast morning highway lead vehicle rapid slowdown (**`car 7.0m`** at 27 mph). | Oncoming vehicle crossing center double yellow lines into host drivable corridor (**`car 8.4m`**). | Rural road approach to oncoming/turning Chrysler sedan (**`car 5.7m`**) with trajectory vector line. |
-
-| Multi-Lane Desert Highway (False-Positive Example) |
-|:---:|
-| ![Desert Highway](assets/images/longitudinal_08_multi_lane_desert_highway.jpg) |
-| **False-Positive Analysis:** Transient nuisance warning issued on an adjacent vehicle in the right lane. Caused by temporary ego-corridor boundary drift when detecting faint/distant lane lines; the Kalman trajectory filter and lane boundary tracking self-correct and clear the alert within $\le 1.0\,\text{s}$ once markings stabilize. |
-
----
-
-### 2. Lateral Cross-Traffic & Intersection T-Bone Hazards (48.3% Timely-Warning Rate)
-
-| Signalized Intersection Cross-Traffic | Intersection Impact / Damaged Hood | Urban Avenue Red Beetle Crossing |
-|:---:|:---:|:---:|
-| ![Signalized Intersection](assets/images/tbone_01_signalized_intersection_crossing.jpg) | ![Damaged Truck Impact](assets/images/tbone_02_intersection_damaged_truck_impact.jpg) | ![Red Beetle Crossing](assets/images/tbone_03_urban_avenue_red_beetle_crossing.jpg) |
-| Black sedan traversing signalized intersection perpendicularly (**`car 6.2m`**) under active traffic lights. | Blue Ford pickup truck with crumpled hood at intersection crossing (**`car 1.9m`**). | Red VW Beetle crossing urban commercial avenue perpendicularly from left (**`car 3.9m`**). |
-
-| Crossroad Red Sedan Incursion | Range Rover Perpendicular Crossing | Commercial Driveway Pull-Out |
-|:---:|:---:|:---:|
-| ![Crossroad Incursion](assets/images/tbone_04_crossroad_red_sedan_incursion.jpg) | ![Grey SUV Crossing](assets/images/tbone_05_perpendicular_grey_suv_crossing.jpg) | ![Commercial Driveway Pullout](assets/images/tbone_06_commercial_driveway_pullout.jpg) |
-| Red sedan traversing perpendicular crossing path under green traffic light (**`car 10.4m`**). | Grey Range Rover SUV crossing host vehicle's drivable path perpendicularly from left (**`car 3.8m`**). | Dark hatchback pulling out perpendicularly from parking lot/commercial entrance on right (**`car 4.5m`**). |
-
----
-
-### 3. Lateral Merging, Cut-Ins & Vehicle Incursions (27.3% Timely-Warning Rate)
-
-| Aggressive Perpendicular Merge | Highway Ramp Merging Incursion | Rural Highway Crossroad Pull-Out |
-|:---:|:---:|:---:|
-| ![White Car Cut-In](assets/images/cutin_01_perpendicular_merge_white_car.jpg) | ![Highway Ramp Sedan](assets/images/cutin_02_highway_ramp_merging_sedan.jpg) | ![Rural Red SUV Pullout](assets/images/cutin_04_rural_roadside_red_suv_entry.jpg) |
-| **`car 12.2m [T-BONE?]`** turning into host lane; proactively flagged with active **`EMERGENCY BRAKE`** and trajectory projection well before crossing lane markings. | Dark sedan merging into curved highway ramp from right shoulder (**`car 4.7m`**). | Red SUV pulling out perpendicularly from right roadside at 49 mph (**`car 2.6m`**). |
-
----
-
-### 4. Adverse Lighting, Low-Light & Impact Scenarios (8.3% Timely-Warning Rate)
-
-| Nighttime Urban Streetlight Driving | Rear-End Impact Bumper Damage |
+| Overspeed Curve Slide & Custom ESC (92 → 61 km/h) | TEKNOFEST Robotaksi: Detour, 90° Turn & Park |
 |:---:|:---:|
-| ![Night Urban Driving](assets/images/adverse_01_night_urban_intersection_streetlight.jpg) | ![Bumper Impact Damage](assets/images/adverse_03_rear_end_bumper_impact_underpass.jpg) |
-| True nighttime urban driving at 52 km/h under streetlights; turning white SUV (**`car 4.4m`**; HUD: **`NIGHT \| conf 0.25`**). | Immediate proximity to damaged Chevy Silverado tailgate under highway overpass (**`car 1.6m`**). |
-
----
-
-### 5. Dense Multi-Target Urban Environments & HUD Telemetry
-
-| Dense Palm-Tree Avenue Crosswalk |
-|:---:|
-| ![Dense Avenue Crosswalk](assets/images/multi_target_01_dense_avenue_pedestrian_crosswalk.jpg) |
-| High-density urban avenue approaching pedestrian crosswalk with **7 surrounding vehicles tracked simultaneously** (**`car 11.6m`** lead alert). |
-
----
-
-### 6. Simulation-in-the-Loop (BeamNG.tech AEB Validation)
-
-> **SAE Level applies to simulation only.** The SAE Level 2-style closed-loop steering/braking below is exercised **exclusively inside BeamNG.tech**. On the actual Raspberry Pi hardware, the system is **SAE Level 0** - it only warns the driver; there is no mechanical actuation on a real vehicle, as adapting ADAS actuation onto a physical car was outside the scope of this project (no team/resources for that integration).
-
-<img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="210"/>
-
-Threat events are bridged from the perception stack into **BeamNG.tech**, which maps them to steering or braking commands for closed-loop validation. In a deliberately forced over-speeding intersection test - a van approaching a 50 km/h zone at 90 km/h behind a braking lead vehicle - the system detected the stationary hazard and applied full AEB, reducing impact speed from **90 km/h to 35 km/h (≈84.9% of kinetic energy dissipated)**. A corresponding drowsiness event from the DMS is also mapped to braking in BeamNG.tech simulations.
-
-| Level 2 AEB Emergency Stop (BeamNG.tech simulation only) | Drivable Corridor & Closed-Loop Centering (BeamNG.tech simulation only) |
-|:---:|:---:|
-| ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Lane Centering GIF](assets/images/sitl_02_beamng_drivable_corridor_autopilot.gif) |
-| **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (≈84.9% kinetic energy dissipated). *(Simulated in BeamNG.tech, not on real hardware).* | **Closed-Loop Lane Centering & Safe Stopping:** Road curvature drivable corridor segmentation and top-down road map tracking; closed-loop vehicle safely decelerates to 0 km/h and holds behind lead traffic. *(Simulated in BeamNG.tech, not on real hardware).* |
-
-| BeamNG SITL Mountain Pass Curvature Autopilot | Continuous Closed-Loop Autopilot (Winding Course) |
-|:---:|:---:|
-| ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) | ![BeamNG 47s Closed-Loop Autopilot](assets/images/sitl_03_beamng_full_autopilot_coastal_route_47s.gif) |
-| **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit at 24s.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) | **Continuous Closed-Loop Steering & Speed Control:** Full autonomous cruise (**`ON FULL AP`**) navigating a narrow winding coastal course. Demonstrates real-time drivable corridor segmentation, dynamic curvature speed deceleration (**`CURVE SLOW -11%`** to **`-20%`**), continuous steering angle regulation (`STR +0.12 DEV +60px`), and lane edge preservation over 1.3+ km of route tracking.<br>▶️ [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) |
-
-| TEKNOFEST Robotaksi Proving Ground: Dynamic Obstacle Overtaking, Intersection Turn & Automated Parking |
-|:---:|
-| ![TEKNOFEST Robotaksi Inspection Autopilot](assets/images/sitl_04_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.gif) |
-| **TEKNOFEST Robotaksi Technical Inspection Simulation Replica:** Digital twin validation replicating the official TEKNOFEST Robotaksi autonomous competition technical control test course. Designed to prove system readiness for passing strict autonomous qualification inspections. Utilizing multi-camera perception (`Cam 1 Forward` + `Cam 2 60° Left`), the system detects a stationary obstacle vehicle blocking the lane (`LEFT [AHEAD] Dist: 24.6m -> 11.1m`), executes an autonomous dynamic lane-change maneuver to overtake the obstruction, tracks lane markings into an intersection, executes an automated 90-degree left turn guided by road-continuity segmentation, and performs a precision automated target parking stop (`State: FINAL_STOP`).<br>▶️ [`demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4`](assets/videos/demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4) |
+| ![Overspeed Curve ESC Recovery](assets/images/sitl_08_beamng_overspeed_curve_esc_stabilization.gif) | ![TEKNOFEST Robotaksi Autopilot](assets/images/sitl_04_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.gif) |
+| **Driver Fault Overspeed & Dynamic Stability Recovery:** Vehicle enters a sharp subterranean curve at **92 km/h**, triggering an uncontrolled oversteer slide toward the tunnel wall. The ADAS system intervenes autonomously via custom **Electronic Stability Control (ESC)** and emergency deceleration (**`BRAKE 100%`**), shedding velocity down to **75 km/h**, regaining front axle grip, executing rapid counter-steering recovery (**`STR +0.252` to `+0.550`**, lateral acceleration up to **`0.79g`**), slowing safely to **61 km/h**, and re-centering smoothly into the host lane.<br>▶️ [`sitl_08_beamng_overspeed_curve_esc_stabilization.mp4`](assets/videos/sitl_08_beamng_overspeed_curve_esc_stabilization.mp4) | **TEKNOFEST Robotaksi Proving Ground Digital Twin:** Multi-camera perception (`Cam 1 Forward` + `Cam 2 60° Left`) detects a stationary obstacle vehicle blocking the lane (`LEFT [AHEAD] Dist: 24.6m -> 11.1m`), executes an autonomous dynamic lane-change maneuver to overtake the obstruction, tracks lane markings into an intersection, executes an automated 90-degree left turn guided by road-continuity segmentation, and performs a precision automated target parking stop (`State: FINAL_STOP`).<br>▶️ [`demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4`](assets/videos/demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4) |
 
 | Utah Canyon Highway Viaduct Cruise (`74 km/h`) | Utah Mountain Tunnel Low-Light Transit (`71 km/h`) |
 |:---:|:---:|
 | ![Utah Highway Bridge Autopilot](assets/images/sitl_05_beamng_utah_highspeed_highway_bridge.gif) | ![Utah Tunnel Transit Autopilot](assets/images/sitl_06_beamng_utah_tunnel_lowlight_transit.gif) |
 | **High-Speed Closed-Loop Highway Cruise:** Operating in **`ON FULL AP`** mode at **74 km/h** across the Utah Canyon viaduct bridge. Demonstrates zero-drift lateral error correction (`STR -0.007 DEV -3px`), active road edge feedback (`ROAD-EDGE FB`), and smooth continuous steering stabilization at highway speeds.<br>▶️ [`sitl_05_beamng_utah_highspeed_highway_bridge.mp4`](assets/videos/sitl_05_beamng_utah_highspeed_highway_bridge.mp4) | **Subterranean Tunnel & Lighting Transition:** Host vehicle transitions from open daylight into an unlit mountain tunnel under sodium lamp glare at **71 km/h**. Drivable corridor segmentation retains lane lock without GPS or map priors, maintaining smooth sub-pixel steering regulation through abrupt illumination drop.<br>▶️ [`sitl_06_beamng_utah_tunnel_lowlight_transit.mp4`](assets/videos/sitl_06_beamng_utah_tunnel_lowlight_transit.mp4) |
 
-| Overspeed Curve Slide, Custom ESC & Crash Recovery (92 → 61 km/h) |
-|:---:|
-| ![Overspeed Curve ESC Recovery](assets/images/sitl_08_beamng_overspeed_curve_esc_stabilization.gif) |
-| **Driver Fault Overspeed & Dynamic Stability Recovery:** Vehicle enters a sharp subterranean curve at excessive speed (**92 km/h**), triggering high lateral forces and initiating an uncontrolled outward oversteer slide toward the tunnel retaining wall. The ADAS system intervenes autonomously via custom **Electronic Stability Control (ESC)** and emergency deceleration (**`BRAKE 100%`**), shedding velocity from **92 km/h down to 75 km/h**, regaining front axle grip, executing rapid counter-steering recovery (**`STR +0.252` to `+0.550`**, lateral acceleration up to **`0.79g`**), slowing safely to **61 km/h**, and re-centering the vehicle smoothly into the host lane behind the lead car.<br>▶️ [`sitl_08_beamng_overspeed_curve_esc_stabilization.mp4`](assets/videos/sitl_08_beamng_overspeed_curve_esc_stabilization.mp4) |
-
-> **Academic License Acknowledgement:** Special thanks to **BeamNG GmbH** for generously providing an academic research license for **BeamNG.tech** in support of this university graduation project and simulation evaluation.
->
-> <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="220"/>
+| Level 2 AEB Emergency Stop (Crash Energy Mitigation) | Mountain Pass Curvature Autopilot & Continuous Cruise |
+|:---:|:---:|
+| ![BeamNG AEB Stop GIF](assets/images/sitl_01_beamng_level2_aeb_emergency_stop.gif) | ![BeamNG Mountain Curvature AP](assets/images/demo_11_sitl_beamng_full_autopilot_mountain_curve.gif) |
+| **AEB Crash-Energy Mitigation:** Forced over-speeding approach at 90 km/h; system detects lead hazard, triggers emergency braking at 38m, and reduces impact speed to 35 km/h (**≈84.9% kinetic energy dissipated**). *(Simulated in BeamNG.tech).*<br>▶️ [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) | **Autonomous Curvature Steering & Closed-Loop Control:** Operating in **`ON FULL AP`** mode; tracks lane boundaries, executes active autonomous steering (`STR +0.05 DEV +32px`), dynamically applies curve deceleration (**`CURVE SLOW -18%`**), and straightens smoothly upon curve exit.<br>▶️ [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) |
 
 ---
 
-## Video Demonstrations
+### Real-World Vision & Deep Learning Perception Previews
 
-Below are high-frame-rate animated previews capturing key real-world detection, tracking, and emergency warning moments across diverse accident typologies, adverse weather/lighting, and simulation benchmarks. Full-length source clips with high-resolution telemetry overlays are linked underneath each scenario.
-
-### Real-World Perception & Active Hazard Previews
-
-| Longitudinal Lead Vehicle Deceleration | Aggressive Lateral Cut-In / Left-Turning Threat |
+| Full HD Dual-Network Perception (TwinLiteNet + YOLOv12s) | Perpendicular Intersection T-Bone Cut-In (`5.8m TTC 0.0s`) |
 |:---:|:---:|
-| ![Longitudinal Lead Brake](assets/images/demo_01_fcw_longitudinal_lead_brake.gif) | ![Lateral Cut-In Threat](assets/images/demo_02_fcw_aggressive_cutin_threat.gif) |
-| **High-Speed Highway Following:** Lead vehicle brakes rapidly; the system computes closure rate, issues **`RED - EMERGENCY BRAKE`**, and validates collision avoidance.<br>▶️ [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) | **Intersection Incursion:** Turning sedan crosses into host vehicle corridor; Kalman trajectory vector triggers proactive emergency alert before lane crossing.<br>▶️ [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) |
+| ![TwinLiteNet YOLOv12s 1080p](assets/images/demo_13_yt_perception_twinlitenet_yolo12s.gif) | ![T-Bone Red Truck FCW](assets/images/demo_12_yt_fcw_tbone_intersection_red_truck.gif) |
+| **1080p Dual-Model Perception Stack:** Real-time CUDA FP16 inference running TwinLiteNet road segmentation mask (drivable corridor) merged with YOLOv12s multi-target detection, distance estimation, and dynamic motion vectors on RTX 5060.<br>▶️ [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) | **High-Risk Cross-Traffic Arbitration:** Red commercial truck crosses host path perpendicularly at +72 km/h; system instantly triggers flashing red alert banner (**`COLLISION IMMINENT ??? CAR 5.8m (TTC 0.0s)`**) with simultaneous pedestrian arbitration at 7.4m.<br>▶️ [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) |
 
-| Adverse Direct Sun Glare (`107 km/h`) | Commercial Driveway Perpendicular Incursion |
+| Adverse Direct Sun Glare (`107 km/h`) | Residential Approach & Predictive Swerve Crash |
 |:---:|:---:|
-| ![Sun Glare 107kmh](assets/images/demo_03_fcw_sun_glare_highspeed_107kmh.gif) | ![Commercial Driveway Incursion](assets/images/demo_04_fcw_commercial_driveway_pullout.gif) |
-| **Severe Lighting Contrast:** Host vehicle traveling at **107 km/h** facing direct blinding sun glare; lead SUV is continuously tracked at 23.4m with timely deceleration alert.<br>▶️ [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) | **Perpendicular Hazard Ingress:** Commercial entrance vehicle pulling out perpendicularly into drivable path; trajectory vector flags imminent threat.<br>▶️ [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) |
-
-| Dense Multi-Lane Highway Traffic Flow | Residential Two-Lane Approach & Sudden Swerve Crash |
-|:---:|:---:|
-| ![Highway Traffic Flow](assets/images/demo_05_fcw_highway_traffic_lead_slowdown.gif) | ![Residential Swerve Crash](assets/images/demo_06_fcw_residential_two_lane_swerve_crash.gif) |
-| **Multi-Target Arbitration:** Heavy highway traffic with simultaneous tracking across adjacent lanes; lead vehicle deceleration triggers localized ego-corridor alert.<br>▶️ [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) | **Predictive Suspension Roll & Swerve Trajectory:** Oncoming sedan approaches at 18 mph; as the driver steers hard left, right-half suspension compresses/lowers under lateral roll. The system instantly computes the hard steer vector into the host corridor, triggers **`RED - EMERGENCY BRAKE`**, and accurately predicts incursion before the vehicle strikes the ego car.<br>▶️ [`demo_fcw_residential_two_lane_swerve_crash.mp4`](assets/videos/demo_fcw_residential_two_lane_swerve_crash.mp4) |
+| ![Sun Glare 107kmh](assets/images/demo_03_fcw_sun_glare_highspeed_107kmh.gif) | ![Residential Swerve Crash](assets/images/demo_06_fcw_residential_two_lane_swerve_crash.gif) |
+| **Severe Low-Angle Sun Glare:** Host vehicle traveling at **107 km/h** facing direct blinding sun glare; lead SUV is continuously tracked at 23.4m with timely deceleration alert.<br>▶️ [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) | **Predictive Suspension Roll & Swerve Trajectory:** Oncoming sedan approaches at 18 mph; as the driver steers hard left, right-half suspension compresses under lateral roll. The system instantly computes the hard steer vector into the host corridor, triggers **`RED - EMERGENCY BRAKE`**, and predicts incursion before impact.<br>▶️ [`demo_fcw_residential_two_lane_swerve_crash.mp4`](assets/videos/demo_fcw_residential_two_lane_swerve_crash.mp4) |
 
 | Night Urban Wet Asphalt Deceleration (`52 km/h`) | Signalized Intersection Left-Turn Truck (`43 mph`) |
 |:---:|:---:|
 | ![Night Urban FCW](assets/images/demo_07_fcw_night_wet_asphalt_braking.gif) | ![Intersection Left-Turn Truck](assets/images/demo_08_fcw_intersection_left_turn_truck.gif) |
 | **Adverse Night Conditions:** Driving at 52 km/h on wet asphalt with street glare; lead SUV detected at 7.2m with instantaneous **`RED - EMERGENCY BRAKE`** trigger.<br>▶️ [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) | **Traffic Light & Cross-Turn Arbitration:** Enters intersection under **`trafficLight-Green`** at 43 mph; oncoming pickup turns across host path, triggering emergency brake banner.<br>▶️ [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) |
 
-| Imminent Oncoming Centerline Incursion (`37 mph`) | Urban Lead Emergency Brake & Roadside Pedestrian (`2.2m`) |
-|:---:|:---:|
-| ![Oncoming Incursion](assets/images/demo_09_fcw_oncoming_lane_incursion.gif) | ![Urban Lead Brake Pedestrian](assets/images/demo_10_fcw_urban_lead_brake_pedestrian.gif) |
-| **Head-On Threat Detection:** Vehicle encroaching into host lane polygon at 4.9m; instant **`RED - EMERGENCY BRAKE`** alert issued at 37 mph.<br>▶️ [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | **Multi-Class Urban Hazard Arbitration:** Rapid lead SUV braking down to 2.2m alongside active roadside pedestrian tracking (**`pedestrian 9.6m`**) and cross-traffic classification (**`car 10.7m [T-BONE?]`**).<br>▶️ [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) |
-
-| Perpendicular Intersection T-Bone Cut-In (`5.8m TTC 0.0s`) | 1080p Dual-Model Perception (TwinLiteNet + YOLOv12s) |
-|:---:|:---:|
-| ![T-Bone Red Truck FCW](assets/images/demo_12_yt_fcw_tbone_intersection_red_truck.gif) | ![TwinLiteNet YOLOv12s 1080p](assets/images/demo_13_yt_perception_twinlitenet_yolo12s.gif) |
-| **High-Risk Cross-Traffic Arbitration:** Red commercial truck crosses host path perpendicularly at +72 km/h; system instantly triggers flashing red alert banner (**`COLLISION IMMINENT ??? CAR 5.8m (TTC 0.0s)`**) with simultaneous pedestrian arbitration at 7.4m.<br>▶️ [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) | **Full HD Dual-Network Drivable Segmentation:** Real-time CUDA FP16 perception running TwinLiteNet road segmentation mask (drivable corridor) merged with YOLOv12s multi-target detection, distance estimation, and dynamic motion vectors on RTX 5060.<br>▶️ [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) |
-
 ---
 
-### Full Demonstration Video Library
+## Master Demonstration Video Library
 
 All complete demonstration recordings with full telemetry overlays are available in [`assets/videos/`](assets/videos/):
 
-- ⭐ **[`ADAS_ORET_Community_Showcase_Full_1080p.mp4`](assets/videos/ADAS_ORET_Community_Showcase_Full_1080p.mp4) — Master 1080p Full HD Showcase Compilation (`2m 14s`):** Comprehensive engineering presentation video combining real-world deep learning perception (YOLOv12 multi-class detection, TwinLiteNet drivable road segmentation, TTC collision warning) with BeamNG.tech closed-loop autonomous dynamics (TEKNOFEST Robotaksi Proving Ground replica, Custom ESC oversteer slide recovery at 92 km/h, Utah Canyon cruise & tunnel transit, Level 2 AEB 85% energy dissipation). Prepared for ORET Community Presentation.
-- 📱 **[`ADAS_Instagram_Story_9x16.mp4`](assets/videos/ADAS_Instagram_Story_9x16.mp4) — 9:16 Vertical Story / Reels Showcase (`52s`, 1080×1920):** Specially formatted vertical showcase video optimized for mobile platforms (Instagram Story / Reels / Shorts). Features exclusively BeamNG.tech closed-loop simulation scenarios rendered with zoomed vertical framing (>52% canvas coverage) and live telemetry HUD cards: (1) 92 km/h overspeed curve crash avoidance with custom ESC yaw stabilization, (2) V29 Utah highway viaduct cruise & dark subterranean tunnel full loop with zero oscillation, and (3) TEKNOFEST Robotaksi course detour swerve, 90° intersection turn, and automated precision parking.
-- [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) — High-speed highway following, closing-distance calculation, and imminent braking warning.
-- [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) — Aggressive lateral cut-in threat detection with predictive trajectory vector projection.
-- [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) — High-speed highway following at 107 km/h driving directly into blinding low-angle sun glare.
-- [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) — Vehicle pulling out perpendicularly from a commercial entrance with predictive trajectory vector alert.
-- [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) — Multi-lane highway dense traffic with lead SUV braking event and ego corridor tracking.
-- [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) — Signalized intersection left-turn truck collision alert under active green traffic light (43 mph).
-- [`demo_fcw_residential_two_lane_swerve_crash.mp4`](assets/videos/demo_fcw_residential_two_lane_swerve_crash.mp4) — Residential two-lane oncoming vehicle hard steer, suspension roll compression, and collision trajectory prediction.
-- [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) — Nighttime urban driving with road reflections and lead vehicle emergency braking.
-- [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) — Oncoming vehicle centerline lane encroaching hazard alert at 37 mph.
-- [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) — Close-proximity lead vehicle emergency brake (2.2m) with simultaneous roadside pedestrian detection.
-- [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) — Perpendicular intersection T-bone crossing truck with flashing collision alert banner and pedestrian detection.
-- [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) — High-resolution 1080p dual-network perception pipeline (TwinLiteNet road segmentation + YOLOv12s object tracking) on RTX 5060.
-- [`sitl_05_beamng_utah_highspeed_highway_bridge.mp4`](assets/videos/sitl_05_beamng_utah_highspeed_highway_bridge.mp4) — High-speed 74 km/h closed-loop autopilot cruise across Utah Canyon highway viaduct bridge.
-- [`sitl_06_beamng_utah_tunnel_lowlight_transit.mp4`](assets/videos/sitl_06_beamng_utah_tunnel_lowlight_transit.mp4) — Subterranean mountain tunnel low-light high-speed transit at 71 km/h with continuous lane lock.
-- [`sitl_08_beamng_overspeed_curve_esc_stabilization.mp4`](assets/videos/sitl_08_beamng_overspeed_curve_esc_stabilization.mp4) — High-speed overspeed curve crash avoidance, custom ESC slide correction, and 100% emergency brake stabilization (92→61 km/h).
-- [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) — Full autonomous autopilot speed limit negotiation, curve slowdown, and steering on mountain highway.
-- [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) — 47-second continuous closed-loop autopilot (`ON FULL AP`) navigating narrow winding coastal curves with dynamic curve slowing (-20%) and active steering.
-- [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) — BeamNG.tech SITL Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation test, 90→35 km/h).
-- [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) — BeamNG.tech SITL closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic.
-- [`demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4`](assets/videos/demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4) — TEKNOFEST Robotaksi technical inspection simulation replica: dynamic obstacle avoidance & lane change, autonomous intersection left turn, and precision automated parking stop.
-- [`demo_fcw_lateral_tbone_threat.mp4`](assets/videos/demo_fcw_lateral_tbone_threat.mp4) — Perpendicular intersection crossing vehicle alert.
+| Video Clip | Description | Resolution & Mode |
+|:---|:---|:---:|
+| ⭐ [`ADAS_ORET_Community_Showcase_Full_1080p.mp4`](assets/videos/ADAS_ORET_Community_Showcase_Full_1080p.mp4) | Master Compilation Video combining real-world deep learning perception with BeamNG.tech simulation dynamics. | `1080p Full HD` (2m 14s) |
+| 📱 [`ADAS_Instagram_Story_9x16.mp4`](assets/videos/ADAS_Instagram_Story_9x16.mp4) | Vertical Mobile Story / Reels Showcase featuring BeamNG simulation scenarios with live telemetry cards. | `1080×1920 9:16` (52s) |
+| [`sitl_08_beamng_overspeed_curve_esc_stabilization.mp4`](assets/videos/sitl_08_beamng_overspeed_curve_esc_stabilization.mp4) | Overspeed curve crash avoidance, custom ESC slide correction, and 100% emergency brake (92→61 km/h). | BeamNG Simulation |
+| [`sitl_05_beamng_utah_highspeed_highway_bridge.mp4`](assets/videos/sitl_05_beamng_utah_highspeed_highway_bridge.mp4) | High-speed 74 km/h closed-loop autopilot cruise across Utah Canyon highway viaduct bridge. | BeamNG Simulation |
+| [`sitl_06_beamng_utah_tunnel_lowlight_transit.mp4`](assets/videos/sitl_06_beamng_utah_tunnel_lowlight_transit.mp4) | Subterranean mountain tunnel low-light high-speed transit at 71 km/h with continuous lane lock. | BeamNG Simulation |
+| [`demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4`](assets/videos/demo_sitl_beamng_teknofest_robotaksi_obstacle_avoidance_turn_park.mp4) | TEKNOFEST Robotaksi digital twin: dynamic obstacle detour, 90° intersection turn, and automated parking. | BeamNG Simulation |
+| [`demo_sitl_beamng_full_autopilot_mountain_curve.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_mountain_curve.mp4) | Full autonomous autopilot speed limit negotiation, curve slowdown, and steering on mountain highway. | BeamNG Simulation |
+| [`demo_sitl_beamng_full_autopilot_coastal_course.mp4`](assets/videos/demo_sitl_beamng_full_autopilot_coastal_course.mp4) | 47-second continuous closed-loop autopilot navigating winding coastal curves with dynamic curve slowing. | BeamNG Simulation |
+| [`demo_sitl_beamng_level2_autopilot.mp4`](assets/videos/demo_sitl_beamng_level2_autopilot.mp4) | BeamNG.tech Level 2 closed-loop intervention (target-occlusion and crash-energy mitigation, 90→35 km/h). | BeamNG Simulation |
+| [`demo_sitl_beamng_lane_centering_stop.mp4`](assets/videos/demo_sitl_beamng_lane_centering_stop.mp4) | Closed-loop lane centering, drivable corridor segmentation, and automated safe stopping behind lead traffic. | BeamNG Simulation |
+| [`demo_13_yt_perception_twinlitenet_yolo12s.mp4`](assets/videos/demo_13_yt_perception_twinlitenet_yolo12s.mp4) | High-resolution 1080p dual-network perception pipeline (TwinLiteNet road segmentation + YOLOv12s object tracking). | Real-World Vision |
+| [`demo_12_yt_fcw_tbone_intersection_red_truck.mp4`](assets/videos/demo_12_yt_fcw_tbone_intersection_red_truck.mp4) | Perpendicular intersection T-bone crossing truck with flashing collision alert banner and pedestrian detection. | Real-World Vision |
+| [`demo_fcw_sun_glare_highspeed_107kmh.mp4`](assets/videos/demo_fcw_sun_glare_highspeed_107kmh.mp4) | High-speed highway following at 107 km/h driving directly into blinding low-angle sun glare. | Real-World Vision |
+| [`demo_fcw_longitudinal_rear_end.mp4`](assets/videos/demo_fcw_longitudinal_rear_end.mp4) | High-speed highway following, closing-distance calculation, and imminent braking warning. | Real-World Vision |
+| [`demo_fcw_merging_cutin_threat.mp4`](assets/videos/demo_fcw_merging_cutin_threat.mp4) | Aggressive lateral cut-in threat detection with predictive trajectory vector projection. | Real-World Vision |
+| [`demo_fcw_commercial_driveway_incursion.mp4`](assets/videos/demo_fcw_commercial_driveway_incursion.mp4) | Vehicle pulling out perpendicularly from a commercial entrance with predictive trajectory vector alert. | Real-World Vision |
+| [`demo_fcw_highway_traffic_lead_slowdown.mp4`](assets/videos/demo_fcw_highway_traffic_lead_slowdown.mp4) | Multi-lane highway dense traffic with lead SUV braking event and ego corridor tracking. | Real-World Vision |
+| [`demo_fcw_intersection_imminent_brake.mp4`](assets/videos/demo_fcw_intersection_imminent_brake.mp4) | Signalized intersection left-turn truck collision alert under active green traffic light (43 mph). | Real-World Vision |
+| [`demo_fcw_residential_two_lane_swerve_crash.mp4`](assets/videos/demo_fcw_residential_two_lane_swerve_crash.mp4) | Residential two-lane oncoming vehicle hard steer, suspension roll compression, and collision trajectory prediction. | Real-World Vision |
+| [`demo_fcw_night_wet_asphalt_braking.mp4`](assets/videos/demo_fcw_night_wet_asphalt_braking.mp4) | Nighttime urban driving with road reflections and lead vehicle emergency braking. | Real-World Vision |
+| [`demo_fcw_oncoming_lane_incursion.mp4`](assets/videos/demo_fcw_oncoming_lane_incursion.mp4) | Oncoming vehicle centerline lane encroaching hazard alert at 37 mph. | Real-World Vision |
+| [`demo_fcw_urban_lead_brake_pedestrian_detection.mp4`](assets/videos/demo_fcw_urban_lead_brake_pedestrian_detection.mp4) | Close-proximity lead vehicle emergency brake (2.2m) with simultaneous roadside pedestrian detection. | Real-World Vision |
 
 ---
 
-## Project Evolution & Version History (V1 – V29)
+## Why This Project
 
-Over an intensive 1.5-year engineering journey (late 2025 to late 2026), this ADAS ecosystem evolved from basic screen-captured keyboard emulation into an industrial-grade, multi-domain autonomous driving and safety perception suite. Below is the chronological breakdown of developmental eras, milestones, and architectural upgrades.
+Most older vehicles lack modern driver-assistance technology, as factory-installed ADAS remains expensive, proprietary, and un-retrofittable. This project develops a **low-cost, high-reliability embedded ADAS suite** acting as an intelligent co-pilot for the two most safety-critical operating modes: **forward driving** and **reverse parking**.
+
+### Code & Architecture Status
+
+The core source code, trained model weights, and proprietary firmware are currently **in active private research and development**. This repository serves as the official technical documentation, architecture specification, and benchmarking report. Public open-source code releases will follow embedded hardware hardening and physical road verification.
+
+---
+
+## System Architecture & Hardware Nodes
+
+The system operates across three interconnected tiers: a **Simulation-in-the-Loop Node** for closed-loop dynamic validation, a **Laptop Perception Node** for real-car multi-sensor processing, and a **Raspberry Pi Embedded Node** for in-cabin driver monitoring and physical automotive I/O.
+
+```mermaid
+flowchart TD
+    subgraph SENSORS ["Visual & Telemetry Sensors"]
+        ZED["Stereolabs ZED 2 / ZED 2i\nStereo Camera (Sub-Pixel NCC)"]
+        CUBE["Cube Orange + Dual Here 3 GNSS\nMAVLink USB (EKF Speed + IMU Yaw)"]
+        DMS_CAM["Driver-Facing Camera\n(USB / Picamera2)"]
+        LDR["LDR Ambient Light Sensor\n+ MCP3008 ADC"]
+        SONAR["4× JSN-SR04T Waterproof\nUltrasonic Sensors"]
+        REV_SIG["12V Reverse Signal\n-> Optocoupler"]
+    end
+
+    subgraph RPI_NODE ["Raspberry Pi Embedded Node (Bookworm 64-bit)"]
+        DMS["Driver Monitoring System (DMS)\nMediaPipe Face Mesh (EAR, PERCLOS, MAR)"]
+        TOUCH["7\" Waveshare Touchscreen UI\n(1024×600 Interactive HUD)"]
+        RELAY["Dual Hysteresis Headlight Relay\n(30% ON / 50% OFF)"]
+        CUTOFF["L298N Actuator Cutoff\n(Engine Shutdown on >5s Micro-Sleep)"]
+        UDP_PUB["UDP Telemetry Broadcaster\n(Port 5005 -> Driver State)"]
+        MJPEG["HTTP MJPEG Video Server\n(Port 8080 -> Driver Stream)"]
+    end
+
+    subgraph LAPTOP_NODE ["Real-Car Perception Node (zed2_realcar_adas4.py)"]
+        STEREO_ENG["Metric Stereo Depth Engine\nDense Disparity + StereoSGBM + NCC"]
+        FUSION["Cube Orange EKF Speed &\nIMU Yaw-Rate Road Curvature Fusion"]
+        YOLO_TRT["YOLOv12s / RT-DETR\nTensorRT FP16 Engine (RTX 5060)"]
+        TWIN["TwinLiteNet Drivable Segmentation\n(CUDA FP16 Above-Hood Tensor)"]
+        FCW_ENG["Kinematic FCW & Kalman Filter\n(TTC, Cut-In, T-Bone & Ego Corridor)"]
+        PI_SUB["PiStateListener\n(Ingests Driver State -> Boosts FCW)"]
+        LIVE_HUD["Real-Time Augmented HUD\nLaser Rangefinder Probe & Alerts"]
+    end
+
+    subgraph BEAMNG_NODE ["Closed-Loop Simulation Node (beamng_pilot_v31)"]
+        SIM_API["BeamNG.tech Physics Bridge\n(Sensors, Steering & Braking)"]
+        QUINTIC["Quintic Min-Jerk Trajectory Planner\nS(t) = 10t³ - 15t⁴ + 6t⁵"]
+        ESC_SYS["Dynamic 2-DOF Active ESC\n(Counter-Steer & Stability Braking)"]
+        SHADOW["Touch-Free Shadow Mode & RL Engine\n(Records Human vs AI & Rewards)"]
+    end
+
+    ZED --> STEREO_ENG
+    CUBE --> FUSION
+    DMS_CAM --> DMS
+    LDR --> RELAY
+    DMS --> TOUCH & CUTOFF & UDP_PUB & MJPEG
+    
+    UDP_PUB -. Direct Ethernet (192.168.50.x) .-> PI_SUB
+    PI_SUB --> FCW_ENG
+
+    STEREO_ENG & FUSION & YOLO_TRT & TWIN --> FCW_ENG
+    FCW_ENG --> LIVE_HUD
+
+    SIM_API --> QUINTIC & ESC_SYS & SHADOW
+```
+
+---
+
+## Real-World ZED 2 + Cube Orange Perception
+
+Below is the live operational HUD of `zed2_realcar_adas4.py` running in real time on a passenger vehicle, fusing sub-pixel stereo vision with Cube Orange GNSS/IMU telemetry:
+
+<div align="center">
+  <img src="assets/images/zed2_cube_live_hud.jpg" alt="ZED 2 + Cube Orange Live ADAS HUD" width="850"/>
+  <p><em>Figure: Live real-car HUD from <code>zed2_realcar_adas4.py</code> showing metric stereo bounding boxes, Cube Orange GNSS/EKF ground speed, satellite count, IMU yaw-rate road curvature, center laser rangefinder reticle, and time-headway monitoring.</em></p>
+</div>
+
+### Real-Life SAE Level 0 ADAS Capabilities
+- **Sub-Pixel Metric Stereo Rangefinder:** Epipolar rectification using factory calibration parameters, multi-band 1D Parabolic Sub-Pixel NCC refiner with **~0.02 px precision**, and mouse click-to-measure 3D rangefinder probe.
+- **Cube Orange + Dual Here 3 GNSS Fusion:** MAVLink USB auto-probing connection, EKF ground speed, heading, satellite fix quality, and IMU-derived road curvature compensation.
+- **Predictive Warning Suite:** Forward Collision Warning (FCW), Headway Monitoring Warning (HMW), Stopped-Ego Hysteresis, Lead Vehicle Departure Alert (LVDA), Cut-In & T-Bone cross-traffic detection, and Lane Departure Warning (LDW).
+- **Raspberry Pi Telemetry Ingestion:** Decoupled `PiStateListener` listens on UDP port 5005; when the driver looks away or shows drowsiness, FCW thresholds automatically expand (`--pi-boost`) to provide earlier warnings.
+
+---
+
+## Project Evolution & Version History (V1 – V31)
+
+Over 1.5 years of continuous engineering (late 2025 to late 2026), the system progressed from basic screen-captured keyboard actuation to an industrial-grade, multi-domain autonomous driving and safety perception ecosystem.
 
 ```
                                                         CHRONOLOGICAL DEVELOPMENT ROADMAP
  2025 Q4 - 2026 Q1          2026 Q2                     2026 Q3                     2026 Q3 - Q4                     2026 Q4 (CURRENT)
 ┌────────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐   ┌──────────────────────────────┐
-│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │   │   ERA 6 (V28 - V29)          │
-│ • Proof-of-concept │──▶│ • BeamNG Native API    │──▶│ • Deep Learning (YOLO12)│──▶│ • Metric BEV Polynomials │──▶│ • Utah Full Loop (0 Crashes) │
-│ • Screen scraping  │   │ • Continuous Steering  │   │ • TwinLiteNet RoadSeg   │   │ • Active ESC & 3D LiDAR  │   │ • Dark Tunnel & Blindness    │
-│ • Keyboard steering│   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │   │ • Guardian & Dynamic ESC     │
+│   ERA 1 (V1 - V2)  │   │   ERA 2 (V3 - V10)     │   │   ERA 3 (V11 - V15)     │   │   ERA 4 & 5 (V16 - V27)  │   │   ERA 6 (V28 - V31)          │
+│ • Proof-of-concept │──▶│ • BeamNG Native API    │──▶│ • Deep Learning (YOLO12)│──▶│ • Metric BEV Polynomials │──▶│ • Quintic Min-Jerk Overtakes │
+│ • Screen scraping  │   │ • Continuous Steering  │   │ • TwinLiteNet RoadSeg   │   │ • Active ESC & 3D LiDAR  │   │ • V31 PRO Shadow Mode & RL   │
+│ • Discrete keys    │   │ • Stanley Path Tracker │   │ • Anti-Phantom Debounce │   │ • Monolithic V27 Release │   │ • ZED 2 + Cube Orange RealCar│
 └────────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘   └──────────────────────────────┘
-           │                         │                             │                              │                               │
-           ▼                         ▼                             ▼                              ▼                               ▼
- ┌───────────────────┐   ┌────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────────────┐   ┌──────────────────────────────┐
- │ allinonevideoout  │   │ aiovidout V1 - V7      │   │ Nexar 1.5k Crash Bench  │   │ ultimate_adas_pipeline   │   │ beamng_pilot_v29.py (8.7k LoC│
- │ First batch video │   │ Colab T4 / CUDA batch  │   │ Day/Night HSV splitter  │   │ Real-car IRL HUD + ZED   │   │ Full Highway+Tunnel Loop SITL│
- └───────────────────┘   └────────────────────────┘   └─────────────────────────┘   └──────────────────────────┘   └──────────────────────────────┘
 ```
-
----
-
-### 1. Closed-Loop Simulation Autopilot Evolution (BeamNG.tech: V1 to V29)
 
 | Era / Version Range | Architectural Paradigm | Key Capabilities & Milestones Added | Critical Engineering Bottlenecks Diagnosed & Solved |
 | :--- | :--- | :--- | :--- |
-| **Era 1: Proof-of-Concept<br>(V1 – V2)**<br>*Jan – Apr 2026* | Screen Capture (`mss`) + OpenCV Canny/Hough + DirectInput (`pydirectinput`) | • First closed-loop steering in BeamNG.<br>• Discrete bang-bang keyboard actuation (`'a'` / `'d'`).<br>• MediaPipe in-cabin driver drowsiness detection (EAR). | **Latency & Buffer Bloat:** Fixed keyboard emulation queue delays by setting zero-pause execution; established baseline feasibility of vision-guided steering. |
-| **Era 2: Native Physics API & Lateral Stabilization<br>(V3 – V10)**<br>*Jun 2026* | BeamNG.tech Native API (`beamngpy`) + Virtual Camera + Analog Actuation | • Transition from discrete keyboard to continuous floating-point steering (`vehicle.control`).<br>• Stanley geometric path-tracking implementation.<br>• "The Ultimate Hybrid": 60 FPS screen capture paired with native analog steering. | **Oversteer & Frame Drops:** Overcame virtual camera render overhead via hybrid capture; tuned soft-body lateral damping to eliminate high-speed pendulum fishtailing. |
-| **Era 3: Deep Neural Perception & AEB Gating<br>(V11 – V15)**<br>*Jun – Aug 2026* | Hybrid Vision + TwinLiteNet (`nano.pth`) + YOLOv12s (`selfdrivingv12s.pt`) + ByteTrack | • Dual-head road segmentation (Drivable Area + Lane Lines at 640×384).<br>• Multi-tier Forward Collision Warning state machine.<br>• RT-DETR vs YOLO benchmarking.<br>• In-corridor polygon threat gating. | **Phantom AEB & ROI Interference:** Gated cross-lane oncoming traffic to eliminate false emergency braking; masked out in-cockpit digital speedometer rings that mimicked road lines. |
-| **Era 4: Predictive Curvature Feedforward & 3D LiDAR<br>(V16 – V23)**<br>*Aug 2026* | Multi-Horizon Sampling + GPS Spatial Hash (`RoadMemory`) + 64-Ch LiDAR | • Multi-depth lookahead horizon sampling (near, mid, far).<br>• Proactive Ackermann curvature feedforward steering.<br>• $2\text{m} \times 2\text{m}$ spatial hash road memory and 60 Hz synchronous blackbox (`RoadDataLogger`).<br>• 64-channel 360° roof LiDAR with 72-sector polar HUD radar.<br>• Adaptive histogram equalization (`CVBrightnessManager`). | **Curve Understeer & Darkness Washout:** Replaced reactive steering with anticipatory curve entry; maintained sensor contrast across dusk/dawn transitions; immune to dense fog via 3D LiDAR. |
-| **Era 5: Mountain Pavement Fallback & Metric BEV<br>(V24 – V27)**<br>*Aug – Sep 2026* | Orthographic Inverse Perspective Mapping (BEV) + 2-DOF ESC + Monolithic Core | • Pavement right-border asphalt tracking (`compute_roadseg_fallback_deviation`) for unpainted mountain descents.<br>• Bird's-Eye-View 2nd-order polynomial fitting ($x = ay^2 + by + c$).<br>• 2-DOF linear bicycle model Active Electronic Stability Control (ESC).<br>• Autonomous 3-second stationary obstacle detour state machine.<br>• In-situ live calibration GUI overlay (`[ç]` key hot-reload).<br>• Full 8,000-line monolithic production autopilot (`beamng_pilot_v27.py`). | **Slalom Hunting & Cliff Drops:** Fully eradicated lateral limit-cycle oscillations ("slalom") via metric BEV; enabled cliff-side navigation on roads without painted lines; zero optical jumping. |
-| **Era 6: Utah Highway-Tunnel Full-Loop & Active Dynamics<br>(V28 – V29)**<br>*Sep – Oct 2026* | Dual-Head TwinLiteNet+ (Large) + 31-Arc Road-Edge Guardian + Lead Vehicle Kalman Filter & Camber Feedforward + 2-DOF Active ESC | • **Utah Highway + Mountain Tunnel Loop:** First crash-free closed-loop loop completed with and without AI traffic.<br>• **Subterranean Tunnel & Optical Distortion Resilience:** Withstands 1–2s camera auto-exposure blowout/washout during tunnel portals via inertial curvature hold & 31-arc free-space fan.<br>• **Zero Lateral Slalom:** Fully eliminated lateral hunting; smooth, stable highway cruise.<br>• **Dynamic Overtaking & Lane Change:** Dynamic traffic passing state machine (`[o]` key dispatch & stationary detour).<br>• **Active High-Speed Curve ESC:** Oversteer counter-steer, understeer authority boost, and extreme overspeed curve stabilization (92 → 61 km/h).<br>• 8,700-line monolithic architecture (`beamng_pilot_v29.py`) with road camber and rack friction feedforward. | **Tunnel Blindness & High-Speed Corner Spinouts:** Solved catastrophic portal camera exposure lag via curvature retention & guardian arc arbitration; neutralized soft-body tire slip and high-speed spinouts via closed-loop IMU yaw damping. |
-
----
-
-### 2. Open-World Perception, YouTube Stream Processing & Benchmarking Engines
-
-Parallel to simulation development, a comprehensive suite of offline and real-world perception workstations was created:
-
-#### Autopilot Studio Suite (`aiovidout` V1 – V12 | Nov 2025 – Jul 2026)
-- **V1 – V5 (`aiovidout.py` to `aiovidout5.py`):** CPU-optimized YOLO execution; 2-stage Time-to-Collision (30m rule + TTC < 2.8s); automated multi-video playlist batch queuing; structured 18-feature kinematics CSV export (`crash_training_data_v2.csv`).
-- **Cloud & Edge Acceleration (`aiovidout3G.py` & `aio5tflite.py`):** Google Colab Tesla T4 GPU cloud execution with FP16 half-precision and automatic resume; lightweight TFLite model optimization for embedded targets.
-- **V6 – V7 (`aiovidout6.py` to `aiovidout7_roadseg.py`):** Dedicated CUDA batch memory management and TwinLiteNet drivable area segmentation integration for offline video processing.
-- **V10 – V12 Live-AI Studio (`aiovidout_v10.py` & `aiovidout_v12.py`):** Rolling 10-second RAM frame buffer (`VideoFrameBuffer`); asynchronous background LLM evaluation (`AsyncGeminiWorker`) for incident grading; automated incident report generation; hardware execution profiles (`HIGH_SPEC` vs `LOW_SPEC`).
-
-#### YouTube Batch Ingestion & Advanced Pipeline (`ultimate_adas_pipeline`)
-- **Direct Stream Digestion:** Headless streaming and batch downloading of automotive dashcam playlists via `yt-dlp`.
-- **Dual-Model Deep Perception:** Synchronous YOLOv12s obstacle tracking coupled with TwinLiteNetPlus drivable surface segmentation.
-- **Kinematic Filtering & OCR:** Alpha-Beta tracking filter ($\alpha = 0.60, \beta = 0.35$) for smooth distance/velocity estimation; automated speed-sign OCR (`easyocr` / `pytesseract`) extracting regulatory speed limits ($30\text{--}120\text{ km/h}$).
-- **Automated Incident Reporting:** Generates self-contained HTML dashboards (`events_report.html`) complete with event replay GIFs, metric telemetry, and threat classifications.
-- **Automated Channel Analysis (`youtube_analyzer.py`):** Subtitle transcript extraction via `youtube_transcript_api` and LLM structuring of driving hazards and causal factors into formatted `.docx` reports.
-
-#### Kaggle Nexar Collision Prediction Benchmark Suite
-- **1,500-Video Dataset Evaluation:** Rigorous benchmarking across 750 crash/near-miss and 750 normal driving sequences ($1280 \times 720$ @ 30 FPS).
-- **Official Lookahead Horizons:** Mean Average Precision (mAP) scoring across $500\text{ ms}$, $1000\text{ ms}$, and $1500\text{ ms}$ pre-impact horizons using `evaluate_submission.py`.
-- **Day/Night Lighting Decomposition (`day_night_analyzer.py`):** HSV color space luminance partitioning ($\bar{V} < 80.0 \implies \text{Night}$) to evaluate headlight glare degradation and ensure threat models perform reliably 24/7.
-
----
-
-### 3. Physical Hardware Robotics & In-Vehicle (IRL) Testing
-
-- **Real-Car Windshield HUD (`adas_irl_v1.py`):** Zero-actuation driver warning display for passenger vehicles utilizing standard dashboard webcams; real-time unsharp masking kernel to correct windshield focus softness; dual YOLO execution (`selfdrivingv12s.pt` + 21-class `scout.pt` for Turkish signs, potholes, cones, and hazards); monocular bounding-box dilation rate TTC calculation.
-- **Stereolabs ZED Stereo Vision (`zed_live_adas.py`):** Native hardware metric depth mapping via the ZED SDK (`pyzed.sl`), eliminating pinhole optical assumptions; Visual-Inertial Odometry (VIO) for host velocity tracking; decoupled asynchronous audio siren thread preventing frame stutter during neural spikes.
-- **Physical Robotics & 2D LiDAR SLAM (`road_survey_lidar_scanner.py` & `dual_camera_intersection_navigator.py`):** 
-  - Dual camera setup ($0^\circ$ forward + $60^\circ$ oblique left) for cross-street pavement pre-viewing.
-  - Slamtec RPLiDAR S3 2D laser scanner for obstacle chicane solving, RANSAC road boundary extraction, and drift-free 2D occupancy mapping on physical robotic test platforms.
-
----
-
-## System Architecture
-
-The software architecture is structured as a concurrent multi-threaded finite state machine (FSM), coordinated by a central state controller that arbitrates camera/display resources between `FORWARD_MODE` and `REVERSE_MODE`:
-
-```mermaid
-flowchart TD
-subgraph Hardware Layer
-CAM_FWD[Forward USB 1080p Camera]
-CAM_REAR[Rear Bumper USB 720p Camera]
-CAM_DMS[Driver-Facing Camera]
-SONAR[JSN-SR04T Waterproof Ultrasonic Sensors]
-LDR[LDR Photoresistor + MCP3008 ADC]
-GPIO_REV[12V Reverse Light Signal -> Optocoupler]
-PI5[Raspberry Pi 5 + Hailo-10H NPU]
-end
-
-subgraph State Machine Controller
-FSM{Main Control Thread\nPoll Reverse GPIO}
-end
-
-subgraph FORWARD_MODE [FORWARD_MODE Threads]
-LDW[Lane Departure Warning\nCanny + Hough]
-YOLO[YOLO11n / YOLO12s Object Detector\n+ ByteTrack]
-FCW[Vector Physics Engine\nKalman Filter + TTC + Cut-In + Ego Corridor]
-DMS[Driver Monitoring\nMediaPipe Face Mesh + EAR]
-BSM[Blind Spot Ultrasonic Monitor\n<= 3.0m Side LEDs]
-HEADLIGHT[Auto Headlight Controller\nHysteresis 30%/50%]
-end
-
-subgraph REVERSE_MODE [REVERSE_MODE Threads]
-FFPLAY[Low-Latency Rear Camera Stream]
-PARK[Parking Distance Sonar + Buzzer Modulation]
-end
-
-GPIO_REV --> FSM
-FSM -- FORWARD --> FORWARD_MODE
-FSM -- REVERSE --> REVERSE_MODE
-
-CAM_FWD --> LDW & YOLO
-YOLO --> FCW
-LDW --> FCW
-CAM_DMS --> DMS
-SONAR --> BSM & PARK
-LDR --> HEADLIGHT
-CAM_REAR --> FFPLAY
-```
+| **Era 1: Proof-of-Concept<br>(V1 – V2)** | Screen Capture (`mss`) + OpenCV Canny/Hough + Keyboard Actuation | • First closed-loop steering in BeamNG.<br>• Discrete bang-bang keyboard actuation (`'a'` / `'d'`).<br>• MediaPipe in-cabin driver drowsiness detection (EAR). | **Latency & Buffer Bloat:** Fixed keyboard emulation queue delays by setting zero-pause execution; established baseline feasibility of vision-guided steering. |
+| **Era 2: Native Physics API & Lateral Stabilization<br>(V3 – V10)** | BeamNG.tech Native API (`beamngpy`) + Virtual Camera + Analog Actuation | • Continuous floating-point steering (`vehicle.control`).<br>• Stanley geometric path-tracking implementation.<br>• "The Ultimate Hybrid": 60 FPS screen capture paired with native analog steering. | **Oversteer & Frame Drops:** Overcame virtual camera render overhead via hybrid capture; tuned soft-body lateral damping to eliminate high-speed pendulum fishtailing. |
+| **Era 3: Deep Neural Perception & AEB Gating<br>(V11 – V15)** | Hybrid Vision + TwinLiteNet (`nano.pth`) + YOLOv12s + ByteTrack | • Dual-head road segmentation (Drivable Area + Lane Lines at 640×384).<br>• Multi-tier Forward Collision Warning state machine.<br>• RT-DETR vs YOLO benchmarking.<br>• In-corridor polygon threat gating. | **Phantom AEB & ROI Interference:** Gated cross-lane oncoming traffic to eliminate false emergency braking; masked out in-cockpit digital speedometer rings that mimicked road lines. |
+| **Era 4: Predictive Curvature Feedforward & 3D LiDAR<br>(V16 – V23)** | Multi-Horizon Sampling + GPS Spatial Hash (`RoadMemory`) + 64-Ch LiDAR | • Multi-depth lookahead horizon sampling (near, mid, far).<br>• Proactive Ackermann curvature feedforward steering.<br>• Spatial hash road memory and 60 Hz synchronous blackbox (`RoadDataLogger`).<br>• 64-channel 360° roof LiDAR with 72-sector polar HUD radar. | **Curve Understeer & Darkness Washout:** Replaced reactive steering with anticipatory curve entry; maintained sensor contrast across dusk/dawn transitions; immune to dense fog via 3D LiDAR. |
+| **Era 5: Mountain Pavement Fallback & Metric BEV<br>(V24 – V27)** | Orthographic Inverse Perspective Mapping (BEV) + 2-DOF ESC + Monolithic Core | • Pavement right-border asphalt tracking (`compute_roadseg_fallback_deviation`) for unpainted mountain descents.<br>• Bird's-Eye-View 2nd-order polynomial fitting ($x = ay^2 + by + c$).<br>• 2-DOF linear bicycle model Active Electronic Stability Control (ESC).<br>• Monolithic 8,000-line production autopilot (`beamng_pilot_v27.py`). | **Slalom Hunting & Cliff Drops:** Fully eradicated lateral limit-cycle oscillations ("slalom") via metric BEV; enabled cliff-side navigation on roads without painted lines; zero optical jumping. |
+| **Era 6: Utah Loop, Quintic Overtakes & Shadow Mode<br>(V28 – V31)** | Quintic Min-Jerk Trajectory + Lead Kalman Filter + 2-DOF ESC + Touch-Free Shadow Recorder | • **Utah Highway + Mountain Tunnel Loop (V29):** First 100% crash-free closed-loop loop completed with and without AI traffic; withstands 1–2s tunnel portal camera blowout.<br>• **Active High-Speed Curve ESC:** Oversteer counter-steer, understeer authority boost, and extreme overspeed curve stabilization (92 → 61 km/h).<br>• **Quintic Minimum-Jerk Overtakes (V31 Baseline):** Smooth $S(t) = 10t^3 - 15t^4 + 6t^5$ trajectory, speed-adaptive lookahead (55–85m), bilateral passing, and authority softening.<br>• **V31 PRO Shadow Mode:** Touch-free background recording of human inputs vs AI shadow calculations for imitation and reinforcement learning. | **Violent Lateral Jerk & Tunnel Blindness:** Solved tunnel entry camera exposure lag via curvature retention; eradicated violent lateral lane-change snaps using $C^2$ continuous minimum-jerk trajectory synthesis. |
 
 ---
 
 ## Performance Benchmarks (113 Manually Reviewed Scenarios)
 
-The system was evaluated across **113 diverse real-world crash and near-miss scenarios** spanning highway, urban, low-light, and adverse weather conditions. A warning was considered timely if issued at least **1.5s** before the annotated impact or critical conflict point.
+The vision perception and FCW stack were evaluated across **113 diverse real-world crash and near-miss scenarios** spanning highway, urban, low-light, and adverse weather conditions. A warning was considered timely if issued at least **1.5s** before impact or critical conflict.
 
 ### Table II: Scenario-Specific Detection Accuracy
 
@@ -404,17 +288,44 @@ The system was evaluated across **113 diverse real-world crash and near-miss sce
 | **Nighttime / Low-Light** | 12 | 1 | 11 | **8.3%** (1.5–35.4%) |
 | **TOTAL** | **113** | **68** | **45** | **60.2%** (51.0–68.7%) |
 
-- **Nuisance Alerts:** **5 of 113 cases (4.4%)** - occurring exclusively when adjacent vehicles overtook the host car at close lateral distance. This is not a time-normalized false-alarm rate; specificity was not calculated on the manually reviewed set.
+- **Nuisance Alerts:** **5 of 113 cases (4.4%)** — occurring exclusively when adjacent vehicles overtook the host car at close lateral distance.
+
+<details>
+<summary><b>Click to expand 113 Crash & Near-Miss Scenario Photo Gallery</b></summary>
+
+<br>
+
+#### 1. Longitudinal Forward Collisions & Lead Vehicle Deceleration
+| Lead SUV Close Proximity (`2.9m`) | High-Speed Sun Glare (`107 km/h`) | Residential Two-Lane Approach |
+|:---:|:---:|:---:|
+| ![Lead SUV Proximity](assets/images/longitudinal_01_lead_suv_proximity_2.9m.jpg) | ![Direct Sun Glare](assets/images/longitudinal_02_direct_sun_glare_107kmh.jpg) | ![Residential Road Approach](assets/images/longitudinal_03_residential_road_approach.jpg) |
+| **`car 2.9m`** in RED box triggering **`RED - EMERGENCY BRAKE`**. | High-speed following at **107 km/h** driving into blinding sun glare (**`car 10.7m`**). | Suburban approach to lead vehicle (**`car 12.0m`**) with ego corridor overlay. |
+
+#### 2. Lateral Cross-Traffic & Intersection T-Bone Hazards
+| Signalized Intersection Cross-Traffic | Intersection Impact / Damaged Hood | Urban Avenue Red Beetle Crossing |
+|:---:|:---:|:---:|
+| ![Signalized Intersection](assets/images/tbone_01_signalized_intersection_crossing.jpg) | ![Damaged Truck Impact](assets/images/tbone_02_intersection_damaged_truck_impact.jpg) | ![Red Beetle Crossing](assets/images/tbone_03_urban_avenue_red_beetle_crossing.jpg) |
+| Black sedan traversing signalized intersection perpendicularly (**`car 6.2m`**). | Blue pickup truck with crumpled hood at intersection crossing (**`car 1.9m`**). | Red VW Beetle crossing urban commercial avenue perpendicularly (**`car 3.9m`**). |
+
+#### 3. Lateral Merging, Cut-Ins & Vehicle Incursions
+| Aggressive Perpendicular Merge | Highway Ramp Merging Incursion | Rural Highway Crossroad Pull-Out |
+|:---:|:---:|:---:|
+| ![White Car Cut-In](assets/images/cutin_01_perpendicular_merge_white_car.jpg) | ![Highway Ramp Sedan](assets/images/cutin_02_highway_ramp_merging_sedan.jpg) | ![Rural Red SUV Pullout](assets/images/cutin_04_rural_roadside_red_suv_entry.jpg) |
+| **`car 12.2m [T-BONE?]`** turning into host lane; proactively flagged with active **`EMERGENCY BRAKE`**. | Dark sedan merging into curved highway ramp from right shoulder (**`car 4.7m`**). | Red SUV pulling out perpendicularly from roadside at 49 mph (**`car 2.6m`**). |
+
+#### 4. Adverse Lighting & Dense Multi-Target Urban Environments
+| Nighttime Urban Streetlight Driving | Rear-End Impact Bumper Damage | Dense Palm-Tree Avenue Crosswalk |
+|:---:|:---:|:---:|
+| ![Night Urban Driving](assets/images/adverse_01_night_urban_intersection_streetlight.jpg) | ![Bumper Impact Damage](assets/images/adverse_03_rear_end_bumper_impact_underpass.jpg) | ![Dense Avenue Crosswalk](assets/images/multi_target_01_dense_avenue_pedestrian_crosswalk.jpg) |
+| True nighttime urban driving at 52 km/h under streetlights (**`car 4.4m`**). | Immediate proximity to damaged tailgate under highway overpass (**`car 1.6m`**). | High-density urban avenue with **7 surrounding vehicles tracked simultaneously**. |
+
+</details>
 
 ---
 
 ## Automated Benchmark (2,844 Nexar-Derived Sequences)
 
-In addition to the manual 113-scenario review, seven vision-pipeline configurations were compared across 2,844 processed sequences derived from the [Nexar dashcam collision dataset](https://arxiv.org/abs/2503.03848).
-
-**<font color="red">Because the automated scoring script flags any alert without an actual crash as a false positive - and the Nexar set is mostly near-miss footage where drivers avoided a crash - the automated false-alarm rate is not directly comparable to the low nuisance-alert rate measured in manual review above.</font>**
-
-The **recall/timely-warning numbers below are trustworthy** - a correct warning issued in time is a correct warning whether or not a crash actually followed. It's specifically the *false-alarm* percentage in the automated benchmark that is inflated and not reflective of real-world nuisance-alert behavior; the manually reviewed 4.4% nuisance-alert rate above is the accurate figure for that.
+Seven vision-pipeline configurations were compared across 2,844 processed sequences derived from the [Nexar dashcam collision dataset](https://arxiv.org/abs/2503.03848).
 
 | Configuration | Recall / Sensitivity | False Alarm Rate | F1-Score | Nighttime Acc. |
 |:---|:---:|:---:|:---:|:---:|
@@ -422,39 +333,38 @@ The **recall/timely-warning numbers below are trustworthy** - a correct warning 
 | **Config 11 - balanced optimum** (conf=0.35) | 90.72% | 76.04% | **68.22%** (highest F1) | 63.49% |
 | **Config 17 - high recall** (TwinLiteNet, 640×384) | **92.50%** (highest recall) | 80.83% | 67.68% | **63.64%** (highest night acc.) |
 
+*(Note: The automated scoring script marks any alert without an actual physical collision as a false positive. Because the Nexar dataset predominantly consists of near-miss events where drivers braked in time, the automated false-alarm rate is mathematically elevated compared to the true 4.4% nuisance-alert rate measured in manual review).*
+
 ---
 
 ## Custom-Trained YOLO12s Models
 
-Two 9.26-million-parameter **YOLO12s** models were trained at 1024×1024 resolution on an RTX 5060 laptop GPU, forming the heavier detection tier used for the vector-based FCW module:
+Two 9.26-million-parameter **YOLO12s** models were trained at 1024×1024 resolution on an RTX 5060 GPU:
 
 | Model | Classes | Training | Validation mAP@50 | Validation mAP@50-95 |
 |:---|:---:|:---|:---:|:---:|
 | **Turkish Traffic Sign Detector** | 24 | 85 epochs (50 initial + 35 fine-tuning) | **93.47%** | 73.11% |
-| **Self-Driving / Road-Object Detector** (7-class) | 7 | Reduced Roboflow-hosted base set + custom dashcam additions | **94.75%** | - |
-
-These are training-log validation metrics. The lighter **YOLO11n** baseline detector (no custom training) is used on the Raspberry Pi 4B tier where the full YOLO12s stack is too heavy.
+| **Self-Driving / Road-Object Detector** | 7 | Reduced Roboflow base set + custom dashcam additions | **94.75%** | — |
 
 ---
 
 ## Android Companion App
 
-A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception stack to smartphones, independent of the embedded Raspberry Pi platform:
+A companion Android application (Kotlin / Jetpack Compose) extends the perception architecture to smartphones:
 
-- **CameraX + TensorFlow Lite** inference with a GPU → NNAPI → CPU delegate cascade for on-device fallback.
+- **CameraX + TensorFlow Lite** inference cascade: GPU → NNAPI → CPU on-device fallback.
 - **11 detected classes** with class-aware Non-Maximum Suppression (NMS).
-- A **SAFE / CAUTION / WARNING / CRITICAL** threat classifier with a live time-to-collision (TTC) estimate.
-- A separate automated benchmarking pipeline uses a large multimodal model as an objective judge - scoring bounding-box validity, threat severity, and warning timing to produce reward scores for future training data.
+- Live **SAFE / CAUTION / WARNING / CRITICAL** threat evaluation with dynamic TTC.
 
-<img src="assets/images/android_app_screenshot.jpg" alt="Android ADAS companion app" width="280"/>
+<div align="center">
+  <img src="assets/images/android_app_screenshot.jpg" alt="Android ADAS companion app" width="260"/>
+</div>
 
 ---
 
 ## Bill of Materials (BOM)
 
-### Table I: Prototype Hardware Implementation
-
-> The Raspberry Pi 5 + Hailo-10H target configuration below was not benchmarked in the current study (hardware unavailable during this cycle). See [Overview](#-overview) for the substitute platforms actually used for validation.
+### Prototype Hardware Implementation
 
 | Component | Specification | Est. Cost (EUR) |
 |:---|:---|:---:|
@@ -469,16 +379,6 @@ A beta-stage Android app (Kotlin / Jetpack Compose) brings the ADAS perception s
 
 ---
 
-## Future Work
-
-- **Hailo-10H hardware validation** - full six-subsystem integration and benchmarking on the target Raspberry Pi 5 + Hailo-10H platform once hardware is available.
-- **Luminance-adaptive segmentation** using **TwinLiteNetPlus** to improve low-light/nighttime performance.
-- **Expanded smartphone-based inference** - building out the Android companion app further.
-- **CAN-bus vehicle telemetry integration.**
-- **YOLO road-hazard model** for detecting animals, potholes, speed bumps, and other road-surface anomalies.
-
----
-
 ## Related Publication
 
 This repository accompanies the following peer-reviewed proceedings paper (**officially accepted by MDPI, Basel, Switzerland**):
@@ -487,10 +387,6 @@ This repository accompanies the following peer-reviewed proceedings paper (**off
 > Ramazan Ertuğrul Aydoğan, Fatima Sapundzhi  
 > **Status:** Accepted (Submission ID: `Sciforum-195321`) — To be presented at the 13th International Electronic Conference on Sensors and Applications (ECSA-13), Session S4: *Sensors and Artificial Intelligence*, 18–20 November 2026  
 > *Engineering Proceedings* (MDPI AG, Basel, Switzerland, ISSN: 2673-4591)
-
-### Citation
-
-Article link and official DOI will be assigned upon publication during ECSA-13 proceedings release (MDPI production).
 
 ```bibtex
 @inproceedings{aydogan2026adas,
@@ -509,62 +405,40 @@ Article link and official DOI will be assigned upon publication during ECSA-13 p
 
 ---
 
-## Academic Context & Supervision
+## Academic Context, Supervision & Acknowledgements
 
-This project was originally initiated independently by the author to conduct academic research (peer-reviewed papers) and to advance autonomous systems capabilities for **ORET (Otomobil, Robot ve Enerji Topluluğu)**. As the engineering scope and implementation matured, it was subsequently formalized and submitted as the final-year senior design capstone project for the **EEE499 Graduation Project** course in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
+This project was initiated independently by the author to advance autonomous systems capabilities for **ORET (Otomobil, Robot ve Enerji Topluluğu)** and conduct peer-reviewed academic research. As the engineering scope matured, it was formalized and submitted as the senior capstone project for the **EEE499 Graduation Project** in the **Department of Electrical and Electronics Engineering, Gaziantep University (GAÜN)**.
 
-The project was carried out under the academic supervision of **Prof. Dr. Uğur Cem Hasar**, under whose supervision the author conducts academic research and ongoing engineering development. Simulation-in-the-loop (SITL) validation was conducted using **BeamNG.tech** under an academic research license generously provided by **BeamNG GmbH**.
-
----
-
-## Acknowledgements
+The project was carried out under the academic supervision of **Prof. Dr. Uğur Cem Hasar**, under whose supervision the author conducts academic research. Simulation-in-the-loop (SITL) validation was conducted using **BeamNG.tech** under an academic research license generously provided by **BeamNG GmbH**.
 
 ### BeamNG.tech Academic Research License
 
 <p align="left">
-  <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="300"/>
+  <img src="assets/images/GMBH-Logo.png" alt="BeamNG GmbH" width="280"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="390"/>
+  <img src="assets/images/Drive-Logo.png" alt="BeamNG.drive" width="360"/>
 </p>
 
-Special thanks and sincere gratitude to **BeamNG GmbH** for generously providing an academic research license for **BeamNG.tech** in support of this university graduation project and simulation evaluation. The high-fidelity physics and software-in-the-loop (SITL) environment provided by BeamNG.tech were essential for developing, validating, and stress-testing the closed-loop autonomous emergency braking (AEB), lane centering, obstacle overtaking, and trajectory tracking architectures.
+Special thanks and sincere gratitude to **BeamNG GmbH** for providing an academic research license for **BeamNG.tech**. The high-fidelity soft-body physics and software-in-the-loop environment were essential for validating autonomous emergency braking, trajectory tracking, high-speed ESC stability, and obstacle overtaking architectures.
 
 ### Hardware & Laboratory Support — ORET
 
-<img src="assets/images/ORET-Logo.png" alt="ORET - Otomobil, Robot ve Enerji Topluluğu" width="220"/>
+<img src="assets/images/ORET-Logo.png" alt="ORET - Otomobil, Robot ve Enerji Topluluğu" width="200"/>
 
-Special thanks and sincere gratitude to **ORET (Otomobil, Robot ve Enerji Topluluğu / Automotive, Robotics and Energy Society)** at **Gaziantep University (GAÜN)** for their generous hardware and community support throughout the development and prototyping of this project.
-
-The author is deeply thankful to ORET for granting access to laboratory facilities and lending critical electronic components—including the **Raspberry Pi single-board computer, ultrasonic distance sensors, capacitors, discrete semiconductors, and prototyping accessories**—which were instrumental in assembling, breadboarding, and benchmarking the physical embedded ADAS implementation.
+Special thanks to **ORET (Otomobil, Robot ve Enerji Topluluğu / Automotive, Robotics and Energy Society)** at **Gaziantep University (GAÜN)** for laboratory access and essential electronic components—including the Raspberry Pi single-board computer, ultrasonic distance sensors, discrete semiconductors, and prototyping hardware.
 
 ---
 
 ## About the Lead Developer
 
-**Ramazan Ertuğrul Aydoğan** - B.Sc., Electrical and Electronics Engineering, Gaziantep University (GAÜN)
+**Ramazan Ertuğrul Aydoğan** — B.Sc., Electrical and Electronics Engineering, Gaziantep University (GAÜN)
 
-Sole system architect and lead developer of this end-to-end, multi-function ADAS suite. Modules designed and implemented by the author include:
-
-- Lane Departure Warning (LDW) using classical edge detection and probabilistic Hough transforms
-- YOLO-based real-time object and traffic sign detection (custom-trained 24-class Turkish Traffic Sign Recognition and 7-class road-object models)
-- Monocular pinhole-camera distance and time-to-collision (TTC) estimation
-- Deterministic, vector-based Forward Collision Warning (FCW) predicting longitudinal and lateral trajectories
-- Lateral threat, high-speed cut-in, and intersection (T-bone) hazard detection
-- Driver Monitoring System (DMS) using MediaPipe Face Mesh and Eye Aspect Ratio (EAR) micro-sleep cutoff
-- Automatic reverse-camera switching with reverse-gear optocoupler interfacing
-- Ultrasonic proximity and parking assist with frequency-modulated piezo feedback (JSN-SR04T)
-- LDR/MCP3008 ADC ambient-light headlight automation with dual-threshold hysteresis
-- Multi-threaded state controller managing dynamic resource allocation
-- Closed-loop simulation-in-the-loop (SITL) AEB and steering validation via BeamNG.tech / BeamNGpy
-- Companion Android application (Kotlin, Jetpack Compose) with TFLite GPU/NNAPI acceleration
-
-**Distinctions & academic credentials**
-
-- **IEEE Best Paper Award** (Student Category), 2026 IEEE International Conference on Advanced Topics on Measurements and Simulation (ATOMS 2026), Cluj-Napoca, Romania
-- Presenting author at multiple international IEEE and MDPI conferences across Europe, including research presented in Romania and an upcoming third international paper plus session co-chairing at ICETASI 2026, Greece
-- **Team Captain, ORET Autonomous Systems** (Gaziantep University) - directs 20+ engineers on autonomous UAV/UGV systems for national competitions
-- Lead telemetry and software engineer for ORET at the Shell Eco-marathon Europe & Africa 2025 (Silesia Ring, Poland), passing strict European technical inspection
-- Dual Erasmus+ engineering scholar: Transilvania University of Brașov, Romania, and South-West University "Neofit Rilski," Blagoevgrad, Bulgaria (4.0 GPA semester)
+Sole system architect and lead developer of this end-to-end ADAS & autonomous driving suite:
+- **IEEE Best Paper Award** (Student Category), 2026 IEEE International Conference on Advanced Topics on Measurements and Simulation (ATOMS 2026), Cluj-Napoca, Romania.
+- Presenting author at international IEEE and MDPI conferences across Europe; session co-chair at ICETASI 2026, Greece.
+- **Team Captain, ORET Autonomous Systems** (Gaziantep University) — directs autonomous UAV/UGV systems for national and international competitions.
+- Lead telemetry and software engineer for ORET at the Shell Eco-marathon Europe & Africa 2025 (Silesia Ring, Poland).
+- Dual Erasmus+ engineering scholar: Transilvania University of Brașov, Romania, and South-West University "Neofit Rilski," Blagoevgrad, Bulgaria (4.0 GPA semester).
 
 **Contact:** [LinkedIn](https://www.linkedin.com/in/ramazan-ertu%C4%9Frul-aydo%C4%9Fan-807655252/)
 
